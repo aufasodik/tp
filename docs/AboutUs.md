@@ -18,11 +18,11 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Imposter
 
-### Jane Doe
+### Bridget Wu
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/soakedumplings.png" width="200px">
 
-[[github](http://github.com/johndoe)]
+[[github](http://github.com/soakedumplings)]
 [[portfolio](team/johndoe.md)]
 
 * Role: Team Lead
