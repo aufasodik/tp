@@ -9,31 +9,30 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ## Project team
 
-### John Doe
+### Nathan Tew
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/nathantew14.png" width="200px">
 
-[[homepage](http://www.comp.nus.edu.sg/~damithch)]
-[[github](https://github.com/johndoe)]
+[[github](https://github.com/nathantew14)]
 [[portfolio](team/johndoe.md)]
 
-* Role: Project Advisor
+* Role: Imposter
 
-### Jane Doe
+### Bridget Wu
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/soakedumplings.png" width="200px">
 
-[[github](http://github.com/johndoe)]
+[[github](http://github.com/soakedumplings)]
 [[portfolio](team/johndoe.md)]
 
 * Role: Team Lead
 * Responsibilities: UI
 
-### Johnny Doe
+### Jeffrey Lim
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/jeffreylim24.png" width="200px">
 
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
+[[github](http://github.com/jeffreylim24)] [[portfolio](team/johndoe.md)]
 
 * Role: Developer
 * Responsibilities: Data
