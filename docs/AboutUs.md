@@ -52,8 +52,8 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 <img src="images/kzfsg.png" width="200px">
 
-[[github]([(https://github.com/kzfsg)])]
-[[portfolio]([team/johndoe.md](https://kwokzhengfeng.framer.website/)])]
+[[github](https://github.com/kzfsg)]
+[[portfolio](https://kwokzhengfeng.framer.website/)]
 
 * Role: Developer
 * Responsibilities: UI
