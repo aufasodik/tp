@@ -288,9 +288,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `Cerebro` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a person**
+**Use case: UC01 - Delete a person**
 
 **MSS**
 
@@ -323,13 +323,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3c. Multiple indices are provided.
 
-  * 3c1. Cerebro shows an error message to specify only one index.
+  * 3c1. Cerebro carries out deletion of multiple companies.
+  * 3c2. Cerebro shows success message for the deletion of multiple companies.
 
     Use case ends.
 
 ---
 
-**Use case: UC03 - List all companies**
+**Use case: UC02 - List all companies**
 
 **MSS**
 
@@ -351,7 +352,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 1a. Extra parameters are provided with the list command.
 
   * 1a1. Cerebro shows an error message with the correct command format.
-*{More to be added}*
+
 
 ### Non-Functional Requirements
 
