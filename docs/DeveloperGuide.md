@@ -288,9 +288,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `Cerebro` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a person**
+**Use case: UC01 - Delete a person**
 
 **MSS**
 
@@ -305,15 +305,54 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 2a. The list is empty.
 
-  Use case ends.
+  * 2a1. Cerebro shows a message indicating no companies to delete.
 
-* 3a. The given index is invalid.
+    Use case ends.
 
-    * 3a1. AddressBook shows an error message.
+* 3a. The given index is invalid (non-numeric, zero, negative, or out of range).
 
-      Use case resumes at step 2.
+  * 3a1. Cerebro shows an error message.
 
-*{More to be added}*
+    Use case resumes at step 2.
+
+* 3b. The index is missing.
+
+  * 3b1. Cerebro shows the correct command format.
+
+    Use case ends.
+
+* 3c. Multiple indices are provided.
+
+  * 3c1. Cerebro carries out deletion of multiple companies.
+  * 3c2. Cerebro shows success message for the deletion of multiple companies.
+
+    Use case ends.
+
+---
+
+**Use case: UC02 - List all companies**
+
+**MSS**
+
+1. User requests to view all companies
+2. Cerebro displays a numbered list of all companies with their application status and key details
+3. Cerebro shows the total count of companies
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  * 2a1. Cerebro shows a message indicating no companies have been added yet.
+  * 2a2. Cerebro suggests using the add command to get started.
+
+    Use case ends.
+
+* 1a. Extra parameters are provided with the list command.
+
+  * 1a1. Cerebro shows an error message with the correct command format.
+
 
 ### Non-Functional Requirements
 
