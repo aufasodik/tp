@@ -262,13 +262,15 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
-* can type fast
-* prefers typing to mouse interactions
-* is reasonably comfortable using CLI apps
+* Computer Science students mass applying for internships
+* Well-accustomed to CLI-interfaces and prefers keyboard shortcuts over GUI interfaces
+* Fast typist who prefers typing to mouse interactions
+* Tends to be forgetful about deadlines
+* Makes occasional data entry mistakes
+* Needs to manage a significant number of internship applications simultaneously
+* Is reasonably comfortable using CLI apps
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: Helps students keep track of prospective and current internship companies and their application status in a centralized location, with reminders for upcoming application deadlines, interviews, and assessments. Manages applications faster than a typical mouse/GUI driven app.
 
 
 ### User stories
@@ -277,14 +279,35 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 | Priority | As a …​                                    | I want to …​                     | So that I can…​                                                        |
 | -------- | ------------------------------------------ | ------------------------------ | ---------------------------------------------------------------------- |
-| `* * *`  | new user                                   | see usage instructions         | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person               |                                                                        |
-| `* * *`  | user                                       | delete a person                | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name          | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details   | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name           | locate a person easily                                                 |
-
-*{More to be added}*
+| `* * *`  | first-time applicant                       | track potential companies I might apply for in the future | apply for them after I have made substantial progress |
+| `* * *`  | applicant who loves structure and organisation | add my interested companies | store and organize my internship applications |
+| `* * *`  | user who dislikes clutter                  | delete an existing internship application | remove outdated or unnecessary entries from my tracker |
+| `* *`    | mass internship applicant                  | record the OA questions that I have done before | revise them for future interviews |
+| `* *`    | overzealous student applying to a ridiculous number of companies | assign scores to each aspect of a company | compare the companies based on my preferences |
+| `* *`    | person who holds regard in contacting HR   | store HR contact details in the tracker | reach out to them easily |
+| `* *`    | student that is able to land multiple internships | sort the companies by pay | renegotiate my salaries and make decisions between offers more easily |
+| `* *`    | person who is concerned with work life balance | sort the companies by internship benefits | maximize my work life balance when deciding on an internship |
+| `* *`    | busy applicant                             | sort my internship applications by the stages | keep track of where I am in each process |
+| `* *`    | prospective user                           | differentiate between applications that have referral and those who don't | prioritize the applications that I want to focus on |
+| `* *`    | intern with specific work preferences      | sort by the mode of work that I most prefer | prioritize the interns with the type of work arrangement that I prefer |
+| `* *`    | person who wants to save time              | sort by travel duration | prioritize those that are closer to me |
+| `* *`    | applicant applying for different roles     | have easy access to different versions of my resume | apply to different role openings quickly without needing to edit my resume regularly |
+| `* *`    | user who often forgets deadlines           | set reminders for application deadlines | not miss important application deadlines |
+| `* *`    | user who often forgets deadlines           | set reminders for OA deadlines | not miss important OA deadlines |
+| `* *`    | user who often forgets deadlines           | set reminders for interview deadlines | never miss important interview deadlines |
+| `*`      | user who prefers keyboard shortcuts over mouse clicks | always be typing while minimizing having to switch to my mouse/trackpad | save time and work efficiently |
+| `*`      | organised person                           | filter applications by status (Applied, Interviewing, Offer, Rejected) | focus on pending or priority applications |
+| `*`      | forgetful person                           | see my notes that I took about each company | prepare for my interviews |
+| `*`      | busy student with packed schedules         | see which internship periods will clash with my school term | take note of them and decide accordingly if I can afford the clash |
+| `*`      | busy applicant                             | track my current open applications that I might have left halfway | get back to my open applications that I have done halfway |
+| `*`      | forgetful Computer Science student         | sort my internship applications by the next deadline | remember what interview or assessment to prepare for next |
+| `*`      | user who makes frequent careless mistakes  | update the details of an existing company | keep the information accurate and up-to-date |
+| `*`      | user                                       | view all companies at once | see the overall status of my applications |
+| `*`      | impatient user                             | search applications by name, company, role, or application status | quickly locate a specific application without scrolling through the entire list |
+| `*`      | student that loves to be organised         | sort applications alphabetically or by other fields (dates, ranking) | browse applications more efficiently |
+| `*`      | error-prone person                         | undo or redo my recent changes | correct mistakes easily |
+| `*`      | careless student                           | detect potential duplicate applications | keep my application book clean and not resubmit applications |
+| `*`      | user who may not always have all the necessary information ready at once | create a partial entry with whatever details I have at the moment | fill in the rest later when I acquire it |
 
 ### Use cases
 
