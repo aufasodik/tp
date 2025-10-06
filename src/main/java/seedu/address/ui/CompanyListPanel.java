@@ -26,13 +26,13 @@ public class CompanyListPanel extends UiPart<Region> {
     public CompanyListPanel(ObservableList<Company> companyList) {
         super(FXML);
         companyListView.setItems(companyList);
-        companyListView.setCellFactory(listView -> new companyListViewCell());
+        companyListView.setCellFactory(listView -> new CompanyListViewCell());
     }
 
     /**
      * Custom {@code ListCell} that displays the graphics of a {@code Company} using a {@code CompanyCard}.
      */
-    class companyListViewCell extends ListCell<Company> {
+    class CompanyListViewCell extends ListCell<Company> {
         @Override
         protected void updateItem(Company company, boolean empty) {
             super.updateItem(company, empty);

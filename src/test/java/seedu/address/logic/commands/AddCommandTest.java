@@ -33,7 +33,7 @@ public class AddCommandTest {
     }
 
     @Test
-    public void execute_CompanyAcceptedByModel_addSuccessful() throws Exception {
+    public void execute_companyAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingCompanyAdded modelStub = new ModelStubAcceptingCompanyAdded();
         Company validCompany = new CompanyBuilder().build();
 

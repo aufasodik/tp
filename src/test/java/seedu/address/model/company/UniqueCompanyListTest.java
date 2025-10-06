@@ -15,8 +15,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.model.company.exceptions.DuplicateCompanyException;
 import seedu.address.model.company.exceptions.CompanyNotFoundException;
+import seedu.address.model.company.exceptions.DuplicateCompanyException;
 import seedu.address.testutil.CompanyBuilder;
 
 public class UniqueCompanyListTest {
@@ -29,18 +29,18 @@ public class UniqueCompanyListTest {
     }
 
     @Test
-    public void contains_CompanyNotInList_returnsFalse() {
+    public void contains_companyNotInList_returnsFalse() {
         assertFalse(uniqueCompanyList.contains(ALICE));
     }
 
     @Test
-    public void contains_CompanyInList_returnsTrue() {
+    public void contains_companyInList_returnsTrue() {
         uniqueCompanyList.add(ALICE);
         assertTrue(uniqueCompanyList.contains(ALICE));
     }
 
     @Test
-    public void contains_CompanyWithSameIdentityFieldsInList_returnsTrue() {
+    public void contains_companyWithSameIdentityFieldsInList_returnsTrue() {
         uniqueCompanyList.add(ALICE);
         Company editedAlice = new CompanyBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
