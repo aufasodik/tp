@@ -3,7 +3,7 @@ package seedu.address.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_companies;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_COMPANIES;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalCompanies.ALICE;
 import static seedu.address.testutil.TypicalCompanies.BENSON;
@@ -73,29 +73,29 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void hascompany_nullcompany_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> modelManager.hascompany(null));
+    public void hasCompany_nullCompany_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.hasCompany(null));
     }
 
     @Test
-    public void hascompany_companyNotInAddressBook_returnsFalse() {
-        assertFalse(modelManager.hascompany(ALICE));
+    public void hasCompany_companyNotInAddressBook_returnsFalse() {
+        assertFalse(modelManager.hasCompany(ALICE));
     }
 
     @Test
-    public void hascompany_companyInAddressBook_returnsTrue() {
-        modelManager.addcompany(ALICE);
-        assertTrue(modelManager.hascompany(ALICE));
+    public void hasCompany_companyInAddressBook_returnsTrue() {
+        modelManager.addCompany(ALICE);
+        assertTrue(modelManager.hasCompany(ALICE));
     }
 
     @Test
-    public void getFilteredcompanyList_modifyList_throwsUnsupportedOperationException() {
-        assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredcompanyList().remove(0));
+    public void getFilteredCompanyList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredCompanyList().remove(0));
     }
 
     @Test
     public void equals() {
-        AddressBook addressBook = new AddressBookBuilder().withcompany(ALICE).withcompany(BENSON).build();
+        AddressBook addressBook = new AddressBookBuilder().withCompany(ALICE).withCompany(BENSON).build();
         AddressBook differentAddressBook = new AddressBook();
         UserPrefs userPrefs = new UserPrefs();
 
@@ -118,11 +118,11 @@ public class ModelManagerTest {
 
         // different filteredList -> returns false
         String[] keywords = ALICE.getName().fullName.split("\\s+");
-        modelManager.updateFilteredcompanyList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
+        modelManager.updateFilteredCompanyList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
         assertFalse(modelManager.equals(new ModelManager(addressBook, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests
-        modelManager.updateFilteredcompanyList(PREDICATE_SHOW_ALL_companies);
+        modelManager.updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
 
         // different userPrefs -> returns false
         UserPrefs differentUserPrefs = new UserPrefs();

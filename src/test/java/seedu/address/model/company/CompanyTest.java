@@ -25,30 +25,30 @@ public class CompanyTest {
     }
 
     @Test
-    public void isSamecompany() {
+    public void isSameCompany() {
         // same object -> returns true
-        assertTrue(ALICE.isSamecompany(ALICE));
+        assertTrue(ALICE.isSameCompany(ALICE));
 
         // null -> returns false
-        assertFalse(ALICE.isSamecompany(null));
+        assertFalse(ALICE.isSameCompany(null));
 
         // same name, all other attributes different -> returns true
         Company editedAlice = new CompanyBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
                 .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
-        assertTrue(ALICE.isSamecompany(editedAlice));
+        assertTrue(ALICE.isSameCompany(editedAlice));
 
         // different name, all other attributes same -> returns false
         editedAlice = new CompanyBuilder(ALICE).withName(VALID_NAME_BOB).build();
-        assertFalse(ALICE.isSamecompany(editedAlice));
+        assertFalse(ALICE.isSameCompany(editedAlice));
 
         // name differs in case, all other attributes same -> returns false
         Company editedBob = new CompanyBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertFalse(BOB.isSamecompany(editedBob));
+        assertFalse(BOB.isSameCompany(editedBob));
 
         // name has trailing spaces, all other attributes same -> returns false
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
         editedBob = new CompanyBuilder(BOB).withName(nameWithTrailingSpaces).build();
-        assertFalse(BOB.isSamecompany(editedBob));
+        assertFalse(BOB.isSameCompany(editedBob));
     }
 
     @Test

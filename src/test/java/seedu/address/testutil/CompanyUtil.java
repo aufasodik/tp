@@ -9,7 +9,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import java.util.Set;
 
 import seedu.address.logic.commands.AddCommand;
-import seedu.address.logic.commands.EditCommand.EditcompanyDescriptor;
+import seedu.address.logic.commands.EditCommand.EditCompanyDescriptor;
 import seedu.address.model.company.Company;
 import seedu.address.model.tag.Tag;
 
@@ -22,13 +22,13 @@ public class CompanyUtil {
      * Returns an add command string for adding the {@code company}.
      */
     public static String getAddCommand(Company company) {
-        return AddCommand.COMMAND_WORD + " " + getcompanyDetails(company);
+        return AddCommand.COMMAND_WORD + " " + getCompanyDetails(company);
     }
 
     /**
      * Returns the part of command string for the given {@code company}'s details.
      */
-    public static String getcompanyDetails(Company company) {
+    public static String getCompanyDetails(Company company) {
         StringBuilder sb = new StringBuilder();
         sb.append(PREFIX_NAME + company.getName().fullName + " ");
         sb.append(PREFIX_PHONE + company.getPhone().value + " ");
@@ -41,9 +41,9 @@ public class CompanyUtil {
     }
 
     /**
-     * Returns the part of command string for the given {@code EditcompanyDescriptor}'s details.
+     * Returns the part of command string for the given {@code EditCompanyDescriptor}'s details.
      */
-    public static String getEditcompanyDescriptorDetails(EditcompanyDescriptor descriptor) {
+    public static String getEditCompanyDescriptorDetails(EditCompanyDescriptor descriptor) {
         StringBuilder sb = new StringBuilder();
         descriptor.getName().ifPresent(name -> sb.append(PREFIX_NAME).append(name.fullName).append(" "));
         descriptor.getPhone().ifPresent(phone -> sb.append(PREFIX_PHONE).append(phone.value).append(" "));

@@ -51,13 +51,13 @@ public class JsonAddressBookStorageTest {
     }
 
     @Test
-    public void readAddressBook_invalidcompanyAddressBook_throwDataLoadingException() {
-        assertThrows(DataLoadingException.class, () -> readAddressBook("invalidcompanyAddressBook.json"));
+    public void readAddressBook_invalidCompanyAddressBook_throwDataLoadingException() {
+        assertThrows(DataLoadingException.class, () -> readAddressBook("invalidCompanyAddressBook.json"));
     }
 
     @Test
-    public void readAddressBook_invalidAndValidcompanyAddressBook_throwDataLoadingException() {
-        assertThrows(DataLoadingException.class, () -> readAddressBook("invalidAndValidcompanyAddressBook.json"));
+    public void readAddressBook_invalidAndValidCompanyAddressBook_throwDataLoadingException() {
+        assertThrows(DataLoadingException.class, () -> readAddressBook("invalidAndValidCompanyAddressBook.json"));
     }
 
     @Test

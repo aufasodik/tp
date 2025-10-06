@@ -72,7 +72,7 @@ The **API** of this component is specified in [`Ui.java`](https://github.com/se-
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `companyListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `CompanyListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
 The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
 
@@ -81,7 +81,7 @@ The `UI` component,
 * executes user commands using the `Logic` component.
 * listens for changes to `Model` data so that the UI can be updated with the modified data.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
-* depends on some classes in the `Model` component, as it displays `company` object residing in the `Model`.
+* depends on some classes in the `Model` component, as it displays `Company` object residing in the `Model`.
 
 ### Logic component
 
@@ -122,12 +122,12 @@ How the parsing works:
 
 The `Model` component,
 
-* stores the address book data i.e., all `company` objects (which are contained in a `UniquecompanyList` object).
-* stores the currently 'selected' `company` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<company>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* stores the address book data i.e., all `Company` objects (which are contained in a `UniqueCompanyList` object).
+* stores the currently 'selected' `Company` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Company>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `company` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `company` needing their own `Tag` objects.<br>
+<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Company` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Company` needing their own `Tag` objects.<br>
 
 <img src="images/BetterModelClassDiagram.png" width="450" />
 
@@ -284,20 +284,20 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user who dislikes clutter                  | delete an existing internship application | remove outdated or unnecessary entries from my tracker |
 | `* *`    | mass internship applicant                  | record the OA questions that I have done before | revise them for future interviews |
 | `* *`    | overzealous student applying to a ridiculous number of companies | assign scores to each aspect of a company | compare the companies based on my preferences |
-| `* *`    | company who holds regard in contacting HR   | store HR contact details in the tracker | reach out to them easily |
+| `* *`    | person who holds regard in contacting HR   | store HR contact details in the tracker | reach out to them easily |
 | `* *`    | student that is able to land multiple internships | sort the companies by pay | renegotiate my salaries and make decisions between offers more easily |
-| `* *`    | company who is concerned with work life balance | sort the companies by internship benefits | maximize my work life balance when deciding on an internship |
+| `* *`    | person who is concerned with work life balance | sort the companies by internship benefits | maximize my work life balance when deciding on an internship |
 | `* *`    | busy applicant                             | sort my internship applications by the stages | keep track of where I am in each process |
 | `* *`    | prospective user                           | differentiate between applications that have referral and those who don't | prioritize the applications that I want to focus on |
 | `* *`    | intern with specific work preferences      | sort by the mode of work that I most prefer | prioritize the interns with the type of work arrangement that I prefer |
-| `* *`    | company who wants to save time              | sort by travel duration | prioritize those that are closer to me |
+| `* *`    | person who wants to save time              | sort by travel duration | prioritize those that are closer to me |
 | `* *`    | applicant applying for different roles     | have easy access to different versions of my resume | apply to different role openings quickly without needing to edit my resume regularly |
 | `* *`    | user who often forgets deadlines           | set reminders for application deadlines | not miss important application deadlines |
 | `* *`    | user who often forgets deadlines           | set reminders for OA deadlines | not miss important OA deadlines |
 | `* *`    | user who often forgets deadlines           | set reminders for interview deadlines | never miss important interview deadlines |
 | `*`      | user who prefers keyboard shortcuts over mouse clicks | always be typing while minimizing having to switch to my mouse/trackpad | save time and work efficiently |
-| `*`      | organised company                           | filter applications by status (Applied, Interviewing, Offer, Rejected) | focus on pending or priority applications |
-| `*`      | forgetful company                           | see my notes that I took about each company | prepare for my interviews |
+| `*`      | organised person                           | filter applications by status (Applied, Interviewing, Offer, Rejected) | focus on pending or priority applications |
+| `*`      | forgetful person                           | see my notes that I took about each company | prepare for my interviews |
 | `*`      | busy student with packed schedules         | see which internship periods will clash with my school term | take note of them and decide accordingly if I can afford the clash |
 | `*`      | busy applicant                             | track my current open applications that I might have left halfway | get back to my open applications that I have done halfway |
 | `*`      | forgetful Computer Science student         | sort my internship applications by the next deadline | remember what interview or assessment to prepare for next |
@@ -305,7 +305,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | user                                       | view all companies at once | see the overall status of my applications |
 | `*`      | impatient user                             | search applications by name, company, role, or application status | quickly locate a specific application without scrolling through the entire list |
 | `*`      | student that loves to be organised         | sort applications alphabetically or by other fields (dates, ranking) | browse applications more efficiently |
-| `*`      | error-prone company                         | undo or redo my recent changes | correct mistakes easily |
+| `*`      | error-prone person                         | undo or redo my recent changes | correct mistakes easily |
 | `*`      | careless student                           | detect potential duplicate applications | keep my application book clean and not resubmit applications |
 | `*`      | user who may not always have all the necessary information ready at once | create a partial entry with whatever details I have at the moment | fill in the rest later when I acquire it |
 

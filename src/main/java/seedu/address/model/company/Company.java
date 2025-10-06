@@ -65,7 +65,7 @@ public class Company {
      * Returns true if both companies have the same name.
      * This defines a weaker notion of equality between two companies.
      */
-    public boolean isSamecompany(Company otherCompany) {
+    public boolean isSameCompany(Company otherCompany) {
         if (otherCompany == this) {
             return true;
         }

@@ -44,7 +44,7 @@ public class AddressBookTest {
     }
 
     @Test
-    public void resetData_withDuplicatecompanies_throwsDuplicatecompanyException() {
+    public void resetData_withDuplicatecompanies_throwsDuplicateCompanyException() {
         // Two companies with the same identity fields
         Company editedAlice = new CompanyBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
@@ -55,23 +55,23 @@ public class AddressBookTest {
     }
 
     @Test
-    public void hascompany_nullCompany_throwsNullPointerException() {
+    public void hasCompany_nullCompany_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> addressBook.hasCompany(null));
     }
 
     @Test
-    public void hascompany_companyNotInAddressBook_returnsFalse() {
+    public void hasCompany_companyNotInAddressBook_returnsFalse() {
         assertFalse(addressBook.hasCompany(ALICE));
     }
 
     @Test
-    public void hascompany_companyInAddressBook_returnsTrue() {
+    public void hasCompany_companyInAddressBook_returnsTrue() {
         addressBook.addCompany(ALICE);
         assertTrue(addressBook.hasCompany(ALICE));
     }
 
     @Test
-    public void hascompany_companyWithSameIdentityFieldsInAddressBook_returnsTrue() {
+    public void hasCompany_companyWithSameIdentityFieldsInAddressBook_returnsTrue() {
         addressBook.addCompany(ALICE);
         Company editedAlice = new CompanyBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();

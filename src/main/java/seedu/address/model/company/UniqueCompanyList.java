@@ -13,14 +13,14 @@ import seedu.address.model.company.exceptions.CompanyNotFoundException;
 
 /**
  * A list of companies that enforces uniqueness between its elements and does not allow nulls.
- * A company is considered unique by comparing using {@code Company#isSamecompany(Company)}. As such, adding and updating of
- * companies uses Company#isSamecompany(Company) for equality so as to ensure that the company being added or updated is
+ * A company is considered unique by comparing using {@code Company#isSameCompany(Company)}. As such, adding and updating of
+ * companies uses Company#isSameCompany(Company) for equality so as to ensure that the company being added or updated is
  * unique in terms of identity in the UniqueCompanyList. However, the removal of a company uses Company#equals(Object) so
  * as to ensure that the company with exactly the same fields will be removed.
  *
  * Supports a minimal set of list operations.
  *
- * @see Company#isSamecompany(Company)
+ * @see Company#isSameCompany(Company)
  */
 public class UniqueCompanyList implements Iterable<Company> {
 
@@ -33,7 +33,7 @@ public class UniqueCompanyList implements Iterable<Company> {
      */
     public boolean contains(Company toCheck) {
         requireNonNull(toCheck);
-        return internalList.stream().anyMatch(toCheck::isSamecompany);
+        return internalList.stream().anyMatch(toCheck::isSameCompany);
     }
 
     /**
@@ -53,7 +53,7 @@ public class UniqueCompanyList implements Iterable<Company> {
      * {@code target} must exist in the list.
      * The company identity of {@code editedCompany} must not be the same as another existing company in the list.
      */
-    public void setcompany(Company target, Company editedCompany) {
+    public void setCompany(Company target, Company editedCompany) {
         requireAllNonNull(target, editedCompany);
 
         int index = internalList.indexOf(target);
@@ -61,7 +61,7 @@ public class UniqueCompanyList implements Iterable<Company> {
             throw new CompanyNotFoundException();
         }
 
-        if (!target.isSamecompany(editedCompany) && contains(editedCompany)) {
+        if (!target.isSameCompany(editedCompany) && contains(editedCompany)) {
             throw new DuplicateCompanyException();
         }
 
@@ -140,7 +140,7 @@ public class UniqueCompanyList implements Iterable<Company> {
     private boolean companiesAreUnique(List<Company> companies) {
         for (int i = 0; i < companies.size() - 1; i++) {
             for (int j = i + 1; j < companies.size(); j++) {
-                if (companies.get(i).isSamecompany(companies.get(j))) {
+                if (companies.get(i).isSameCompany(companies.get(j))) {
                     return false;
                 }
             }

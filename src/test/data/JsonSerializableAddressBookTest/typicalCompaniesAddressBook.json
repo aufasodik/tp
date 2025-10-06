@@ -1,5 +1,5 @@
 {
-  "_comment": "AddressBook save file which contains the same company values as in Typicalcompanies#getTypicalAddressBook()",
+  "_comment": "AddressBook save file which contains the same Company values as in TypicalCompanies#getTypicalAddressBook()",
   "companies" : [ {
     "name" : "Alice Pauline",
     "phone" : "94351253",

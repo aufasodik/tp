@@ -12,7 +12,7 @@ import seedu.address.model.company.Company;
  */
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
-    Predicate<Company> PREDICATE_SHOW_ALL_companies = unused -> true;
+    Predicate<Company> PREDICATE_SHOW_ALL_COMPANIES = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -55,33 +55,33 @@ public interface Model {
     /**
      * Returns true if a company with the same identity as {@code company} exists in the address book.
      */
-    boolean hascompany(Company company);
+    boolean hasCompany(Company company);
 
     /**
      * Deletes the given company.
      * The company must exist in the address book.
      */
-    void deletecompany(Company target);
+    void deleteCompany(Company target);
 
     /**
      * Adds the given company.
      * {@code company} must not already exist in the address book.
      */
-    void addcompany(Company company);
+    void addCompany(Company company);
 
     /**
      * Replaces the given company {@code target} with {@code editedCompany}.
      * {@code target} must exist in the address book.
      * The company identity of {@code editedCompany} must not be the same as another existing company in the address book.
      */
-    void setcompany(Company target, Company editedCompany);
+    void setCompany(Company target, Company editedCompany);
 
     /** Returns an unmodifiable view of the filtered company list */
-    ObservableList<Company> getFilteredcompanyList();
+    ObservableList<Company> getFilteredCompanyList();
 
     /**
      * Updates the filter of the filtered company list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredcompanyList(Predicate<Company> predicate);
+    void updateFilteredCompanyList(Predicate<Company> predicate);
 }

@@ -27,11 +27,11 @@ public class AddCommandIntegrationTest {
     }
 
     @Test
-    public void execute_newcompany_success() {
+    public void execute_newCompany_success() {
         Company validCompany = new CompanyBuilder().build();
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.addcompany(validCompany);
+        expectedModel.addCompany(validCompany);
 
         assertCommandSuccess(new AddCommand(validCompany), model,
                 String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validCompany)),
@@ -39,10 +39,10 @@ public class AddCommandIntegrationTest {
     }
 
     @Test
-    public void execute_duplicatecompany_throwsCommandException() {
+    public void execute_duplicateCompany_throwsCommandException() {
         Company companyInList = model.getAddressBook().getCompanyList().get(0);
         assertCommandFailure(new AddCommand(companyInList), model,
-                AddCommand.MESSAGE_DUPLICATE_company);
+                AddCommand.MESSAGE_DUPLICATE_COMPANY);
     }
 
 }

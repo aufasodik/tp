@@ -13,7 +13,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.EditCommand.EditcompanyDescriptor;
+import seedu.address.logic.commands.EditCommand.EditCompanyDescriptor;
 import seedu.address.testutil.EditCompanyDescriptorBuilder;
 
 public class EditCompanyDescriptorTest {
@@ -21,7 +21,7 @@ public class EditCompanyDescriptorTest {
     @Test
     public void equals() {
         // same values -> returns true
-        EditcompanyDescriptor descriptorWithSameValues = new EditcompanyDescriptor(DESC_AMY);
+        EditCompanyDescriptor descriptorWithSameValues = new EditCompanyDescriptor(DESC_AMY);
         assertTrue(DESC_AMY.equals(descriptorWithSameValues));
 
         // same object -> returns true
@@ -37,7 +37,7 @@ public class EditCompanyDescriptorTest {
         assertFalse(DESC_AMY.equals(DESC_BOB));
 
         // different name -> returns false
-        EditcompanyDescriptor editedAmy = new EditCompanyDescriptorBuilder(DESC_AMY).withName(VALID_NAME_BOB).build();
+        EditCompanyDescriptor editedAmy = new EditCompanyDescriptorBuilder(DESC_AMY).withName(VALID_NAME_BOB).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different phone -> returns false
@@ -59,13 +59,13 @@ public class EditCompanyDescriptorTest {
 
     @Test
     public void toStringMethod() {
-        EditcompanyDescriptor editcompanyDescriptor = new EditcompanyDescriptor();
-        String expected = EditcompanyDescriptor.class.getCanonicalName() + "{name="
-                + editcompanyDescriptor.getName().orElse(null) + ", phone="
-                + editcompanyDescriptor.getPhone().orElse(null) + ", email="
-                + editcompanyDescriptor.getEmail().orElse(null) + ", address="
-                + editcompanyDescriptor.getAddress().orElse(null) + ", tags="
-                + editcompanyDescriptor.getTags().orElse(null) + "}";
-        assertEquals(expected, editcompanyDescriptor.toString());
+        EditCompanyDescriptor editCompanyDescriptor = new EditCompanyDescriptor();
+        String expected = EditCompanyDescriptor.class.getCanonicalName() + "{name="
+                + editCompanyDescriptor.getName().orElse(null) + ", phone="
+                + editCompanyDescriptor.getPhone().orElse(null) + ", email="
+                + editCompanyDescriptor.getEmail().orElse(null) + ", address="
+                + editCompanyDescriptor.getAddress().orElse(null) + ", tags="
+                + editCompanyDescriptor.getTags().orElse(null) + "}";
+        assertEquals(expected, editCompanyDescriptor.toString());
     }
 }

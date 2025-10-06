@@ -3,7 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.Messages.MESSAGE_companies_LISTED_OVERVIEW;
+import static seedu.address.logic.Messages.MESSAGE_COMPANIES_LISTED_OVERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalCompanies.CARL;
 import static seedu.address.testutil.TypicalCompanies.ELLE;
@@ -55,23 +55,23 @@ public class FindCommandTest {
     }
 
     @Test
-    public void execute_zeroKeywords_nocompanyFound() {
-        String expectedMessage = String.format(MESSAGE_companies_LISTED_OVERVIEW, 0);
+    public void execute_zeroKeywords_noCompanyFound() {
+        String expectedMessage = String.format(MESSAGE_COMPANIES_LISTED_OVERVIEW, 0);
         NameContainsKeywordsPredicate predicate = preparePredicate(" ");
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredcompanyList(predicate);
+        expectedModel.updateFilteredCompanyList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredcompanyList());
+        assertEquals(Collections.emptyList(), model.getFilteredCompanyList());
     }
 
     @Test
-    public void execute_multipleKeywords_multiplecompaniesFound() {
-        String expectedMessage = String.format(MESSAGE_companies_LISTED_OVERVIEW, 3);
+    public void execute_multipleKeywords_multipleCompaniesFound() {
+        String expectedMessage = String.format(MESSAGE_COMPANIES_LISTED_OVERVIEW, 3);
         NameContainsKeywordsPredicate predicate = preparePredicate("Kurz Elle Kunz");
         FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredcompanyList(predicate);
+        expectedModel.updateFilteredCompanyList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getFilteredcompanyList());
+        assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getFilteredCompanyList());
     }
 
     @Test

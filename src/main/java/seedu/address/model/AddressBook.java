@@ -11,7 +11,7 @@ import seedu.address.model.company.UniqueCompanyList;
 
 /**
  * Wraps all data at the address-book level
- * Duplicates are not allowed (by .isSamecompany comparison)
+ * Duplicates are not allowed (by .isSameCompany comparison)
  */
 public class AddressBook implements ReadOnlyAddressBook {
 
@@ -83,7 +83,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void setCompany(Company target, Company editedCompany) {
         requireNonNull(editedCompany);
 
-        companies.setcompany(target, editedCompany);
+        companies.setCompany(target, editedCompany);
     }
 
     /**

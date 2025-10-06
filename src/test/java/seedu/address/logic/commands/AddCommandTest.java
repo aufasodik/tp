@@ -28,13 +28,13 @@ import seedu.address.testutil.CompanyBuilder;
 public class AddCommandTest {
 
     @Test
-    public void constructor_nullcompany_throwsNullPointerException() {
+    public void constructor_nullCompany_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new AddCommand(null));
     }
 
     @Test
-    public void execute_companyAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingcompanyAdded modelStub = new ModelStubAcceptingcompanyAdded();
+    public void execute_CompanyAcceptedByModel_addSuccessful() throws Exception {
+        ModelStubAcceptingCompanyAdded modelStub = new ModelStubAcceptingCompanyAdded();
         Company validCompany = new CompanyBuilder().build();
 
         CommandResult commandResult = new AddCommand(validCompany).execute(modelStub);
@@ -45,12 +45,12 @@ public class AddCommandTest {
     }
 
     @Test
-    public void execute_duplicatecompany_throwsCommandException() {
+    public void execute_duplicateCompany_throwsCommandException() {
         Company validCompany = new CompanyBuilder().build();
         AddCommand addCommand = new AddCommand(validCompany);
-        ModelStub modelStub = new ModelStubWithcompany(validCompany);
+        ModelStub modelStub = new ModelStubWithCompany(validCompany);
 
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_company, () -> addCommand.execute(modelStub));
+        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_COMPANY, () -> addCommand.execute(modelStub));
     }
 
     @Test
@@ -119,7 +119,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void addcompany(Company company) {
+        public void addCompany(Company company) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -134,27 +134,27 @@ public class AddCommandTest {
         }
 
         @Override
-        public boolean hascompany(Company company) {
+        public boolean hasCompany(Company company) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void deletecompany(Company target) {
+        public void deleteCompany(Company target) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void setcompany(Company target, Company editedCompany) {
+        public void setCompany(Company target, Company editedCompany) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public ObservableList<Company> getFilteredcompanyList() {
+        public ObservableList<Company> getFilteredCompanyList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void updateFilteredcompanyList(Predicate<Company> predicate) {
+        public void updateFilteredCompanyList(Predicate<Company> predicate) {
             throw new AssertionError("This method should not be called.");
         }
     }
@@ -162,35 +162,35 @@ public class AddCommandTest {
     /**
      * A Model stub that contains a single company.
      */
-    private class ModelStubWithcompany extends ModelStub {
+    private class ModelStubWithCompany extends ModelStub {
         private final Company company;
 
-        ModelStubWithcompany(Company company) {
+        ModelStubWithCompany(Company company) {
             requireNonNull(company);
             this.company = company;
         }
 
         @Override
-        public boolean hascompany(Company company) {
+        public boolean hasCompany(Company company) {
             requireNonNull(company);
-            return this.company.isSamecompany(company);
+            return this.company.isSameCompany(company);
         }
     }
 
     /**
      * A Model stub that always accept the company being added.
      */
-    private class ModelStubAcceptingcompanyAdded extends ModelStub {
+    private class ModelStubAcceptingCompanyAdded extends ModelStub {
         final ArrayList<Company> companiesAdded = new ArrayList<>();
 
         @Override
-        public boolean hascompany(Company company) {
+        public boolean hasCompany(Company company) {
             requireNonNull(company);
-            return companiesAdded.stream().anyMatch(company::isSamecompany);
+            return companiesAdded.stream().anyMatch(company::isSameCompany);
         }
 
         @Override
-        public void addcompany(Company company) {
+        public void addCompany(Company company) {
             requireNonNull(company);
             companiesAdded.add(company);
         }

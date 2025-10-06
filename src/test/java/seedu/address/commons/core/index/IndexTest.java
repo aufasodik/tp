@@ -39,23 +39,23 @@ public class IndexTest {
 
     @Test
     public void equals() {
-        final Index fifthcompanyIndex = Index.fromOneBased(5);
+        final Index fifthCompanyIndex = Index.fromOneBased(5);
 
         // same values -> returns true
-        assertTrue(fifthcompanyIndex.equals(Index.fromOneBased(5)));
-        assertTrue(fifthcompanyIndex.equals(Index.fromZeroBased(4)));
+        assertTrue(fifthCompanyIndex.equals(Index.fromOneBased(5)));
+        assertTrue(fifthCompanyIndex.equals(Index.fromZeroBased(4)));
 
         // same object -> returns true
-        assertTrue(fifthcompanyIndex.equals(fifthcompanyIndex));
+        assertTrue(fifthCompanyIndex.equals(fifthCompanyIndex));
 
         // null -> returns false
-        assertFalse(fifthcompanyIndex.equals(null));
+        assertFalse(fifthCompanyIndex.equals(null));
 
         // different types -> returns false
-        assertFalse(fifthcompanyIndex.equals(5.0f));
+        assertFalse(fifthCompanyIndex.equals(5.0f));
 
         // different index -> returns false
-        assertFalse(fifthcompanyIndex.equals(Index.fromOneBased(1)));
+        assertFalse(fifthCompanyIndex.equals(Index.fromOneBased(1)));
     }
 
     @Test

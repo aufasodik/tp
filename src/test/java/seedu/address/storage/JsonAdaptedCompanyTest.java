@@ -33,7 +33,7 @@ public class JsonAdaptedCompanyTest {
             .collect(Collectors.toList());
 
     @Test
-    public void toModelType_validcompanyDetails_returnscompany() throws Exception {
+    public void toModelType_validCompanyDetails_returnsCompany() throws Exception {
         JsonAdaptedCompany company = new JsonAdaptedCompany(BENSON);
         assertEquals(BENSON, company.toModelType());
     }

@@ -88,24 +88,24 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public boolean hascompany(Company company) {
+    public boolean hasCompany(Company company) {
         requireNonNull(company);
         return addressBook.hasCompany(company);
     }
 
     @Override
-    public void deletecompany(Company target) {
+    public void deleteCompany(Company target) {
         addressBook.removeCompany(target);
     }
 
     @Override
-    public void addcompany(Company company) {
+    public void addCompany(Company company) {
         addressBook.addCompany(company);
-        updateFilteredcompanyList(PREDICATE_SHOW_ALL_companies);
+        updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
     }
 
     @Override
-    public void setcompany(Company target, Company editedCompany) {
+    public void setCompany(Company target, Company editedCompany) {
         requireAllNonNull(target, editedCompany);
 
         addressBook.setCompany(target, editedCompany);
@@ -118,12 +118,12 @@ public class ModelManager implements Model {
      * {@code versionedAddressBook}
      */
     @Override
-    public ObservableList<Company> getFilteredcompanyList() {
+    public ObservableList<Company> getFilteredCompanyList() {
         return filteredCompanies;
     }
 
     @Override
-    public void updateFilteredcompanyList(Predicate<Company> predicate) {
+    public void updateFilteredCompanyList(Predicate<Company> predicate) {
         requireNonNull(predicate);
         filteredCompanies.setPredicate(predicate);
     }

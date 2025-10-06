@@ -57,8 +57,8 @@ public class CommandTestUtil {
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 
-    public static final EditCommand.EditcompanyDescriptor DESC_AMY;
-    public static final EditCommand.EditcompanyDescriptor DESC_BOB;
+    public static final EditCommand.EditCompanyDescriptor DESC_AMY;
+    public static final EditCommand.EditCompanyDescriptor DESC_BOB;
 
     static {
         DESC_AMY = new EditCompanyDescriptorBuilder().withName(VALID_NAME_AMY)
@@ -105,24 +105,24 @@ public class CommandTestUtil {
         // we are unable to defensively copy the model for comparison later, so we can
         // only do so by copying its components.
         AddressBook expectedAddressBook = new AddressBook(actualModel.getAddressBook());
-        List<Company> expectedFilteredList = new ArrayList<>(actualModel.getFilteredcompanyList());
+        List<Company> expectedFilteredList = new ArrayList<>(actualModel.getFilteredCompanyList());
 
         assertThrows(CommandException.class, expectedMessage, () -> command.execute(actualModel));
         assertEquals(expectedAddressBook, actualModel.getAddressBook());
-        assertEquals(expectedFilteredList, actualModel.getFilteredcompanyList());
+        assertEquals(expectedFilteredList, actualModel.getFilteredCompanyList());
     }
     /**
      * Updates {@code model}'s filtered list to show only the company at the given {@code targetIndex} in the
      * {@code model}'s address book.
      */
-    public static void showcompanyAtIndex(Model model, Index targetIndex) {
-        assertTrue(targetIndex.getZeroBased() < model.getFilteredcompanyList().size());
+    public static void showCompanyAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredCompanyList().size());
 
-        Company company = model.getFilteredcompanyList().get(targetIndex.getZeroBased());
+        Company company = model.getFilteredCompanyList().get(targetIndex.getZeroBased());
         final String[] splitName = company.getName().fullName.split("\\s+");
-        model.updateFilteredcompanyList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+        model.updateFilteredCompanyList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
-        assertEquals(1, model.getFilteredcompanyList().size());
+        assertEquals(1, model.getFilteredCompanyList().size());
     }
 
 }
