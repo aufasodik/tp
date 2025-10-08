@@ -13,6 +13,9 @@ import static seedu.address.testutil.Assert.assertThrows;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
+
+import org.opentest4j.AssertionFailedError;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -69,10 +72,10 @@ public class CommandTestUtil {
     static {
         DESC_AMY = new EditCompanyDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
-                .withTags(VALID_TAG_FRIEND).build();
+                .withTags(VALID_TAG_FRIEND).withRemark(VALID_REMARK_AMY).build();
         DESC_BOB = new EditCompanyDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
-                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).withRemark(VALID_REMARK_BOB).build();
     }
 
     /**
@@ -88,6 +91,11 @@ public class CommandTestUtil {
             assertEquals(expectedModel, actualModel);
         } catch (CommandException ce) {
             throw new AssertionError("Execution of command should not fail.", ce);
+        } catch (AssertionFailedError afe) {
+            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).info("logging models for comparison");
+            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).info(expectedModel.toString());
+            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).info(actualModel.toString());
+            throw new AssertionError("Comparison of models failed.", afe);
         }
     }
 

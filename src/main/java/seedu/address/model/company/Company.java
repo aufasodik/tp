@@ -100,13 +100,14 @@ public class Company {
                 && phone.equals(otherCompany.phone)
                 && email.equals(otherCompany.email)
                 && address.equals(otherCompany.address)
-                && tags.equals(otherCompany.tags);
+                && tags.equals(otherCompany.tags)
+                && remark.equals(otherCompany.remark);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, tags, remark);
     }
 
     @Override
@@ -117,6 +118,7 @@ public class Company {
                 .add("email", email)
                 .add("address", address)
                 .add("tags", tags)
+                .add("remark", remark)
                 .toString();
     }
 

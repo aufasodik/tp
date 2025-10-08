@@ -46,12 +46,13 @@ public class TypicalCompanies {
             .withEmail("hello@fusion.com").withAddress("88 Little Tokyo Street")
             .withRemark("Innovative solutions for IT infrastructure.").build();
     public static final Company GEORGE = new CompanyBuilder().withName("Global Trading Co").withPhone("9482442")
-            .withEmail("info@globaltrading.com").withAddress("4 Commerce Street")
-            .withRemark("Handles international trading and logistics.").build();
+            .withEmail("info@globaltrading.com")
+            .withAddress("4 Commerce Street")
+            .withRemark("Handles international trading and logistics.")
+            .build();
 
     // Manually added
-    public static final Company HOON = new CompanyBuilder().withName("Horizon Logistics").withPhone("8482424")
-            .withEmail("contact@horizon.com").withAddress("15 Little India Road").build();
+    public static final Company HOON = new CompanyBuilder().withName("Horizon Logistics").build();
     public static final Company IDA = new CompanyBuilder().withName("Innovative Solutions").withPhone("8482131")
             .withEmail("info@innovative.com").withAddress("72 Chicago Avenue").build();
 
