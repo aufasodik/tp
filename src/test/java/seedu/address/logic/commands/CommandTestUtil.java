@@ -13,9 +13,6 @@ import static seedu.address.testutil.Assert.assertThrows;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
-
-import org.opentest4j.AssertionFailedError;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -91,11 +88,6 @@ public class CommandTestUtil {
             assertEquals(expectedModel, actualModel);
         } catch (CommandException ce) {
             throw new AssertionError("Execution of command should not fail.", ce);
-        } catch (AssertionFailedError afe) {
-            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).info("logging models for comparison");
-            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).info(expectedModel.toString());
-            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).info(actualModel.toString());
-            throw new AssertionError("Comparison of models failed.", afe);
         }
     }
 

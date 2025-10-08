@@ -38,6 +38,7 @@ public class EditCompanyDescriptorBuilder {
         descriptor.setEmail(company.getEmail());
         descriptor.setAddress(company.getAddress());
         descriptor.setTags(company.getTags());
+        descriptor.setRemark(company.getRemark());
     }
 
     /**
