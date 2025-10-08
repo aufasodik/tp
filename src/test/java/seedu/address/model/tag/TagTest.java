@@ -29,17 +29,20 @@ public class TagTest {
         assertFalse(Tag.isValidTagName(" ")); // spaces only
         assertFalse(Tag.isValidTagName("^")); // only non-alphanumeric characters
         assertFalse(Tag.isValidTagName("friend*")); // contains non-alphanumeric characters
-        assertFalse(Tag.isValidTagName(" tag")); // leading space
+        assertFalse(Tag.isValidTagName("-tag")); // starts with hyphen
+        assertFalse(Tag.isValidTagName("tag-")); // ends with hyphen
+        assertFalse(Tag.isValidTagName("tag--name")); // consecutive hyphens
+        assertFalse(Tag.isValidTagName("tag name")); // contains space
 
         // valid tag names
         assertTrue(Tag.isValidTagName("friend")); // single word
         assertTrue(Tag.isValidTagName("PendingInterview")); // alphanumeric with capital letters
-        assertTrue(Tag.isValidTagName("Pending interview")); // contains space
-        assertTrue(Tag.isValidTagName("Yet to apply")); // multiple spaces
+        assertTrue(Tag.isValidTagName("Pending-interview")); // contains hyphen
+        assertTrue(Tag.isValidTagName("Yet-to-apply")); // multiple hyphens
         assertTrue(Tag.isValidTagName("a")); // single character
         assertTrue(Tag.isValidTagName("123")); // numeric only
         assertTrue(Tag.isValidTagName("friend123")); // alphanumeric
-        assertTrue(Tag.isValidTagName("Pending interview round 2")); // multiple words with number
+        assertTrue(Tag.isValidTagName("Pending-interview-round-2")); // multiple words with number
     }
 
 }
