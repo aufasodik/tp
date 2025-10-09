@@ -1,4 +1,4 @@
-package seedu.address.storage;
+NAMEpackage seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -17,7 +17,7 @@ public class JsonSerializableAddressBookTest {
 
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonSerializableAddressBookTest");
     private static final Path TYPICAL_COMPANIES_FILE = TEST_DATA_FOLDER.resolve("typicalCompaniesAddressBook.json");
-    private static final Path INVALID_NAME_FILE = TEST_DATA_FOLDER.resolve("invalidCompanyAddressBook.json");
+    private static final Path INVALID_COMPANY_FILE = TEST_DATA_FOLDER.resolve("invalidCompanyAddressBook.json");
     private static final Path DUPLICATE_COMPANY_FILE = TEST_DATA_FOLDER.resolve("duplicateCompanyAddressBook.json");
 
     @Test
@@ -31,7 +31,7 @@ public class JsonSerializableAddressBookTest {
 
     @Test
     public void toModelType_invalidCompanyFile_throwsIllegalValueException() throws Exception {
-        JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(INVALID_NAME_FILE,
+        JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(INVALID_COMPANY_FILE,
                 JsonSerializableAddressBook.class).get();
         assertThrows(IllegalValueException.class, dataFromFile::toModelType);
     }
