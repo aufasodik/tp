@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_COMPANY_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
@@ -63,10 +63,10 @@ public class EditCommandTest {
         Company lastCompany = model.getFilteredCompanyList().get(indexLastCompany.getZeroBased());
 
         CompanyBuilder companyInList = new CompanyBuilder(lastCompany);
-        Company editedCompany = companyInList.withName(VALID_COMPANY_BOB).withPhone(VALID_PHONE_BOB)
+        Company editedCompany = companyInList.withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
                 .withTags(VALID_TAG_HUSBAND).build();
 
-        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withName(VALID_COMPANY_BOB)
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_HUSBAND).build();
         EditCommand editCommand = new EditCommand(indexLastCompany, descriptor);
 
@@ -97,9 +97,9 @@ public class EditCommandTest {
         showCompanyAtIndex(model, INDEX_FIRST_COMPANY);
 
         Company companyInFilteredList = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
-        Company editedCompany = new CompanyBuilder(companyInFilteredList).withName(VALID_COMPANY_BOB).build();
+        Company editedCompany = new CompanyBuilder(companyInFilteredList).withName(VALID_NAME_BOB).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_COMPANY,
-                new EditCompanyDescriptorBuilder().withName(VALID_COMPANY_BOB).build());
+                new EditCompanyDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
         String expectedMessage =
                 String.format(EditCommand.MESSAGE_EDIT_COMPANY_SUCCESS, Messages.format(editedCompany));
@@ -134,7 +134,7 @@ public class EditCommandTest {
     @Test
     public void execute_invalidCompanyIndexUnfilteredList_failure() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredCompanyList().size() + 1);
-        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withName(VALID_COMPANY_BOB).build();
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withName(VALID_NAME_BOB).build();
         EditCommand editCommand = new EditCommand(outOfBoundIndex, descriptor);
 
         String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.", 
@@ -154,7 +154,7 @@ public class EditCommandTest {
         assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getCompanyList().size());
 
         EditCommand editCommand = new EditCommand(outOfBoundIndex,
-                new EditCompanyDescriptorBuilder().withName(VALID_COMPANY_BOB).build());
+                new EditCompanyDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
         String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.", 
                 outOfBoundIndex.getOneBased(), model.getFilteredCompanyList().size());
