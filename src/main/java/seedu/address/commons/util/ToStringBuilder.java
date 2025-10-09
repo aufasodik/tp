@@ -7,7 +7,7 @@ public class ToStringBuilder {
     private static final String OBJECT_PREFIX = "{";
     private static final String OBJECT_SUFFIX = "}";
     private static final String FIELD_SEPARATOR = ", ";
-    private static final String FIELD_NAME_VALUE_SEPARATOR = "=";
+    private static final String FIELD_COMPANY_VALUE_SEPARATOR = "=";
 
     private final StringBuilder stringBuilder = new StringBuilder();
     private boolean hasField;
@@ -38,7 +38,7 @@ public class ToStringBuilder {
         if (hasField) {
             stringBuilder.append(FIELD_SEPARATOR);
         }
-        stringBuilder.append(fieldName).append(FIELD_NAME_VALUE_SEPARATOR).append(fieldValue);
+        stringBuilder.append(fieldName).append(FIELD_COMPANY_VALUE_SEPARATOR).append(fieldValue);
         hasField = true;
         return this;
     }
