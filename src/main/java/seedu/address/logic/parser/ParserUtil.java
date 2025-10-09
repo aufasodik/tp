@@ -62,7 +62,7 @@ public class ParserUtil {
             throw new ParseException(MESSAGE_INVALID_INDICES);
         }
         
-        String[] indexStrings = trimmedIndices.split(",");
+        String[] indexStrings = trimmedIndices.split(",", -1);
         List<Index> indexList = new ArrayList<>();
         Set<Integer> seenIndices = new HashSet<>();
         List<String> duplicates = new ArrayList<>();
