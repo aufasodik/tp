@@ -204,7 +204,7 @@ public class AddCommandParserTest {
                 .withAddress("No address provided")
                 .withTags()
                 .build();
-        
+
         assertParseSuccess(parser, NAME_DESC_BOB, new AddCommand(expectedCompany));
     }
 
