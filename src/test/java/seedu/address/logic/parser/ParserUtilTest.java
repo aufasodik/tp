@@ -2,17 +2,21 @@ package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.parser.ParserUtil.MESSAGE_DUPLICATE_INDICES;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
+import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDICES;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_COMPANY;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.company.Address;
 import seedu.address.model.company.Email;
@@ -21,13 +25,13 @@ import seedu.address.model.company.Phone;
 import seedu.address.model.tag.Tag;
 
 public class ParserUtilTest {
-    private static final String INVALID_NAME = "R@chel";
+    private static final String INVALID_COMPANY = "R@chel";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
 
-    private static final String VALID_NAME = "Rachel Walker";
+    private static final String VALID_COMPANY = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
     private static final String VALID_ADDRESS = "123 Main Street #0505";
     private static final String VALID_EMAIL = "rachel@example.com";
@@ -56,6 +60,105 @@ public class ParserUtilTest {
         assertEquals(INDEX_FIRST_COMPANY, ParserUtil.parseIndex("  1  "));
     }
 
+    // ================ parseIndices Tests ================
+    // Edge case scenarios for testing the parseIndices() were generated with AI assistance
+    // (OpenAI ChatGPT) to improve coverage and identify non-trivial cases.
+
+    @Test
+    public void parseIndices_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseIndices(null));
+    }
+
+    @Test
+    public void parseIndices_emptyString_throwsParseException() {
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices(""));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("   "));
+    }
+
+    @Test
+    public void parseIndices_singleValidIndex_success() throws Exception {
+        List<Index> result = ParserUtil.parseIndices("1");
+        List<Index> expected = Arrays.asList(Index.fromOneBased(1));
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void parseIndices_singleValidIndexWithWhitespace_success() throws Exception {
+        List<Index> result = ParserUtil.parseIndices("  1  ");
+        List<Index> expected = Arrays.asList(Index.fromOneBased(1));
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void parseIndices_multipleValidIndices_success() throws Exception {
+        List<Index> result = ParserUtil.parseIndices("1,2,3");
+        List<Index> expected = Arrays.asList(
+                Index.fromOneBased(1), 
+                Index.fromOneBased(2), 
+                Index.fromOneBased(3)
+        );
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void parseIndices_multipleValidIndicesWithWhitespace_success() throws Exception {
+        List<Index> result = ParserUtil.parseIndices(" 1 , 2 , 3 ");
+        List<Index> expected = Arrays.asList(
+                Index.fromOneBased(1), 
+                Index.fromOneBased(2), 
+                Index.fromOneBased(3)
+        );
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void parseIndices_duplicateIndices_throwsParseException() {
+        assertThrows(ParseException.class, MESSAGE_DUPLICATE_INDICES, () -> ParserUtil.parseIndices("1,2,1"));
+        assertThrows(ParseException.class, MESSAGE_DUPLICATE_INDICES, () -> ParserUtil.parseIndices("3,3"));
+        assertThrows(ParseException.class, MESSAGE_DUPLICATE_INDICES, () -> ParserUtil.parseIndices("1,2,3,2,4"));
+    }
+
+    @Test
+    public void parseIndices_invalidIndex_throwsParseException() {
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("1,abc"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("0,1"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("1,-2"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("1,2,0"));
+    }
+
+    @Test
+    public void parseIndices_malformedCommas_throwsParseException() {
+        // Empty indices after commas
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("1,"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices(",2"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("1,,3"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("1, ,3"));
+    }
+
+    @Test
+    public void parseIndices_mixedInvalidAndDuplicate_throwsParseExceptionForInvalid() {
+        // Invalid indices should be caught first
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("abc,1,1"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("1,0,1"));
+    }
+
+    @Test
+    public void parseIndices_largeNumbers_success() throws Exception {
+        List<Index> result = ParserUtil.parseIndices("999,1000");
+        List<Index> expected = Arrays.asList(
+                Index.fromOneBased(999), 
+                Index.fromOneBased(1000)
+        );
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void parseIndices_outOfIntegerRange_throwsParseException() {
+        String largeNumber = Long.toString((long) Integer.MAX_VALUE + 1);
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> 
+                ParserUtil.parseIndices("1," + largeNumber));
+    }
+
     @Test
     public void parseName_null_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> ParserUtil.parseName((String) null));
@@ -63,19 +166,19 @@ public class ParserUtilTest {
 
     @Test
     public void parseName_invalidValue_throwsParseException() {
-        assertThrows(ParseException.class, () -> ParserUtil.parseName(INVALID_NAME));
+        assertThrows(ParseException.class, () -> ParserUtil.parseName(INVALID_COMPANY));
     }
 
     @Test
     public void parseName_validValueWithoutWhitespace_returnsName() throws Exception {
-        Name expectedName = new Name(VALID_NAME);
-        assertEquals(expectedName, ParserUtil.parseName(VALID_NAME));
+        Name expectedName = new Name(VALID_COMPANY);
+        assertEquals(expectedName, ParserUtil.parseName(VALID_COMPANY));
     }
 
     @Test
     public void parseName_validValueWithWhitespace_returnsTrimmedName() throws Exception {
-        String nameWithWhitespace = WHITESPACE + VALID_NAME + WHITESPACE;
-        Name expectedName = new Name(VALID_NAME);
+        String nameWithWhitespace = WHITESPACE + VALID_COMPANY + WHITESPACE;
+        Name expectedName = new Name(VALID_COMPANY);
         assertEquals(expectedName, ParserUtil.parseName(nameWithWhitespace));
     }
 
