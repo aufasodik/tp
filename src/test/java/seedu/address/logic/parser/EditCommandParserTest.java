@@ -32,6 +32,9 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_COMPANY;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_COMPANY;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_COMPANY;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
@@ -204,5 +207,118 @@ public class EditCommandParserTest {
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    // ================ Batch Edit Integration Tests ================
+    // Edge case scenarios for testing the batch editing of tags were generated with AI assistance
+    // (OpenAI ChatGPT) to improve coverage and identify non-trivial cases.
+
+    @Test
+    public void parse_batchEditTwoIndices_success() {
+        String userInput = "1,2" + TAG_DESC_FRIEND;
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
+        EditCommand expectedCommand = new EditCommand(indices, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_batchEditThreeIndices_success() {
+        String userInput = "1,2,3" + TAG_DESC_FRIEND + TAG_DESC_HUSBAND;
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY, INDEX_THIRD_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder()
+                .withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND).build();
+        EditCommand expectedCommand = new EditCommand(indices, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_batchEditWithSpaces_success() {
+        String userInput = " 1 , 2 , 3 " + TAG_DESC_FRIEND;
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY, INDEX_THIRD_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
+        EditCommand expectedCommand = new EditCommand(indices, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_batchEditSingleIndexInList_success() {
+        String userInput = "2" + TAG_DESC_FRIEND;
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
+        EditCommand expectedCommand = new EditCommand(INDEX_SECOND_COMPANY, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_batchEditResetTags_success() {
+        String userInput = "1,2" + TAG_EMPTY;
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags().build();
+        EditCommand expectedCommand = new EditCommand(indices, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_batchEditInvalidIndices_failure() {
+        // Duplicate indices
+        assertParseFailure(parser, "1,2,1" + TAG_DESC_FRIEND,
+                "Duplicate indices found: 1. Each index should appear only once.");
+
+        // Invalid index format
+        assertParseFailure(parser, "1,abc" + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);
+
+        // Zero index
+        assertParseFailure(parser, "0,1" + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);
+
+        // Negative index
+        assertParseFailure(parser, "1,-2" + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);
+
+        // Empty indices
+        assertParseFailure(parser, "1," + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, ",2" + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1,,3" + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);
+    }
+
+    @Test
+    public void parse_batchEditNonTagFields_success() {
+        // Batch edit currently supports all fields, though primarily intended for tags
+        String userInput = "1,2" + PHONE_DESC_BOB;
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withPhone(VALID_PHONE_BOB).build();
+        EditCommand expectedCommand = new EditCommand(indices, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_batchEditMixedFields_success() {
+        String userInput = "1,2" + PHONE_DESC_BOB + TAG_DESC_FRIEND;
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder()
+                .withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_FRIEND).build();
+        EditCommand expectedCommand = new EditCommand(indices, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_batchEditLargeIndices_success() {
+        String userInput = "999,1000" + TAG_DESC_FRIEND;
+        List<Index> indices = Arrays.asList(Index.fromOneBased(999), Index.fromOneBased(1000));
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
+        EditCommand expectedCommand = new EditCommand(indices, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_batchEditOutOfIntegerRange_failure() {
+        String largeNumber = Long.toString((long) Integer.MAX_VALUE + 1);
+        assertParseFailure(parser, "1," + largeNumber + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);
     }
 }
