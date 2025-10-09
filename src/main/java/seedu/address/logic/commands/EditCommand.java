@@ -213,10 +213,16 @@ public class EditCommand extends Command {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
         }
 
+        /**
+         * Sets {@code remark} to this object's {@code remark}.
+         */
         public void setRemark(Remark remark) {
             this.remark = remark;
         }
 
+        /**
+         * Returns an optional remark, which is empty if {@code remark} is null.
+         */
         public Optional<Remark> getRemark() {
             return Optional.ofNullable(remark);
         }
