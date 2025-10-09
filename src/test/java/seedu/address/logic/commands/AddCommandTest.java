@@ -84,6 +84,39 @@ public class AddCommandTest {
         assertEquals(expected, addCommand.toString());
     }
 
+    @Test
+    public void execute_companyWithPlaceholderValues_addSuccessful() throws Exception {
+        ModelStubAcceptingCompanyAdded modelStub = new ModelStubAcceptingCompanyAdded();
+        Company companyWithPlaceholders = new CompanyBuilder()
+                .withName("Test Company")
+                .withPhone("000")
+                .withEmail("noemail@placeholder.com")
+                .withAddress("No address provided")
+                .withTags()
+                .build();
+
+        CommandResult commandResult = new AddCommand(companyWithPlaceholders).execute(modelStub);
+
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(companyWithPlaceholders)),
+                commandResult.getFeedbackToUser());
+        assertEquals(Arrays.asList(companyWithPlaceholders), modelStub.companiesAdded);
+    }
+
+    @Test
+    public void execute_duplicateCompanyWithPlaceholders_throwsCommandException() {
+        Company companyWithPlaceholders = new CompanyBuilder()
+                .withName("Test Company")
+                .withPhone("000")
+                .withEmail("noemail@placeholder.com")
+                .withAddress("No address provided")
+                .withTags()
+                .build();
+        AddCommand addCommand = new AddCommand(companyWithPlaceholders);
+        ModelStub modelStub = new ModelStubWithCompany(companyWithPlaceholders);
+
+        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_COMPANY, () -> addCommand.execute(modelStub));
+    }
+
     /**
      * A default model stub that have all of the methods failing.
      */
