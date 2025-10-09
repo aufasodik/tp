@@ -2,7 +2,10 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
@@ -12,37 +15,66 @@ import seedu.address.model.Model;
 import seedu.address.model.company.Company;
 
 /**
- * Deletes a company identified using it's displayed index from the address book.
+ * Deletes one or more companies by their displayed indices from the address book.
  */
 public class DeleteCommand extends Command {
 
     public static final String COMMAND_WORD = "delete";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the company identified by the index number used in the displayed company list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
+            + ": Deletes the company (or companies) identified by the index/indices in the displayed company list.\n"
+            + "Simple format: " + COMMAND_WORD + " INDEX\n"
+            + "Multiple indices: " + COMMAND_WORD + " INDEX [INDEX]...\n"
+            + "Range: " + COMMAND_WORD + " START-END\n"
+            + "Examples:\n"
+            + "  " + COMMAND_WORD + " 1\n"
+            + "  " + COMMAND_WORD + " 1 3 5\n"
+            + "  " + COMMAND_WORD + " 2-4";
 
     public static final String MESSAGE_DELETE_COMPANY_SUCCESS = "Deleted Company: %1$s";
 
-    private final Index targetIndex;
+    /** Sorted (ascending) list of target indices as provided by the parser (1-based). */
+    private final List<Index> targetIndices;
 
-    public DeleteCommand(Index targetIndex) {
-        this.targetIndex = targetIndex;
+    public DeleteCommand(List<Index> targetIndices) {
+        // Defensive copy + normalize ascending for display; we’ll delete in descending later.
+        this.targetIndices = new ArrayList<>(requireNonNull(targetIndices));
+        this.targetIndices.sort(Comparator.comparingInt(Index::getZeroBased));
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Company> lastShownList = model.getFilteredCompanyList();
 
-        if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
+        final List<Company> lastShownList = model.getFilteredCompanyList();
+        final int listSize = lastShownList.size();
+
+        // Validate all indices first (fail-fast if any is out of bounds)
+        for (Index idx : targetIndices) {
+            if (idx.getZeroBased() >= listSize) {
+                throw new CommandException(Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
+            }
         }
 
-        Company companyToDelete = lastShownList.get(targetIndex.getZeroBased());
-        model.deleteCompany(companyToDelete);
-        return new CommandResult(String.format(MESSAGE_DELETE_COMPANY_SUCCESS, Messages.format(companyToDelete)));
+        // Snapshot the companies to be deleted (before mutation), in ascending order for message.
+        final List<Company> companiesToDelete = targetIndices.stream()
+                .map(i -> lastShownList.get(i.getZeroBased()))
+                .collect(Collectors.toList());
+
+        // Delete in descending index order to avoid shifting
+        targetIndices.stream()
+                .sorted((a, b) -> Integer.compare(b.getZeroBased(), a.getZeroBased()))
+                .forEach(idx -> {
+                    Company c = lastShownList.get(idx.getZeroBased());
+                    model.deleteCompany(c);
+                });
+
+        // Build user feedback: comma-separated formatted names
+        String formatted = companiesToDelete.stream()
+                .map(Messages::format)
+                .collect(Collectors.joining(", "));
+
+        return new CommandResult(String.format(MESSAGE_DELETE_COMPANY_SUCCESS, formatted));
     }
 
     @Override
@@ -50,20 +82,17 @@ public class DeleteCommand extends Command {
         if (other == this) {
             return true;
         }
-
-        // instanceof handles nulls
         if (!(other instanceof DeleteCommand)) {
             return false;
         }
-
         DeleteCommand otherDeleteCommand = (DeleteCommand) other;
-        return targetIndex.equals(otherDeleteCommand.targetIndex);
+        return this.targetIndices.equals(otherDeleteCommand.targetIndices);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("targetIndex", targetIndex)
+                .add("targetIndices", targetIndices)
                 .toString();
     }
 }
