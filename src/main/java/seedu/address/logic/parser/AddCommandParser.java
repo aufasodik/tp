@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.HashSet;
@@ -18,6 +19,7 @@ import seedu.address.model.company.Company;
 import seedu.address.model.company.Email;
 import seedu.address.model.company.Name;
 import seedu.address.model.company.Phone;
+import seedu.address.model.company.Remark;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -32,27 +34,29 @@ public class AddCommandParser implements Parser<AddCommand> {
      */
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG,
+                PREFIX_REMARK);
 
         // Check if this is a simple name format (only n/ prefix used)
         if (isSimpleNameFormat(argMultimap)) {
             return parseSimpleNameFormat(argMultimap);
         }
 
-        // Use existing detailed format parsing
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_ADDRESS, PREFIX_PHONE, PREFIX_EMAIL)
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_ADDRESS, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_REMARK)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
+                PREFIX_REMARK);
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+        Remark remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK).get());
 
-        Company company = new Company(name, phone, email, address, tagList);
+        Company company = new Company(name, phone, email, address, tagList, remark);
 
         return new AddCommand(company);
     }
@@ -73,6 +77,8 @@ public class AddCommandParser implements Parser<AddCommand> {
                 && !argumentMultimap.getValue(PREFIX_PHONE).isPresent()
                 && !argumentMultimap.getValue(PREFIX_EMAIL).isPresent()
                 && !argumentMultimap.getValue(PREFIX_ADDRESS).isPresent()
+                && !argumentMultimap.getValue(PREFIX_TAG).isPresent()
+                && !argumentMultimap.getValue(PREFIX_REMARK).isPresent()
                 && argumentMultimap.getPreamble().trim().isEmpty();
     }
 
@@ -86,8 +92,9 @@ public class AddCommandParser implements Parser<AddCommand> {
         Email email = new Email("noemail@placeholder.com"); // Placeholder that meets validation
         Address address = new Address("No address provided"); // Placeholder that meets validation
         Set<Tag> tagList = new HashSet<>(); // Empty tags
+        Remark remark = new Remark(""); // Empty remark
 
-        Company company = new Company(name, phone, email, address, tagList);
+        Company company = new Company(name, phone, email, address, tagList, remark);
         return new AddCommand(company);
     }
 

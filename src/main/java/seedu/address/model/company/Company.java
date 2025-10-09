@@ -24,17 +24,19 @@ public class Company {
     // Data fields
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
+    private final Remark remark;
 
     /**
      * Every field must be present and not null.
      */
-    public Company(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+    public Company(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Remark remark) {
+        requireAllNonNull(name, phone, email, address, tags, remark);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
+        this.remark = remark;
     }
 
     public Name getName() {
@@ -59,6 +61,10 @@ public class Company {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    public Remark getRemark() {
+        return remark;
     }
 
     /**
@@ -94,13 +100,14 @@ public class Company {
                 && phone.equals(otherCompany.phone)
                 && email.equals(otherCompany.email)
                 && address.equals(otherCompany.address)
-                && tags.equals(otherCompany.tags);
+                && tags.equals(otherCompany.tags)
+                && remark.equals(otherCompany.remark);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, tags, remark);
     }
 
     @Override
@@ -111,6 +118,7 @@ public class Company {
                 .add("email", email)
                 .add("address", address)
                 .add("tags", tags)
+                .add("remark", remark)
                 .toString();
     }
 

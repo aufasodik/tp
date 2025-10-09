@@ -15,6 +15,7 @@ import seedu.address.model.company.Company;
 import seedu.address.model.company.Email;
 import seedu.address.model.company.Name;
 import seedu.address.model.company.Phone;
+import seedu.address.model.company.Remark;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -29,6 +30,7 @@ class JsonAdaptedCompany {
     private final String email;
     private final String address;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final String remark;
 
     /**
      * Constructs a {@code JsonAdaptedCompany} with the given company details.
@@ -36,7 +38,7 @@ class JsonAdaptedCompany {
     @JsonCreator
     public JsonAdaptedCompany(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
                               @JsonProperty("email") String email, @JsonProperty("address") String address,
-                              @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+                              @JsonProperty("tags") List<JsonAdaptedTag> tags, @JsonProperty("remark") String remark) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -44,6 +46,7 @@ class JsonAdaptedCompany {
         if (tags != null) {
             this.tags.addAll(tags);
         }
+        this.remark = remark;
     }
 
     /**
@@ -57,6 +60,7 @@ class JsonAdaptedCompany {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
+        remark = source.getRemark().value;
     }
 
     /**
@@ -103,7 +107,14 @@ class JsonAdaptedCompany {
         final Address modelAddress = new Address(address);
 
         final Set<Tag> modelTags = new HashSet<>(companyTags);
-        return new Company(modelName, modelPhone, modelEmail, modelAddress, modelTags);
+
+        if (remark == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Remark.class.getSimpleName()));
+        }
+
+        final Remark modelRemark = new Remark(remark);
+
+        return new Company(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelRemark);
     }
 
 }

@@ -10,6 +10,7 @@ import seedu.address.model.company.Company;
 import seedu.address.model.company.Email;
 import seedu.address.model.company.Name;
 import seedu.address.model.company.Phone;
+import seedu.address.model.company.Remark;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -37,6 +38,7 @@ public class EditCompanyDescriptorBuilder {
         descriptor.setEmail(company.getEmail());
         descriptor.setAddress(company.getAddress());
         descriptor.setTags(company.getTags());
+        descriptor.setRemark(company.getRemark());
     }
 
     /**
@@ -78,6 +80,14 @@ public class EditCompanyDescriptorBuilder {
     public EditCompanyDescriptorBuilder withTags(String... tags) {
         Set<Tag> tagSet = Stream.of(tags).map(Tag::new).collect(Collectors.toSet());
         descriptor.setTags(tagSet);
+        return this;
+    }
+
+    /**
+     * Sets the {@code Remark} of the {@code EditCompanyDescriptor} that we are building.
+     */
+    public EditCompanyDescriptorBuilder withRemark(String remark) {
+        descriptor.setRemark(new Remark(remark));
         return this;
     }
 
