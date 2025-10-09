@@ -7,17 +7,17 @@ import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_COMPANY_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.COMPANY_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_COMPANY_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
@@ -31,6 +31,9 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_COMPANY;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_COMPANY;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_COMPANY;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -57,7 +60,7 @@ public class EditCommandParserTest {
     @Test
     public void parse_missingParts_failure() {
         // no index specified
-        assertParseFailure(parser, VALID_NAME_AMY, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, VALID_COMPANY_AMY, MESSAGE_INVALID_FORMAT);
 
         // no field specified
         assertParseFailure(parser, "1", EditCommand.MESSAGE_NOT_EDITED);
@@ -69,10 +72,10 @@ public class EditCommandParserTest {
     @Test
     public void parse_invalidPreamble_failure() {
         // negative index
-        assertParseFailure(parser, "-5" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "-5" + COMPANY_DESC_AMY, MESSAGE_INVALID_FORMAT);
 
         // zero index
-        assertParseFailure(parser, "0" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "0" + COMPANY_DESC_AMY, MESSAGE_INVALID_FORMAT);
 
         // invalid arguments being parsed as preamble
         assertParseFailure(parser, "1 some random string", MESSAGE_INVALID_FORMAT);
@@ -83,7 +86,7 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_invalidValue_failure() {
-        assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS); // invalid name
+        assertParseFailure(parser, "1" + INVALID_COMPANY_DESC, Name.MESSAGE_CONSTRAINTS); // invalid name
         assertParseFailure(parser, "1" + INVALID_PHONE_DESC, Phone.MESSAGE_CONSTRAINTS); // invalid phone
         assertParseFailure(parser, "1" + INVALID_EMAIL_DESC, Email.MESSAGE_CONSTRAINTS); // invalid email
         assertParseFailure(parser, "1" + INVALID_ADDRESS_DESC, Address.MESSAGE_CONSTRAINTS); // invalid address
@@ -99,7 +102,7 @@ public class EditCommandParserTest {
         assertParseFailure(parser, "1" + TAG_EMPTY + TAG_DESC_FRIEND + TAG_DESC_HUSBAND, Tag.MESSAGE_CONSTRAINTS);
 
         // multiple invalid values, but only the first invalid value is captured
-        assertParseFailure(parser, "1" + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_ADDRESS_AMY + VALID_PHONE_AMY,
+        assertParseFailure(parser, "1" + INVALID_COMPANY_DESC + INVALID_EMAIL_DESC + VALID_ADDRESS_AMY + VALID_PHONE_AMY,
                 Name.MESSAGE_CONSTRAINTS);
     }
 
@@ -107,9 +110,9 @@ public class EditCommandParserTest {
     public void parse_allFieldsSpecified_success() {
         Index targetIndex = INDEX_SECOND_COMPANY;
         String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + TAG_DESC_HUSBAND
-                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + NAME_DESC_AMY + TAG_DESC_FRIEND;
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + COMPANY_DESC_AMY + TAG_DESC_FRIEND;
 
-        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withName(VALID_NAME_AMY)
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withName(VALID_COMPANY_AMY)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
@@ -133,8 +136,8 @@ public class EditCommandParserTest {
     public void parse_oneFieldSpecified_success() {
         // name
         Index targetIndex = INDEX_THIRD_COMPANY;
-        String userInput = targetIndex.getOneBased() + NAME_DESC_AMY;
-        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withName(VALID_NAME_AMY).build();
+        String userInput = targetIndex.getOneBased() + COMPANY_DESC_AMY;
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withName(VALID_COMPANY_AMY).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
@@ -204,5 +207,117 @@ public class EditCommandParserTest {
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    // ================ Batch Edit Integration Tests ================
+    // Edge case scenarios for testing the batch editing of tags were generated with AI assistance
+    // (OpenAI ChatGPT) to improve coverage and identify non-trivial cases.
+
+    @Test
+    public void parse_batchEditTwoIndices_success() {
+        String userInput = "1,2" + TAG_DESC_FRIEND;
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
+        EditCommand expectedCommand = new EditCommand(indices, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_batchEditThreeIndices_success() {
+        String userInput = "1,2,3" + TAG_DESC_FRIEND + TAG_DESC_HUSBAND;
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY, INDEX_THIRD_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder()
+                .withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND).build();
+        EditCommand expectedCommand = new EditCommand(indices, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_batchEditWithSpaces_success() {
+        String userInput = " 1 , 2 , 3 " + TAG_DESC_FRIEND;
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY, INDEX_THIRD_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
+        EditCommand expectedCommand = new EditCommand(indices, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_batchEditSingleIndexInList_success() {
+        String userInput = "2" + TAG_DESC_FRIEND;
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
+        EditCommand expectedCommand = new EditCommand(INDEX_SECOND_COMPANY, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_batchEditResetTags_success() {
+        String userInput = "1,2" + TAG_EMPTY;
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags().build();
+        EditCommand expectedCommand = new EditCommand(indices, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_batchEditInvalidIndices_failure() {
+        // Duplicate indices
+        assertParseFailure(parser, "1,2,1" + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);
+
+        // Invalid index format
+        assertParseFailure(parser, "1,abc" + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);
+
+        // Zero index
+        assertParseFailure(parser, "0,1" + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);
+
+        // Negative index
+        assertParseFailure(parser, "1,-2" + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);
+
+        // Empty indices
+        assertParseFailure(parser, "1," + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, ",2" + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1,,3" + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);
+    }
+
+    @Test
+    public void parse_batchEditNonTagFields_success() {
+        // Batch edit currently supports all fields, though primarily intended for tags
+        String userInput = "1,2" + PHONE_DESC_BOB;
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withPhone(VALID_PHONE_BOB).build();
+        EditCommand expectedCommand = new EditCommand(indices, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_batchEditMixedFields_success() {
+        String userInput = "1,2" + PHONE_DESC_BOB + TAG_DESC_FRIEND;
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder()
+                .withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_FRIEND).build();
+        EditCommand expectedCommand = new EditCommand(indices, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_batchEditLargeIndices_success() {
+        String userInput = "999,1000" + TAG_DESC_FRIEND;
+        List<Index> indices = Arrays.asList(Index.fromOneBased(999), Index.fromOneBased(1000));
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
+        EditCommand expectedCommand = new EditCommand(indices, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_batchEditOutOfIntegerRange_failure() {
+        String largeNumber = Long.toString((long) Integer.MAX_VALUE + 1);
+        assertParseFailure(parser, "1," + largeNumber + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);
     }
 }
