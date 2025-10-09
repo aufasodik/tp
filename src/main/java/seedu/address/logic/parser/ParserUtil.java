@@ -25,6 +25,10 @@ public class ParserUtil {
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     public static final String MESSAGE_INVALID_INDICES = "One or more indices are invalid. "
             + "Indices must be comma-separated non-zero unsigned integers.";
+    public static final String MESSAGE_DUPLICATE_INDICES = "Duplicate indices found: %1$s. "
+            + "Each index should appear only once.";
+    public static final String MESSAGE_INDICES_OUT_OF_RANGE = "Index(es) out of range: %1$s. "
+            + "Valid range is 1 to %2$d.";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -42,11 +46,78 @@ public class ParserUtil {
     /**
      * Parses comma-separated indices into a {@code List<Index>}. Leading and trailing whitespaces will be trimmed.
      * Supports both single indices and comma-separated multiple indices.
-     * Use to parse multiple comma-separated indices in a command.
+     * Validates that indices are unique and within valid range.
      * 
      * @param indicesString String containing comma-separated indices (e.g., "1", "1,2,3")
-     * @return List of valid indices
-     * @throws ParseException if any index is invalid (not non-zero unsigned integer).
+     * @param maxListSize Maximum size of the list to validate indices against
+     * @return List of valid unique indices
+     * @throws ParseException if any index is invalid, duplicate, or out of range
+     */
+    public static List<Index> parseIndices(String indicesString, int maxListSize) throws ParseException {
+        requireNonNull(indicesString);
+        String trimmedIndices = indicesString.trim();
+        
+        if (trimmedIndices.isEmpty()) {
+            throw new ParseException(MESSAGE_INVALID_INDICES);
+        }
+        
+        String[] indexStrings = trimmedIndices.split(",");
+        List<Index> indexList = new ArrayList<>();
+        Set<Integer> seenIndices = new HashSet<>();
+        List<String> duplicates = new ArrayList<>();
+        List<String> outOfRange = new ArrayList<>();
+        
+        for (String indexString : indexStrings) {
+            String trimmedIndexString = indexString.trim();
+            if (trimmedIndexString.isEmpty()) {
+                throw new ParseException(MESSAGE_INVALID_INDICES);
+            }
+            
+            try {
+                Index index = parseIndex(trimmedIndexString);
+                int oneBasedIndex = index.getOneBased();
+                
+                // Check for duplicates
+                if (seenIndices.contains(oneBasedIndex)) {
+                    duplicates.add(trimmedIndexString);
+                    continue;
+                }
+                
+                // Check range (1 to maxListSize inclusive)
+                if (oneBasedIndex > maxListSize) {
+                    outOfRange.add(trimmedIndexString);
+                    continue;
+                }
+                
+                seenIndices.add(oneBasedIndex);
+                indexList.add(index);
+                
+            } catch (ParseException e) {
+                throw new ParseException(MESSAGE_INVALID_INDICES);
+            }
+        }
+        
+        // Report errors with specific details
+        if (!duplicates.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_DUPLICATE_INDICES, 
+                    String.join(", ", duplicates)));
+        }
+        
+        if (!outOfRange.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INDICES_OUT_OF_RANGE, 
+                    String.join(", ", outOfRange), maxListSize));
+        }
+        
+        return indexList;
+    }
+    
+    /**
+     * Parses comma-separated indices into a {@code List<Index>} without range validation.
+     * Use this when range validation will be done later in the command execution.
+     * 
+     * @param indicesString String containing comma-separated indices (e.g., "1", "1,2,3")
+     * @return List of valid unique indices
+     * @throws ParseException if any index is invalid or duplicate
      */
     public static List<Index> parseIndices(String indicesString) throws ParseException {
         requireNonNull(indicesString);
@@ -56,19 +127,37 @@ public class ParserUtil {
             throw new ParseException(MESSAGE_INVALID_INDICES);
         }
         
-        List<Index> indexList = new ArrayList<>();
         String[] indexStrings = trimmedIndices.split(",");
+        List<Index> indexList = new ArrayList<>();
+        Set<Integer> seenIndices = new HashSet<>();
+        List<String> duplicates = new ArrayList<>();
         
         for (String indexString : indexStrings) {
             String trimmedIndexString = indexString.trim();
             if (trimmedIndexString.isEmpty()) {
                 throw new ParseException(MESSAGE_INVALID_INDICES);
             }
+            
             try {
-                indexList.add(parseIndex(trimmedIndexString));
+                Index index = parseIndex(trimmedIndexString);
+                int oneBasedIndex = index.getOneBased();
+                
+                if (seenIndices.contains(oneBasedIndex)) {
+                    duplicates.add(trimmedIndexString);
+                    continue;
+                }
+                
+                seenIndices.add(oneBasedIndex);
+                indexList.add(index);
+                
             } catch (ParseException e) {
                 throw new ParseException(MESSAGE_INVALID_INDICES);
             }
+        }
+        
+        if (!duplicates.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_DUPLICATE_INDICES, 
+                    String.join(", ", duplicates)));
         }
         
         return indexList;
