@@ -22,11 +22,10 @@ import seedu.address.model.tag.Tag;
  */
 public class ParserUtil {
 
-    public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
-    public static final String MESSAGE_INVALID_INDICES = "One or more indices are invalid. "
-            + "Indices must be comma-separated non-zero unsigned integers (e.g., '1', '1,2,3'). "
-            + "Check for missing indices after commas or extra commas. "
-            + "Note: Batch editing currently supports only tag modifications (t/ prefix).";
+    public static final String MESSAGE_INVALID_INDEX = "Index must be a positive integer (1, 2, 3, ...).";
+    public static final String MESSAGE_INVALID_INDICES = "One or more indices have invalid format. "
+            + "Indices must be comma-separated positive integers (e.g., '1', '1,2,3'). "
+            + "Check for missing indices after commas, extra commas, or non-numeric values.";
     public static final String MESSAGE_DUPLICATE_INDICES = "Duplicate indices found: %1$s. "
             + "Each index should appear only once.";
     public static final String MESSAGE_INDICES_OUT_OF_RANGE = "Index(es) out of range: %1$s. "

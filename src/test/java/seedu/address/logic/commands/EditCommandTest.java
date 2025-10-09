@@ -137,7 +137,9 @@ public class EditCommandTest {
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withName(VALID_COMPANY_BOB).build();
         EditCommand editCommand = new EditCommand(outOfBoundIndex, descriptor);
 
-        assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
+        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.", 
+                outOfBoundIndex.getOneBased(), model.getFilteredCompanyList().size());
+        assertCommandFailure(editCommand, model, expectedMessage);
     }
 
     /**
@@ -154,7 +156,9 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(outOfBoundIndex,
                 new EditCompanyDescriptorBuilder().withName(VALID_COMPANY_BOB).build());
 
-        assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
+        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.", 
+                outOfBoundIndex.getOneBased(), model.getFilteredCompanyList().size());
+        assertCommandFailure(editCommand, model, expectedMessage);
     }
 
     @Test
@@ -243,7 +247,9 @@ public class EditCommandTest {
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("applied").build();
         EditCommand editCommand = new EditCommand(indices, descriptor);
 
-        assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
+        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.", 
+                outOfBoundIndex.getOneBased(), model.getFilteredCompanyList().size());
+        assertCommandFailure(editCommand, model, expectedMessage);
     }
 
     @Test
@@ -254,7 +260,9 @@ public class EditCommandTest {
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("applied").build();
         EditCommand editCommand = new EditCommand(indices, descriptor);
 
-        assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
+        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.", 
+                outOfBound1.getOneBased(), model.getFilteredCompanyList().size());
+        assertCommandFailure(editCommand, model, expectedMessage);
     }
 
     @Test
@@ -285,7 +293,9 @@ public class EditCommandTest {
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("applied").build();
         EditCommand editCommand = new EditCommand(indices, descriptor);
 
-        assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
+        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.", 
+                INDEX_SECOND_COMPANY.getOneBased(), model.getFilteredCompanyList().size());
+        assertCommandFailure(editCommand, model, expectedMessage);
     }
 
     @Test

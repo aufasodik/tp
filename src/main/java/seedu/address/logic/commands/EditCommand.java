@@ -21,6 +21,7 @@ import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.commands.exceptions.IndexOutOfBoundsException;
 import seedu.address.model.Model;
 import seedu.address.model.company.Address;
 import seedu.address.model.company.Company;
@@ -114,7 +115,7 @@ public class EditCommand extends Command {
         List<Company> lastShownList = model.getFilteredCompanyList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
+            throw new IndexOutOfBoundsException(index.getOneBased(), lastShownList.size());
         }
 
         Company companyToEdit = lastShownList.get(index.getZeroBased());
@@ -161,12 +162,12 @@ public class EditCommand extends Command {
      * Validates that all indices are within valid range.
      *
      * @param listSize the size of the current company list
-     * @throws CommandException if any index is out of range
+     * @throws IndexOutOfBoundsException if any index is out of range
      */
-    private void validateIndicesRange(int listSize) throws CommandException {
+    private void validateIndicesRange(int listSize) throws IndexOutOfBoundsException {
         for (Index index : indices) {
             if (index.getZeroBased() >= listSize) {
-                throw new CommandException(Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
+                throw new IndexOutOfBoundsException(index.getOneBased(), listSize);
             }
         }
     }
