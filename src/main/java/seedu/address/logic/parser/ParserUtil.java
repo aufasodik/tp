@@ -2,8 +2,10 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
@@ -21,6 +23,8 @@ import seedu.address.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_INDICES = "One or more indices are invalid. "
+            + "Indices must be comma-separated non-zero unsigned integers.";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -33,6 +37,41 @@ public class ParserUtil {
             throw new ParseException(MESSAGE_INVALID_INDEX);
         }
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
+    }
+
+    /**
+     * Parses comma-separated indices into a {@code List<Index>}. Leading and trailing whitespaces will be trimmed.
+     * Supports both single indices and comma-separated multiple indices.
+     * Use to parse multiple comma-separated indices in a command.
+     * 
+     * @param indicesString String containing comma-separated indices (e.g., "1", "1,2,3")
+     * @return List of valid indices
+     * @throws ParseException if any index is invalid (not non-zero unsigned integer).
+     */
+    public static List<Index> parseIndices(String indicesString) throws ParseException {
+        requireNonNull(indicesString);
+        String trimmedIndices = indicesString.trim();
+        
+        if (trimmedIndices.isEmpty()) {
+            throw new ParseException(MESSAGE_INVALID_INDICES);
+        }
+        
+        List<Index> indexList = new ArrayList<>();
+        String[] indexStrings = trimmedIndices.split(",");
+        
+        for (String indexString : indexStrings) {
+            String trimmedIndexString = indexString.trim();
+            if (trimmedIndexString.isEmpty()) {
+                throw new ParseException(MESSAGE_INVALID_INDICES);
+            }
+            try {
+                indexList.add(parseIndex(trimmedIndexString));
+            } catch (ParseException e) {
+                throw new ParseException(MESSAGE_INVALID_INDICES);
+            }
+        }
+        
+        return indexList;
     }
 
     /**
