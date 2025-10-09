@@ -15,6 +15,12 @@ import static seedu.address.logic.commands.CommandTestUtil.showCompanyAtIndex;
 import static seedu.address.testutil.TypicalCompanies.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_COMPANY;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_COMPANY;
+import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_COMPANY;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +32,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.company.Company;
+import seedu.address.model.tag.Tag;
 import seedu.address.testutil.CompanyBuilder;
 import seedu.address.testutil.EditCompanyDescriptorBuilder;
 
@@ -131,7 +138,9 @@ public class EditCommandTest {
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withName(VALID_NAME_BOB).build();
         EditCommand editCommand = new EditCommand(outOfBoundIndex, descriptor);
 
-        assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
+        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+                outOfBoundIndex.getOneBased(), model.getFilteredCompanyList().size());
+        assertCommandFailure(editCommand, model, expectedMessage);
     }
 
     /**
@@ -148,7 +157,9 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(outOfBoundIndex,
                 new EditCompanyDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
-        assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
+        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+                outOfBoundIndex.getOneBased(), model.getFilteredCompanyList().size());
+        assertCommandFailure(editCommand, model, expectedMessage);
     }
 
     @Test
@@ -181,9 +192,226 @@ public class EditCommandTest {
         Index index = Index.fromOneBased(1);
         EditCompanyDescriptor editCompanyDescriptor = new EditCompanyDescriptor();
         EditCommand editCommand = new EditCommand(index, editCompanyDescriptor);
-        String expected = EditCommand.class.getCanonicalName() + "{index=" + index + ", editCompanyDescriptor="
-                + editCompanyDescriptor + "}";
+        String expected = EditCommand.class.getCanonicalName() + "{index=" + index
+                + ", indices=null, editCompanyDescriptor=" + editCompanyDescriptor + "}";
         assertEquals(expected, editCommand.toString());
+    }
+
+    // ================ Batch Edit Tests ================
+    // Edge case scenarios for testing the batch editing of tags were generated with AI assistance
+    // (OpenAI ChatGPT) to improve coverage and identify non-trivial cases.
+
+    @Test
+    public void execute_batchEditValidIndicesUnfilteredList_success() {
+        // Edit tags for multiple companies
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY);
+        Set<Tag> newTags = new HashSet<>(Arrays.asList(new Tag("applied")));
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("applied").build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_BATCH_EDIT_SUCCESS, 2);
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        Company firstCompany = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
+        Company secondCompany = model.getFilteredCompanyList().get(INDEX_SECOND_COMPANY.getZeroBased());
+
+        Company editedFirstCompany = new CompanyBuilder(firstCompany).withTags("applied").build();
+        Company editedSecondCompany = new CompanyBuilder(secondCompany).withTags("applied").build();
+
+        expectedModel.setCompany(firstCompany, editedFirstCompany);
+        expectedModel.setCompany(secondCompany, editedSecondCompany);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_batchEditSingleIndexUnfilteredList_success() {
+        // Single index in a list should work like normal edit
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("applied").build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_BATCH_EDIT_SUCCESS, 1);
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        Company firstCompany = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
+        Company editedFirstCompany = new CompanyBuilder(firstCompany).withTags("applied").build();
+        expectedModel.setCompany(firstCompany, editedFirstCompany);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_batchEditInvalidIndexUnfilteredList_failure() {
+        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredCompanyList().size() + 1);
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, outOfBoundIndex);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("applied").build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+                outOfBoundIndex.getOneBased(), model.getFilteredCompanyList().size());
+        assertCommandFailure(editCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_batchEditAllInvalidIndicesUnfilteredList_failure() {
+        Index outOfBound1 = Index.fromOneBased(model.getFilteredCompanyList().size() + 1);
+        Index outOfBound2 = Index.fromOneBased(model.getFilteredCompanyList().size() + 2);
+        List<Index> indices = Arrays.asList(outOfBound1, outOfBound2);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("applied").build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+                outOfBound1.getOneBased(), model.getFilteredCompanyList().size());
+        assertCommandFailure(editCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_batchEditFilteredList_success() {
+        showCompanyAtIndex(model, INDEX_FIRST_COMPANY);
+
+        // Only first company is shown, so only index 1 should be valid
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("applied").build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_BATCH_EDIT_SUCCESS, 1);
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        Company firstCompany = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
+        Company editedFirstCompany = new CompanyBuilder(firstCompany).withTags("applied").build();
+        expectedModel.setCompany(firstCompany, editedFirstCompany);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_batchEditFilteredListInvalidIndex_failure() {
+        showCompanyAtIndex(model, INDEX_FIRST_COMPANY);
+
+        // Second company is not shown in filtered list
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("applied").build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+                INDEX_SECOND_COMPANY.getOneBased(), model.getFilteredCompanyList().size());
+        assertCommandFailure(editCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_batchEditDuplicateCompany_failure() {
+        // Try to edit second company to have same name as first company
+        Company firstCompany = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
+        List<Index> indices = Arrays.asList(INDEX_SECOND_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder(firstCompany).build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_COMPANY);
+    }
+
+    @Test
+    public void execute_batchEditTagsOfMultipleCompanies_success() {
+        // Edit tags for three companies
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY, INDEX_THIRD_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("interview").build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_BATCH_EDIT_SUCCESS, 3);
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        Company firstCompany = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
+        Company secondCompany = model.getFilteredCompanyList().get(INDEX_SECOND_COMPANY.getZeroBased());
+        Company thirdCompany = model.getFilteredCompanyList().get(INDEX_THIRD_COMPANY.getZeroBased());
+
+        Company editedFirstCompany = new CompanyBuilder(firstCompany).withTags("interview").build();
+        Company editedSecondCompany = new CompanyBuilder(secondCompany).withTags("interview").build();
+        Company editedThirdCompany = new CompanyBuilder(thirdCompany).withTags("interview").build();
+
+        expectedModel.setCompany(firstCompany, editedFirstCompany);
+        expectedModel.setCompany(secondCompany, editedSecondCompany);
+        expectedModel.setCompany(thirdCompany, editedThirdCompany);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void equals_batchEditCommand() {
+        List<Index> indices1 = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY);
+        List<Index> indices2 = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_THIRD_COMPANY);
+        final EditCommand batchCommand1 = new EditCommand(indices1, DESC_AMY);
+        final EditCommand batchCommand2 = new EditCommand(indices2, DESC_AMY);
+
+        // same values -> returns true
+        EditCommand commandWithSameValues = new EditCommand(indices1, new EditCompanyDescriptor(DESC_AMY));
+        assertTrue(batchCommand1.equals(commandWithSameValues));
+
+        // same object -> returns true
+        assertTrue(batchCommand1.equals(batchCommand1));
+
+        // null -> returns false
+        assertFalse(batchCommand1.equals(null));
+
+        // different types -> returns false
+        assertFalse(batchCommand1.equals(new ClearCommand()));
+
+        // different indices -> returns false
+        assertFalse(batchCommand1.equals(batchCommand2));
+
+        // different descriptor -> returns false
+        assertFalse(batchCommand1.equals(new EditCommand(indices1, DESC_BOB)));
+
+        // single edit vs batch edit -> returns false
+        EditCommand singleEditCommand = new EditCommand(INDEX_FIRST_COMPANY, DESC_AMY);
+        assertFalse(batchCommand1.equals(singleEditCommand));
+    }
+
+    @Test
+    public void toStringMethod_batchEdit() {
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY);
+        EditCompanyDescriptor editCompanyDescriptor = new EditCompanyDescriptor();
+        EditCommand editCommand = new EditCommand(indices, editCompanyDescriptor);
+        String expected = EditCommand.class.getCanonicalName() + "{index=null, indices=" + indices
+                + ", editCompanyDescriptor=" + editCompanyDescriptor + "}";
+        assertEquals(expected, editCommand.toString());
+    }
+
+    @Test
+    public void execute_singleEditRealisticOutOfBounds_failure() {
+        // Test with index 8 when typical list has 7 companies (indices 1-7)
+        Index outOfBoundIndex = Index.fromOneBased(8);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withName("Test Company").build();
+        EditCommand editCommand = new EditCommand(outOfBoundIndex, descriptor);
+
+        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+                outOfBoundIndex.getOneBased(), model.getFilteredCompanyList().size());
+        assertCommandFailure(editCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_batchEditSomeRealisticOutOfBounds_failure() {
+        // Test with indices 2,8,9 when typical list has 7 companies (valid: 1-7, invalid: 8,9)
+        List<Index> indices = Arrays.asList(Index.fromOneBased(2), Index.fromOneBased(8), Index.fromOneBased(9));
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("test").build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        // Should fail on the first out-of-bounds index (8)
+        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+                8, model.getFilteredCompanyList().size());
+        assertCommandFailure(editCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_batchEditAllRealisticOutOfBounds_failure() {
+        // Test with indices 8,9,10 when typical list has 7 companies
+        List<Index> indices = Arrays.asList(Index.fromOneBased(8), Index.fromOneBased(9), Index.fromOneBased(10));
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("test").build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        // Should fail on the first out-of-bounds index (8)
+        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+                8, model.getFilteredCompanyList().size());
+        assertCommandFailure(editCommand, model, expectedMessage);
     }
 
 }
