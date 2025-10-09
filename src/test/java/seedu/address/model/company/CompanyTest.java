@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_COMPANY_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -38,15 +38,15 @@ public class CompanyTest {
         assertTrue(ALICE.isSameCompany(editedAlice));
 
         // different name, all other attributes same -> returns false
-        editedAlice = new CompanyBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        editedAlice = new CompanyBuilder(ALICE).withName(VALID_COMPANY_BOB).build();
         assertFalse(ALICE.isSameCompany(editedAlice));
 
         // name differs in case, all other attributes same -> returns false
-        Company editedBob = new CompanyBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
+        Company editedBob = new CompanyBuilder(BOB).withName(VALID_COMPANY_BOB.toLowerCase()).build();
         assertFalse(BOB.isSameCompany(editedBob));
 
         // name has trailing spaces, all other attributes same -> returns false
-        String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
+        String nameWithTrailingSpaces = VALID_COMPANY_BOB + " ";
         editedBob = new CompanyBuilder(BOB).withName(nameWithTrailingSpaces).build();
         assertFalse(BOB.isSameCompany(editedBob));
     }
@@ -70,7 +70,7 @@ public class CompanyTest {
         assertFalse(ALICE.equals(BOB));
 
         // different name -> returns false
-        Company editedAlice = new CompanyBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        Company editedAlice = new CompanyBuilder(ALICE).withName(VALID_COMPANY_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different phone -> returns false
