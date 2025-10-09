@@ -2,8 +2,8 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_COMPANY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_COMPANIES;
@@ -62,7 +62,7 @@ public class EditCommand extends Command {
 
     /**
      * Creates an EditCommand to edit a single company.
-     * 
+     *
      * @param index of the company in the filtered company list to edit
      * @param editCompanyDescriptor details to edit the company with
      */
@@ -78,7 +78,7 @@ public class EditCommand extends Command {
     /**
      * Creates an EditCommand to edit multiple companies in batch.
      * All indices must be valid and within range before calling this constructor.
-     * 
+     *
      * @param indices list of indices of companies in the filtered company list to edit
      * @param editCompanyDescriptor details to edit the companies with
      */
@@ -95,7 +95,7 @@ public class EditCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        
+
         if (indices != null) {
             return executeBatchEdit(model);
         } else {
@@ -105,7 +105,7 @@ public class EditCommand extends Command {
 
     /**
      * Executes single company edit operation.
-     * 
+     *
      * @param model the model containing the company data
      * @return the result of the command execution
      * @throws CommandException if the index is invalid or company already exists
@@ -132,34 +132,34 @@ public class EditCommand extends Command {
     /**
      * Executes batch company edit operation with comprehensive validation.
      * Validates range and checks for duplicate companies with clear error messages.
-     * 
+     *
      * @param model the model containing the company data
      * @return the result of the command execution
      * @throws CommandException if any index is out of range or would create duplicate companies
      */
     private CommandResult executeBatchEdit(Model model) throws CommandException {
         List<Company> lastShownList = model.getFilteredCompanyList();
-        
+
         // Validate all indices are within range with informative error
         validateIndicesRange(lastShownList.size());
-        
+
         // Validate that editing won't create duplicate companies
         validateNoDuplicateCompanies(model, lastShownList);
-        
+
         // All validations passed - perform batch edit
         for (Index index : indices) {
             Company companyToEdit = lastShownList.get(index.getZeroBased());
             Company editedCompany = createEditedCompany(companyToEdit, editCompanyDescriptor);
             model.setCompany(companyToEdit, editedCompany);
         }
-        
+
         model.updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
         return new CommandResult(String.format(MESSAGE_BATCH_EDIT_SUCCESS, indices.size()));
     }
 
     /**
      * Validates that all indices are within valid range.
-     * 
+     *
      * @param listSize the size of the current company list
      * @throws CommandException if any index is out of range
      */
@@ -173,7 +173,7 @@ public class EditCommand extends Command {
 
     /**
      * Validates that batch editing will not create duplicate companies.
-     * 
+     *
      * @param model the model containing the company data
      * @param lastShownList the current filtered company list
      * @throws CommandException if any edit would create a duplicate company
@@ -182,7 +182,7 @@ public class EditCommand extends Command {
         for (Index index : indices) {
             Company companyToEdit = lastShownList.get(index.getZeroBased());
             Company editedCompany = createEditedCompany(companyToEdit, editCompanyDescriptor);
-            
+
             if (!companyToEdit.isSameCompany(editedCompany) && model.hasCompany(editedCompany)) {
                 throw new CommandException(MESSAGE_DUPLICATE_COMPANY);
             }

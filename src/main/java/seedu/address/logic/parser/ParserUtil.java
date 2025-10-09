@@ -49,7 +49,7 @@ public class ParserUtil {
     /**
      * Parses comma-separated indices into a {@code List<Index>} without range validation.
      * Use this when range validation will be done later in the command execution.
-     * 
+     *
      * @param indicesString String containing comma-separated indices (e.g., "1", "1,2,3")
      * @return List of valid unique indices
      * @throws ParseException if any index is invalid or duplicate
@@ -57,44 +57,44 @@ public class ParserUtil {
     public static List<Index> parseIndices(String indicesString) throws ParseException {
         requireNonNull(indicesString);
         String trimmedIndices = indicesString.trim();
-        
+
         if (trimmedIndices.isEmpty()) {
             throw new ParseException(MESSAGE_INVALID_INDICES);
         }
-        
+
         String[] indexStrings = trimmedIndices.split(",", -1);
         List<Index> indexList = new ArrayList<>();
         Set<Integer> seenIndices = new HashSet<>();
         List<String> duplicates = new ArrayList<>();
-        
+
         for (String indexString : indexStrings) {
             String trimmedIndexString = indexString.trim();
             if (trimmedIndexString.isEmpty()) {
                 throw new ParseException(MESSAGE_INVALID_INDICES);
             }
-            
+
             try {
                 Index index = parseIndex(trimmedIndexString);
                 int oneBasedIndex = index.getOneBased();
-                
+
                 if (seenIndices.contains(oneBasedIndex)) {
                     duplicates.add(trimmedIndexString);
                     continue;
                 }
-                
+
                 seenIndices.add(oneBasedIndex);
                 indexList.add(index);
-                
+
             } catch (ParseException e) {
                 throw new ParseException(MESSAGE_INVALID_INDICES);
             }
         }
-        
+
         if (!duplicates.isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_DUPLICATE_INDICES, 
+            throw new ParseException(String.format(MESSAGE_DUPLICATE_INDICES,
                     String.join(", ", duplicates)));
         }
-        
+
         return indexList;
     }
 

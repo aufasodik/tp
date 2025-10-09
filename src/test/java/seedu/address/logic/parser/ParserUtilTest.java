@@ -93,8 +93,8 @@ public class ParserUtilTest {
     public void parseIndices_multipleValidIndices_success() throws Exception {
         List<Index> result = ParserUtil.parseIndices("1,2,3");
         List<Index> expected = Arrays.asList(
-                Index.fromOneBased(1), 
-                Index.fromOneBased(2), 
+                Index.fromOneBased(1),
+                Index.fromOneBased(2),
                 Index.fromOneBased(3)
         );
         assertEquals(expected, result);
@@ -104,8 +104,8 @@ public class ParserUtilTest {
     public void parseIndices_multipleValidIndicesWithWhitespace_success() throws Exception {
         List<Index> result = ParserUtil.parseIndices(" 1 , 2 , 3 ");
         List<Index> expected = Arrays.asList(
-                Index.fromOneBased(1), 
-                Index.fromOneBased(2), 
+                Index.fromOneBased(1),
+                Index.fromOneBased(2),
                 Index.fromOneBased(3)
         );
         assertEquals(expected, result);
@@ -113,9 +113,12 @@ public class ParserUtilTest {
 
     @Test
     public void parseIndices_duplicateIndices_throwsParseException() {
-        assertThrows(ParseException.class, String.format(MESSAGE_DUPLICATE_INDICES, "1"), () -> ParserUtil.parseIndices("1,2,1"));
-        assertThrows(ParseException.class, String.format(MESSAGE_DUPLICATE_INDICES, "3"), () -> ParserUtil.parseIndices("3,3"));
-        assertThrows(ParseException.class, String.format(MESSAGE_DUPLICATE_INDICES, "2"), () -> ParserUtil.parseIndices("1,2,3,2,4"));
+        assertThrows(ParseException.class, String.format(MESSAGE_DUPLICATE_INDICES, "1"),
+                () -> ParserUtil.parseIndices("1,2,1"));
+        assertThrows(ParseException.class, String.format(MESSAGE_DUPLICATE_INDICES, "3"),
+                () -> ParserUtil.parseIndices("3,3"));
+        assertThrows(ParseException.class, String.format(MESSAGE_DUPLICATE_INDICES, "2"),
+                () -> ParserUtil.parseIndices("1,2,3,2,4"));
     }
 
     @Test
@@ -146,7 +149,7 @@ public class ParserUtilTest {
     public void parseIndices_largeNumbers_success() throws Exception {
         List<Index> result = ParserUtil.parseIndices("999,1000");
         List<Index> expected = Arrays.asList(
-                Index.fromOneBased(999), 
+                Index.fromOneBased(999),
                 Index.fromOneBased(1000)
         );
         assertEquals(expected, result);
@@ -155,7 +158,7 @@ public class ParserUtilTest {
     @Test
     public void parseIndices_outOfIntegerRange_throwsParseException() {
         String largeNumber = Long.toString((long) Integer.MAX_VALUE + 1);
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> 
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () ->
                 ParserUtil.parseIndices("1," + largeNumber));
     }
 
