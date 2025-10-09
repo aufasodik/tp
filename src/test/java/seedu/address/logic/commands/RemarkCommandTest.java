@@ -3,8 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.RemarkCommand.MESSAGE_ARGUMENTS;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -15,18 +14,22 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_COMPANY;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.Messages;
 import seedu.address.logic.parser.RemarkCommandParser;
+import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.company.Company;
 import seedu.address.model.company.Remark;
+import seedu.address.testutil.CompanyBuilder;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for
  * {@code RemarkCommand}.
  */
 public class RemarkCommandTest {
-
+    //TODO: repeated in CommandTestUtil
     public static final String VALID_REMARK_AMY = "Like skiing.";
     public static final String VALID_REMARK_BOB = "Favourite pastime: Eating";
 
@@ -37,8 +40,16 @@ public class RemarkCommandTest {
     public void execute() {
         final String remark = "Some remark";
 
-        assertCommandFailure(new RemarkCommand(INDEX_FIRST_COMPANY, new Remark(remark)), model,
-                String.format(MESSAGE_ARGUMENTS, INDEX_FIRST_COMPANY.getOneBased(), remark));
+        Company companyToEdit = model.getFilteredCompanyList().get(0);
+        Company editedCompany = new CompanyBuilder(companyToEdit).withRemark(remark).build();
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.setCompany(companyToEdit, editedCompany);
+        RemarkCommand remarkCommand = new RemarkCommand(INDEX_FIRST_COMPANY, new Remark(remark));
+        String expectedMessage = String.format(RemarkCommand.MESSAGE_ADD_REMARK_SUCCESS,
+                Messages.format(editedCompany));
+
+        assertCommandSuccess(remarkCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
@@ -79,10 +90,10 @@ public class RemarkCommandTest {
         RemarkCommand expectedCommand = new RemarkCommand(INDEX_FIRST_COMPANY, new Remark(VALID_REMARK_AMY));
         assertParseSuccess(parser, userInput, expectedCommand);
 
-        // empty remark fails
+        // empty remark passes
         userInput = targetIndex.getOneBased() + " " + PREFIX_REMARK;
-        String expectedMessage = Remark.MESSAGE_CONSTRAINTS;
-        assertParseFailure(parser, userInput, expectedMessage);
+        expectedCommand = new RemarkCommand(INDEX_FIRST_COMPANY, new Remark(""));
+        assertParseSuccess(parser, userInput, expectedCommand);
     }
 
     @Test

@@ -9,7 +9,6 @@ import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_REMARK_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
@@ -47,7 +46,6 @@ import seedu.address.model.company.Company;
 import seedu.address.model.company.Email;
 import seedu.address.model.company.Name;
 import seedu.address.model.company.Phone;
-import seedu.address.model.company.Remark;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.CompanyBuilder;
 
@@ -121,9 +119,7 @@ public class AddCommandParserTest {
         assertParseFailure(parser, INVALID_ADDRESS_DESC + validExpectedCompanyString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ADDRESS));
 
-        // invalid remark
-        assertParseFailure(parser, INVALID_REMARK_DESC + validExpectedCompanyString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_REMARK));
+        // remarks can take any values
 
         // valid value followed by invalid value
 
@@ -143,9 +139,7 @@ public class AddCommandParserTest {
         assertParseFailure(parser, validExpectedCompanyString + INVALID_ADDRESS_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ADDRESS));
 
-        // invalid remark
-        assertParseFailure(parser, validExpectedCompanyString + INVALID_REMARK_DESC,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_REMARK));
+        // remarks can take any values
     }
 
     @Test
@@ -213,9 +207,7 @@ public class AddCommandParserTest {
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
                 + INVALID_TAG_DESC + VALID_TAG_FRIEND + REMARK_DESC_BOB, Tag.MESSAGE_CONSTRAINTS);
 
-        // invalid remark
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND + INVALID_REMARK_DESC, Remark.MESSAGE_CONSTRAINTS);
+        // remarks can take any values
 
         // two invalid values, only first invalid value reported
         assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_ADDRESS_DESC
@@ -236,6 +228,7 @@ public class AddCommandParserTest {
                 .withEmail("noemail@placeholder.com")
                 .withAddress("No address provided")
                 .withTags()
+                .withRemark("")
                 .build();
 
         assertParseSuccess(parser, NAME_DESC_BOB, new AddCommand(expectedCompany));
