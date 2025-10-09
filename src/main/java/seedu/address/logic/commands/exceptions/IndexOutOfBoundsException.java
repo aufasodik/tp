@@ -22,12 +22,12 @@ public class IndexOutOfBoundsException extends CommandException {
         if (listSize == 0) {
             return "Index out of bounds: The company list is empty.";
         }
-        
+
         if (invalidIndex <= 0) {
-            return String.format("Index out of bounds: %d. Index must be greater than 0. Valid range: 1 to %d.", 
+            return String.format("Index out of bounds: %d. Index must be greater than 0. Valid range: 1 to %d.",
                     invalidIndex, listSize);
         }
-        
+
         return String.format("Index out of bounds: %d. Valid range: 1 to %d.", invalidIndex, listSize);
     }
 }
