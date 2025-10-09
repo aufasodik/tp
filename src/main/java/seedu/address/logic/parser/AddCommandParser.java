@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -36,6 +37,11 @@ public class AddCommandParser implements Parser<AddCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG,
                 PREFIX_REMARK);
 
+        // Check if this is a simple name format (only n/ prefix used)
+        if (isSimpleNameFormat(argMultimap)) {
+            return parseSimpleNameFormat(argMultimap);
+        }
+
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_ADDRESS, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_REMARK)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
@@ -61,6 +67,35 @@ public class AddCommandParser implements Parser<AddCommand> {
      */
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    }
+
+    /**
+     * Returns true if this appears to be a simple name format (only n/ prefix used).
+     */
+    private static boolean isSimpleNameFormat(ArgumentMultimap argumentMultimap) {
+        return argumentMultimap.getValue(PREFIX_NAME).isPresent()
+                && !argumentMultimap.getValue(PREFIX_PHONE).isPresent()
+                && !argumentMultimap.getValue(PREFIX_EMAIL).isPresent()
+                && !argumentMultimap.getValue(PREFIX_ADDRESS).isPresent()
+                && !argumentMultimap.getValue(PREFIX_TAG).isPresent()
+                && !argumentMultimap.getValue(PREFIX_REMARK).isPresent()
+                && argumentMultimap.getPreamble().trim().isEmpty();
+    }
+
+    /**
+     * Parses a simple name format input and creates an AddCommand with placeholder values.
+     */
+    private AddCommand parseSimpleNameFormat(ArgumentMultimap argMultimap) throws ParseException {
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME);
+        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
+        Phone phone = new Phone("000"); // Placeholder that meets validation (3+ digits)
+        Email email = new Email("noemail@placeholder.com"); // Placeholder that meets validation
+        Address address = new Address("No address provided"); // Placeholder that meets validation
+        Set<Tag> tagList = new HashSet<>(); // Empty tags
+        Remark remark = new Remark(""); // Empty remark
+
+        Company company = new Company(name, phone, email, address, tagList, remark);
+        return new AddCommand(company);
     }
 
 }

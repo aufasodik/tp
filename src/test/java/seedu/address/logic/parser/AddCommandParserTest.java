@@ -226,4 +226,31 @@ public class AddCommandParserTest {
                 + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND + REMARK_DESC_BOB,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
     }
+
+    @Test
+    public void parse_simpleNameFormat_success() {
+        // Test simple format with just name prefix
+        Company expectedCompany = new CompanyBuilder()
+                .withName(VALID_NAME_BOB)
+                .withPhone("000")
+                .withEmail("noemail@placeholder.com")
+                .withAddress("No address provided")
+                .withTags()
+                .build();
+
+        assertParseSuccess(parser, NAME_DESC_BOB, new AddCommand(expectedCompany));
+    }
+
+    @Test
+    public void parse_simpleNameFormatInvalidName_failure() {
+        // Test simple format with invalid name
+        assertParseFailure(parser, INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_simpleNameFormatDuplicateName_failure() {
+        // Test simple format with duplicate name prefix
+        assertParseFailure(parser, NAME_DESC_BOB + NAME_DESC_AMY,
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
+    }
 }
