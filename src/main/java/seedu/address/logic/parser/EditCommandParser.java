@@ -18,6 +18,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditCompanyDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.parser.exceptions.ParseIndicesException;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -44,7 +45,11 @@ public class EditCommandParser implements Parser<EditCommand> {
         try {
             // Parse indices - supports both single and comma-separated multiple indices
             indices = ParserUtil.parseIndices(argMultimap.getPreamble());
+        } catch (ParseIndicesException pie) {
+            // Always preserve specific indices parsing errors
+            throw pie;
         } catch (ParseException pe) {
+            // For non-indices-like input, use generic format
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
         }
 

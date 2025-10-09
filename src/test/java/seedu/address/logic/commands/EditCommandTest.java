@@ -310,7 +310,7 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_batchEditMultipleCompanies_success() {
+    public void execute_batchEditTagsOfMultipleCompanies_success() {
         // Edit tags for three companies
         List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY, INDEX_THIRD_COMPANY);
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("interview").build();

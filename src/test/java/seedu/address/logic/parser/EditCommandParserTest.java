@@ -266,7 +266,8 @@ public class EditCommandParserTest {
     @Test
     public void parse_batchEditInvalidIndices_failure() {
         // Duplicate indices
-        assertParseFailure(parser, "1,2,1" + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1,2,1" + TAG_DESC_FRIEND,
+                "Duplicate indices found: 1. Each index should appear only once.");
 
         // Invalid index format
         assertParseFailure(parser, "1,abc" + TAG_DESC_FRIEND, MESSAGE_INVALID_FORMAT);

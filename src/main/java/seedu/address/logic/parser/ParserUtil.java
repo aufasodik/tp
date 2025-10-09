@@ -11,6 +11,7 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.parser.exceptions.ParseIndicesException;
 import seedu.address.model.company.Address;
 import seedu.address.model.company.Email;
 import seedu.address.model.company.Name;
@@ -23,12 +24,9 @@ import seedu.address.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index must be a positive integer (1, 2, 3, ...).";
-    public static final String MESSAGE_INVALID_INDICES = "One or more indices have invalid format. "
-            + "Indices must be comma-separated positive integers (e.g., '1', '1,2,3'). "
-            + "Check for missing indices after commas, extra commas, or non-numeric values.";
     public static final String MESSAGE_DUPLICATE_INDICES = "Duplicate indices found: %1$s. "
             + "Each index should appear only once.";
-    public static final String MESSAGE_INDICES_OUT_OF_RANGE = "Index(es) out of range: %1$s. "
+    public static final String MESSAGE_INDEX_OUT_OF_RANGE = "Index(es) out of range: %1$s. "
             + "Valid range is 1 to %2$d.";
 
     /**
@@ -51,14 +49,14 @@ public class ParserUtil {
      *
      * @param indicesString String containing comma-separated indices (e.g., "1", "1,2,3")
      * @return List of valid unique indices
-     * @throws ParseException if any index is invalid or duplicate
+     * @throws ParseIndicesException if any index is invalid or duplicate
      */
     public static List<Index> parseIndices(String indicesString) throws ParseException {
         requireNonNull(indicesString);
         String trimmedIndices = indicesString.trim();
 
         if (trimmedIndices.isEmpty()) {
-            throw new ParseException(MESSAGE_INVALID_INDICES);
+            throw new ParseException(MESSAGE_INVALID_INDEX);
         }
 
         String[] indexStrings = trimmedIndices.split(",", -1);
@@ -69,7 +67,7 @@ public class ParserUtil {
         for (String indexString : indexStrings) {
             String trimmedIndexString = indexString.trim();
             if (trimmedIndexString.isEmpty()) {
-                throw new ParseException(MESSAGE_INVALID_INDICES);
+                throw new ParseException(MESSAGE_INVALID_INDEX);
             }
 
             try {
@@ -85,12 +83,14 @@ public class ParserUtil {
                 indexList.add(index);
 
             } catch (ParseException e) {
-                throw new ParseException(MESSAGE_INVALID_INDICES);
+                // Re-throw the same invalid index exception for consistency
+                throw e;
             }
         }
 
+        // Only duplicate checking gets the specific exception
         if (!duplicates.isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_DUPLICATE_INDICES,
+            throw new ParseIndicesException(String.format(MESSAGE_DUPLICATE_INDICES,
                     String.join(", ", duplicates)));
         }
 
