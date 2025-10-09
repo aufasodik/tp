@@ -375,4 +375,42 @@ public class EditCommandTest {
         assertEquals(expected, editCommand.toString());
     }
 
+    @Test
+    public void execute_singleEditRealisticOutOfBounds_failure() {
+        // Test with index 8 when typical list has 7 companies (indices 1-7)
+        Index outOfBoundIndex = Index.fromOneBased(8);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withName("Test Company").build();
+        EditCommand editCommand = new EditCommand(outOfBoundIndex, descriptor);
+
+        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+                outOfBoundIndex.getOneBased(), model.getFilteredCompanyList().size());
+        assertCommandFailure(editCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_batchEditSomeRealisticOutOfBounds_failure() {
+        // Test with indices 2,8,9 when typical list has 7 companies (valid: 1-7, invalid: 8,9)
+        List<Index> indices = Arrays.asList(Index.fromOneBased(2), Index.fromOneBased(8), Index.fromOneBased(9));
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("test").build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        // Should fail on the first out-of-bounds index (8)
+        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+                8, model.getFilteredCompanyList().size());
+        assertCommandFailure(editCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_batchEditAllRealisticOutOfBounds_failure() {
+        // Test with indices 8,9,10 when typical list has 7 companies
+        List<Index> indices = Arrays.asList(Index.fromOneBased(8), Index.fromOneBased(9), Index.fromOneBased(10));
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("test").build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        // Should fail on the first out-of-bounds index (8)
+        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+                8, model.getFilteredCompanyList().size());
+        assertCommandFailure(editCommand, model, expectedMessage);
+    }
+
 }
