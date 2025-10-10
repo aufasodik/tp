@@ -26,13 +26,13 @@ Cerebro is a **desktop app for managing internship applications progress, optimi
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * `list` : Lists all companies.
+   * `list` : Lists all contacts.
 
-   * `add n/Google p/98765432 e/recruit@google.com a/70 Pasir Panjang Rd, #03-71` : Adds a company named `Google` to Cerebro.
+   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
 
-   * `delete 3` : Deletes the 3rd company shown in the current list.
+   * `delete 3` : Deletes the 3rd contact shown in the current list.
 
-   * `clear` : Deletes all companies.
+   * `clear` : Deletes all contacts.
 
     * `exit` : Exits the app.
 
@@ -86,10 +86,7 @@ You can also set an application status when adding:
 Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL a/ADDRESS] [r/REMARKS] [s/STATUS] [t/TAG]…​`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A company can have any number of tags (including 0). 
-</div>
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-If status is not specified, it defaults to "pending-application".
+A company can have any number of tags (including 0)
 </div>
 
 Examples:
@@ -99,13 +96,13 @@ Examples:
 
 ### Listing all companies : `list`
 
-Shows a list of all companies in Cerebro.
+Shows a list of all companies in the address book.
 
 Format: `list`
 
 ### Editing a company : `edit`
 
-Edits an existing company in Cerebro.
+Edits an existing company in the address book.
 
 Format: `edit INDEX[,INDEX]... [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARKS] [s/STATUS] [t/TAG]…​`
 
@@ -159,7 +156,7 @@ Examples:
 
 ### Deleting a company : `delete`
 
-Deletes the specified company from Cerebro.
+Deletes the specified company from the address book.
 
 Format: `delete INDEX[, INDEX]...`
 
@@ -190,7 +187,7 @@ Examples:
 
 ### Clearing all entries : `clear`
 
-Clears all entries from Cerebro.
+Clears all entries from the address book.
 
 Format: `clear`
 
@@ -202,15 +199,15 @@ Format: `exit`
 
 ### Saving the data
 
-Cerebro data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-Cerebro data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, Cerebro will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause Cerebro to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
 ### Archiving data files `[coming in v2.0]`
@@ -222,7 +219,7 @@ _Details coming soon ..._
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Cerebro home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
