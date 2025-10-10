@@ -22,6 +22,11 @@ import seedu.address.logic.parser.exceptions.ParseException;
  */
 public class DeleteCommandParser implements Parser<DeleteCommand> {
 
+    private static int toZeroBasedIndex(String token) throws ParseException {
+        // encapsulate the detail; parse() remains high-level
+        return ParserUtil.parseIndex(token).getZeroBased();
+    }
+
     @Override
     public DeleteCommand parse(String args) throws ParseException {
         String trimmed = args == null ? "" : args.trim();
@@ -54,8 +59,9 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
                 }
             } else {
                 // Single index
-                Index idx = ParserUtil.parseIndex(token);
-                zeroBasedSet.add(idx.getZeroBased());
+                for (String idxToken : tokens) {
+                    zeroBasedSet.add(toZeroBasedIndex(idxToken));
+                }
             }
         }
 
@@ -63,7 +69,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         }
 
-        // Convert to 1-based Index list (ascending due to insertion order from tokens; DeleteCommand normalizes anyway)
+        // Convert to 1-based Index list (ascending)
         List<Index> indices = new ArrayList<>();
         for (Integer zb : zeroBasedSet) {
             indices.add(Index.fromZeroBased(zb));
