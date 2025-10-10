@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+
+
 
 /**
  * Parses input arguments and creates a new DeleteCommand object.
@@ -22,56 +25,73 @@ import seedu.address.logic.parser.exceptions.ParseException;
  */
 public class DeleteCommandParser implements Parser<DeleteCommand> {
 
+    private static ParseException invalidFormat() {
+        return new ParseException(
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+    }
+
     private static int toZeroBasedIndex(String token) throws ParseException {
-        // encapsulate the detail; parse() remains high-level
-        return ParserUtil.parseIndex(token).getZeroBased();
+        // Map any parse error to the standard invalid-format message
+        try {
+            return ParserUtil.parseIndex(token).getZeroBased();
+        } catch (ParseException e) {
+            throw invalidFormat();
+        }
     }
 
     @Override
     public DeleteCommand parse(String args) throws ParseException {
-        String trimmed = args == null ? "" : args.trim();
+        requireNonNull(args);
+        final String trimmed = args.trim();
         if (trimmed.isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+            throw invalidFormat();
         }
 
-        String[] tokens = trimmed.split("\\s+");
-        Set<Integer> zeroBasedSet = new LinkedHashSet<>(); // preserve insertion order, dedupe
+        final String[] tokens = trimmed.split("\\s+");
+        final Set<Integer> zeroBasedSet = new LinkedHashSet<>(); // preserve order, dedupe
 
-        for (String token : tokens) {
-            if (token.contains("-")) {
+        for (String tok : tokens) {
+            if (tok.isBlank()) {
+                continue;
+            }
+
+            if (tok.contains("-")) {
                 // Range: a-b
-                String[] parts = token.split("-", -1);
-                if (parts.length != 2) {
-                    throw new ParseException(
-                            String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+                final String[] parts = tok.split("-", -1); // keep empties to catch "3-" / "-3"
+                if (parts.length != 2 || parts[0].isBlank() || parts[1].isBlank()) {
+                    throw invalidFormat();
                 }
-                Index start = ParserUtil.parseIndex(parts[0].trim());
-                Index end = ParserUtil.parseIndex(parts[1].trim());
-                int s = start.getZeroBased();
-                int e = end.getZeroBased();
-                if (e < s) {
-                    // allow "4-2" by swapping? Keep strict & user-friendly: invalid format
-                    throw new ParseException(
-                            String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+
+                final int s;
+                final int e;
+
+                try {
+                    s = ParserUtil.parseIndex(parts[0].trim()).getZeroBased();
+                    e = ParserUtil.parseIndex(parts[1].trim()).getZeroBased();
+                } catch (ParseException ex) {
+                    // non-numeric / bad index -> standard invalid format
+                    throw invalidFormat();
                 }
+
+                if (e < s) { // disallow "2-1"
+                    throw invalidFormat();
+                }
+
                 for (int i = s; i <= e; i++) {
                     zeroBasedSet.add(i);
                 }
             } else {
-                // Single index
-                for (String idxToken : tokens) {
-                    zeroBasedSet.add(toZeroBasedIndex(idxToken));
-                }
+                // Single index token
+                zeroBasedSet.add(toZeroBasedIndex(tok));
             }
         }
 
         if (zeroBasedSet.isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+            throw invalidFormat();
         }
 
-        // Convert to 1-based Index list (ascending)
-        List<Index> indices = new ArrayList<>();
-        for (Integer zb : zeroBasedSet) {
+        final List<Index> indices = new ArrayList<>(zeroBasedSet.size());
+        for (int zb : zeroBasedSet) {
             indices.add(Index.fromZeroBased(zb));
         }
 
