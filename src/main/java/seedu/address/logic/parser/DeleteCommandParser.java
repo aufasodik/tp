@@ -38,7 +38,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
                 String[] parts = token.split("-", -1);
                 if (parts.length != 2) {
                     throw new ParseException(
-                            String.format(MESSAGE_INVALID_COMMAND_FORMAT,DeleteCommand.MESSAGE_USAGE));
+                            String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
                 }
                 Index start = ParserUtil.parseIndex(parts[0].trim());
                 Index end = ParserUtil.parseIndex(parts[1].trim());
