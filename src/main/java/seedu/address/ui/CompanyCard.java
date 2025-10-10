@@ -40,6 +40,8 @@ public class CompanyCard extends UiPart<Region> {
     private Label email;
     @FXML
     private FlowPane tags;
+    @FXML
+    private Label remark;
 
     /**
      * Creates a {@code companyCode} with the given {@code Company} and index to display.

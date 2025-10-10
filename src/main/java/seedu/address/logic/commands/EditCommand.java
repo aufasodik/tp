@@ -28,6 +28,7 @@ import seedu.address.model.company.Company;
 import seedu.address.model.company.Email;
 import seedu.address.model.company.Name;
 import seedu.address.model.company.Phone;
+import seedu.address.model.company.Remark;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -202,8 +203,9 @@ public class EditCommand extends Command {
         Email updatedEmail = editCompanyDescriptor.getEmail().orElse(companyToEdit.getEmail());
         Address updatedAddress = editCompanyDescriptor.getAddress().orElse(companyToEdit.getAddress());
         Set<Tag> updatedTags = editCompanyDescriptor.getTags().orElse(companyToEdit.getTags());
+        Remark updatedRemark = editCompanyDescriptor.getRemark().orElse(companyToEdit.getRemark());
 
-        return new Company(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        return new Company(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, updatedRemark);
     }
 
     @Override
@@ -242,6 +244,7 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private Set<Tag> tags;
+        private Remark remark;
 
         public EditCompanyDescriptor() {}
 
@@ -255,13 +258,14 @@ public class EditCommand extends Command {
             setEmail(toCopy.email);
             setAddress(toCopy.address);
             setTags(toCopy.tags);
+            setRemark(toCopy.remark);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags, remark);
         }
 
         public void setName(Name name) {
@@ -313,6 +317,20 @@ public class EditCommand extends Command {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
         }
 
+        /**
+         * Sets {@code remark} to this object's {@code remark}.
+         */
+        public void setRemark(Remark remark) {
+            this.remark = remark;
+        }
+
+        /**
+         * Returns an optional remark, which is empty if {@code remark} is null.
+         */
+        public Optional<Remark> getRemark() {
+            return Optional.ofNullable(remark);
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -329,7 +347,8 @@ public class EditCommand extends Command {
                     && Objects.equals(phone, otherEditCompanyDescriptor.phone)
                     && Objects.equals(email, otherEditCompanyDescriptor.email)
                     && Objects.equals(address, otherEditCompanyDescriptor.address)
-                    && Objects.equals(tags, otherEditCompanyDescriptor.tags);
+                    && Objects.equals(tags, otherEditCompanyDescriptor.tags)
+                    && Objects.equals(remark, otherEditCompanyDescriptor.remark);
         }
 
         @Override
@@ -340,6 +359,7 @@ public class EditCommand extends Command {
                     .add("email", email)
                     .add("address", address)
                     .add("tags", tags)
+                    .add("remark", remark)
                     .toString();
         }
     }
