@@ -22,7 +22,7 @@ public class IndexOutOfBoundsException extends CommandException {
     }
 
     /**
-     * Creates a simple error message for index out of bounds.
+     * Creates a simple error message for index out of range.
      */
     private static String createErrorMessage(int invalidIndex, int listSize) {
         if (listSize == 0) {
