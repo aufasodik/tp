@@ -3,7 +3,7 @@ package seedu.address.storage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalCompanies.ALICE;
+import static seedu.address.testutil.TypicalCompanies.ALPHA;
 import static seedu.address.testutil.TypicalCompanies.HOON;
 import static seedu.address.testutil.TypicalCompanies.IDA;
 import static seedu.address.testutil.TypicalCompanies.getTypicalAddressBook;
@@ -73,7 +73,7 @@ public class JsonAddressBookStorageTest {
 
         // Modify data, overwrite exiting file, and read back
         original.addCompany(HOON);
-        original.removeCompany(ALICE);
+        original.removeCompany(ALPHA);
         jsonAddressBookStorage.saveAddressBook(original, filePath);
         readBack = jsonAddressBookStorage.readAddressBook(filePath).get();
         assertEquals(original, new AddressBook(readBack));

@@ -3,14 +3,14 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.logic.commands.CommandTestUtil.DESC_AIRBUS;
+import static seedu.address.logic.commands.CommandTestUtil.DESC_BOEING;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOEING;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOEING;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOEING;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOEING;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_BOEING;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_PENDING_INTERVIEW;
 
 import org.junit.jupiter.api.Test;
 
@@ -22,44 +22,45 @@ public class EditCompanyDescriptorTest {
     @Test
     public void equals() {
         // same values -> returns true
-        EditCompanyDescriptor descriptorWithSameValues = new EditCompanyDescriptor(DESC_AMY);
-        assertTrue(DESC_AMY.equals(descriptorWithSameValues));
+        EditCompanyDescriptor descriptorWithSameValues = new EditCompanyDescriptor(DESC_AIRBUS);
+        assertTrue(DESC_AIRBUS.equals(descriptorWithSameValues));
 
         // same object -> returns true
-        assertTrue(DESC_AMY.equals(DESC_AMY));
+        assertTrue(DESC_AIRBUS.equals(DESC_AIRBUS));
 
         // null -> returns false
-        assertFalse(DESC_AMY.equals(null));
+        assertFalse(DESC_AIRBUS.equals(null));
 
         // different types -> returns false
-        assertFalse(DESC_AMY.equals(5));
+        assertFalse(DESC_AIRBUS.equals(5));
 
         // different values -> returns false
-        assertFalse(DESC_AMY.equals(DESC_BOB));
+        assertFalse(DESC_AIRBUS.equals(DESC_BOEING));
 
         // different name -> returns false
-        EditCompanyDescriptor editedAmy = new EditCompanyDescriptorBuilder(DESC_AMY).withName(VALID_NAME_BOB).build();
-        assertFalse(DESC_AMY.equals(editedAmy));
+        EditCompanyDescriptor editedAirbus = new EditCompanyDescriptorBuilder(DESC_AIRBUS).withName(VALID_NAME_BOEING)
+                .build();
+        assertFalse(DESC_AIRBUS.equals(editedAirbus));
 
         // different phone -> returns false
-        editedAmy = new EditCompanyDescriptorBuilder(DESC_AMY).withPhone(VALID_PHONE_BOB).build();
-        assertFalse(DESC_AMY.equals(editedAmy));
+        editedAirbus = new EditCompanyDescriptorBuilder(DESC_AIRBUS).withPhone(VALID_PHONE_BOEING).build();
+        assertFalse(DESC_AIRBUS.equals(editedAirbus));
 
         // different email -> returns false
-        editedAmy = new EditCompanyDescriptorBuilder(DESC_AMY).withEmail(VALID_EMAIL_BOB).build();
-        assertFalse(DESC_AMY.equals(editedAmy));
+        editedAirbus = new EditCompanyDescriptorBuilder(DESC_AIRBUS).withEmail(VALID_EMAIL_BOEING).build();
+        assertFalse(DESC_AIRBUS.equals(editedAirbus));
 
         // different address -> returns false
-        editedAmy = new EditCompanyDescriptorBuilder(DESC_AMY).withAddress(VALID_ADDRESS_BOB).build();
-        assertFalse(DESC_AMY.equals(editedAmy));
+        editedAirbus = new EditCompanyDescriptorBuilder(DESC_AIRBUS).withAddress(VALID_ADDRESS_BOEING).build();
+        assertFalse(DESC_AIRBUS.equals(editedAirbus));
 
         // different tags -> returns false
-        editedAmy = new EditCompanyDescriptorBuilder(DESC_AMY).withTags(VALID_TAG_HUSBAND).build();
-        assertFalse(DESC_AMY.equals(editedAmy));
+        editedAirbus = new EditCompanyDescriptorBuilder(DESC_AIRBUS).withTags(VALID_TAG_PENDING_INTERVIEW).build();
+        assertFalse(DESC_AIRBUS.equals(editedAirbus));
 
         // different remark -> returns false
-        editedAmy = new EditCompanyDescriptorBuilder(DESC_AMY).withRemark(VALID_REMARK_BOB).build();
-        assertFalse(DESC_AMY.equals(editedAmy));
+        editedAirbus = new EditCompanyDescriptorBuilder(DESC_AIRBUS).withRemark(VALID_REMARK_BOEING).build();
+        assertFalse(DESC_AIRBUS.equals(editedAirbus));
     }
 
     @Test

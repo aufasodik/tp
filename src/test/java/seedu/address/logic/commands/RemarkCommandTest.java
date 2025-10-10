@@ -3,6 +3,8 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_AIRBUS;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_BOEING;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
@@ -29,9 +31,6 @@ import seedu.address.testutil.CompanyBuilder;
  * {@code RemarkCommand}.
  */
 public class RemarkCommandTest {
-    //TODO: repeated in CommandTestUtil
-    public static final String VALID_REMARK_AMY = "Like skiing.";
-    public static final String VALID_REMARK_BOB = "Favourite pastime: Eating";
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
     private RemarkCommandParser parser = new RemarkCommandParser();
@@ -55,15 +54,15 @@ public class RemarkCommandTest {
     @Test
     public void parseCommand_remark() throws Exception {
         assertTrue(parser.parse(String.format("%d r/ %s", INDEX_FIRST_COMPANY.getOneBased(),
-                VALID_REMARK_AMY)) instanceof RemarkCommand);
+                VALID_REMARK_AIRBUS)) instanceof RemarkCommand);
     }
 
     @Test
     public void equals() {
-        final RemarkCommand standardCommand = new RemarkCommand(INDEX_FIRST_COMPANY, new Remark(VALID_REMARK_AMY));
+        final RemarkCommand standardCommand = new RemarkCommand(INDEX_FIRST_COMPANY, new Remark(VALID_REMARK_AIRBUS));
 
         // same values -> returns true
-        RemarkCommand commandWithSameValues = new RemarkCommand(INDEX_FIRST_COMPANY, new Remark(VALID_REMARK_AMY));
+        RemarkCommand commandWithSameValues = new RemarkCommand(INDEX_FIRST_COMPANY, new Remark(VALID_REMARK_AIRBUS));
         assertTrue(standardCommand.equals(commandWithSameValues));
 
         // same object -> returns true
@@ -76,18 +75,18 @@ public class RemarkCommandTest {
         assertFalse(standardCommand.equals(new ClearCommand()));
 
         // different index -> returns false
-        assertFalse(standardCommand.equals(new RemarkCommand(INDEX_SECOND_COMPANY, new Remark(VALID_REMARK_AMY))));
+        assertFalse(standardCommand.equals(new RemarkCommand(INDEX_SECOND_COMPANY, new Remark(VALID_REMARK_AIRBUS))));
 
         // different remark -> returns false
-        assertFalse(standardCommand.equals(new RemarkCommand(INDEX_FIRST_COMPANY, new Remark(VALID_REMARK_BOB))));
+        assertFalse(standardCommand.equals(new RemarkCommand(INDEX_FIRST_COMPANY, new Remark(VALID_REMARK_BOEING))));
     }
 
     @Test
     public void parse_indexSpecified_success() {
         // have remark
         Index targetIndex = INDEX_FIRST_COMPANY;
-        String userInput = targetIndex.getOneBased() + " " + PREFIX_REMARK + VALID_REMARK_AMY;
-        RemarkCommand expectedCommand = new RemarkCommand(INDEX_FIRST_COMPANY, new Remark(VALID_REMARK_AMY));
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_REMARK + VALID_REMARK_AIRBUS;
+        RemarkCommand expectedCommand = new RemarkCommand(INDEX_FIRST_COMPANY, new Remark(VALID_REMARK_AIRBUS));
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // empty remark passes
@@ -104,6 +103,6 @@ public class RemarkCommandTest {
         assertParseFailure(parser, RemarkCommand.COMMAND_WORD, expectedMessage);
 
         // no index
-        assertParseFailure(parser, RemarkCommand.COMMAND_WORD + " " + VALID_REMARK_AMY, expectedMessage);
+        assertParseFailure(parser, RemarkCommand.COMMAND_WORD + " " + VALID_REMARK_AIRBUS, expectedMessage);
     }
 }

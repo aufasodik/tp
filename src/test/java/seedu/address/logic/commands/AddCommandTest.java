@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalCompanies.ALICE;
+import static seedu.address.testutil.TypicalCompanies.ALPHA;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -55,32 +55,32 @@ public class AddCommandTest {
 
     @Test
     public void equals() {
-        Company alice = new CompanyBuilder().withName("Alice").build();
-        Company bob = new CompanyBuilder().withName("Bob").build();
-        AddCommand addAliceCommand = new AddCommand(alice);
-        AddCommand addBobCommand = new AddCommand(bob);
+        Company apple = new CompanyBuilder().withName("Apple").build();
+        Company bayer = new CompanyBuilder().withName("Bayer").build();
+        AddCommand addAppleCommand = new AddCommand(apple);
+        AddCommand addBayerCommand = new AddCommand(bayer);
 
         // same object -> returns true
-        assertTrue(addAliceCommand.equals(addAliceCommand));
+        assertTrue(addAppleCommand.equals(addAppleCommand));
 
         // same values -> returns true
-        AddCommand addAliceCommandCopy = new AddCommand(alice);
-        assertTrue(addAliceCommand.equals(addAliceCommandCopy));
+        AddCommand addAliceCommandCopy = new AddCommand(apple);
+        assertTrue(addAppleCommand.equals(addAliceCommandCopy));
 
         // different types -> returns false
-        assertFalse(addAliceCommand.equals(1));
+        assertFalse(addAppleCommand.equals(1));
 
         // null -> returns false
-        assertFalse(addAliceCommand.equals(null));
+        assertFalse(addAppleCommand.equals(null));
 
         // different company -> returns false
-        assertFalse(addAliceCommand.equals(addBobCommand));
+        assertFalse(addAppleCommand.equals(addBayerCommand));
     }
 
     @Test
     public void toStringMethod() {
-        AddCommand addCommand = new AddCommand(ALICE);
-        String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + ALICE + "}";
+        AddCommand addCommand = new AddCommand(ALPHA);
+        String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + ALPHA + "}";
         assertEquals(expected, addCommand.toString());
     }
 
