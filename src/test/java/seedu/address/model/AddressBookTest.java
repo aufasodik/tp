@@ -3,10 +3,10 @@ package seedu.address.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOEING;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_PENDING_INTERVIEW;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalCompanies.ALICE;
+import static seedu.address.testutil.TypicalCompanies.ALPHA;
 import static seedu.address.testutil.TypicalCompanies.getTypicalAddressBook;
 
 import java.util.Arrays;
@@ -46,9 +46,9 @@ public class AddressBookTest {
     @Test
     public void resetData_withDuplicatecompanies_throwsDuplicateCompanyException() {
         // Two companies with the same identity fields
-        Company editedAlice = new CompanyBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
-                .build();
-        List<Company> newCompanies = Arrays.asList(ALICE, editedAlice);
+        Company editedAlice = new CompanyBuilder(ALPHA).withAddress(VALID_ADDRESS_BOEING)
+                .withTags(VALID_TAG_PENDING_INTERVIEW).build();
+        List<Company> newCompanies = Arrays.asList(ALPHA, editedAlice);
         AddressBookStub newData = new AddressBookStub(newCompanies);
 
         assertThrows(DuplicateCompanyException.class, () -> addressBook.resetData(newData));
@@ -61,20 +61,20 @@ public class AddressBookTest {
 
     @Test
     public void hasCompany_companyNotInAddressBook_returnsFalse() {
-        assertFalse(addressBook.hasCompany(ALICE));
+        assertFalse(addressBook.hasCompany(ALPHA));
     }
 
     @Test
     public void hasCompany_companyInAddressBook_returnsTrue() {
-        addressBook.addCompany(ALICE);
-        assertTrue(addressBook.hasCompany(ALICE));
+        addressBook.addCompany(ALPHA);
+        assertTrue(addressBook.hasCompany(ALPHA));
     }
 
     @Test
     public void hasCompany_companyWithSameIdentityFieldsInAddressBook_returnsTrue() {
-        addressBook.addCompany(ALICE);
-        Company editedAlice = new CompanyBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
-                .build();
+        addressBook.addCompany(ALPHA);
+        Company editedAlice = new CompanyBuilder(ALPHA).withAddress(VALID_ADDRESS_BOEING)
+                .withTags(VALID_TAG_PENDING_INTERVIEW).build();
         assertTrue(addressBook.hasCompany(editedAlice));
     }
 

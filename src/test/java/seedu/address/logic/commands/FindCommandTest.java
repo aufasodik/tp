@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_COMPANIES_LISTED_OVERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalCompanies.CARL;
-import static seedu.address.testutil.TypicalCompanies.ELLE;
-import static seedu.address.testutil.TypicalCompanies.FIONA;
+import static seedu.address.testutil.TypicalCompanies.CONS;
+import static seedu.address.testutil.TypicalCompanies.ELITE;
+import static seedu.address.testutil.TypicalCompanies.FUSION;
 import static seedu.address.testutil.TypicalCompanies.getTypicalAddressBook;
 
 import java.util.Arrays;
@@ -71,7 +71,7 @@ public class FindCommandTest {
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredCompanyList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getFilteredCompanyList());
+        assertEquals(Arrays.asList(CONS, ELITE, FUSION), model.getFilteredCompanyList());
     }
 
     @Test

@@ -1,5 +1,11 @@
 package seedu.address.testutil;
 
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AIRBUS;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AIRBUS;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AIRBUS;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AIRBUS;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_AIRBUS;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,12 +23,11 @@ import seedu.address.model.util.SampleDataUtil;
  */
 public class CompanyBuilder {
 
-    //TODO: does not match TypicalCompanies
-    public static final String DEFAULT_NAME = "Amy Bee";
-    public static final String DEFAULT_PHONE = "85355255";
-    public static final String DEFAULT_EMAIL = "amy@gmail.com";
-    public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
-    public static final String DEFAULT_REMARK = "Likes to read.";
+    public static final String DEFAULT_NAME = VALID_NAME_AIRBUS;
+    public static final String DEFAULT_PHONE = VALID_PHONE_AIRBUS;
+    public static final String DEFAULT_EMAIL = VALID_EMAIL_AIRBUS;
+    public static final String DEFAULT_ADDRESS = VALID_ADDRESS_AIRBUS;
+    public static final String DEFAULT_REMARK = VALID_REMARK_AIRBUS;
 
     private Name name;
     private Phone phone;

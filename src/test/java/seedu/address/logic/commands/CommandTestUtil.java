@@ -13,9 +13,6 @@ import static seedu.address.testutil.Assert.assertThrows;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
-
-import org.opentest4j.AssertionFailedError;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -30,31 +27,31 @@ import seedu.address.testutil.EditCompanyDescriptorBuilder;
  */
 public class CommandTestUtil {
 
-    public static final String VALID_NAME_AMY = "Amy Bee";
-    public static final String VALID_NAME_BOB = "Bob Choo";
-    public static final String VALID_PHONE_AMY = "11111111";
-    public static final String VALID_PHONE_BOB = "22222222";
-    public static final String VALID_EMAIL_AMY = "amy@example.com";
-    public static final String VALID_EMAIL_BOB = "bob@example.com";
-    public static final String VALID_ADDRESS_AMY = "Block 312, Amy Street 1";
-    public static final String VALID_ADDRESS_BOB = "Block 123, Bobby Street 3";
-    public static final String VALID_TAG_HUSBAND = "husband";
-    public static final String VALID_TAG_FRIEND = "friend";
-    public static final String VALID_REMARK_AMY = "She likes to play guitar.";
-    public static final String VALID_REMARK_BOB = "He is a software engineer.";
+    public static final String VALID_NAME_AIRBUS = "Airbus";
+    public static final String VALID_NAME_BOEING = "Boeing";
+    public static final String VALID_PHONE_AIRBUS = "11111111";
+    public static final String VALID_PHONE_BOEING = "22222222";
+    public static final String VALID_EMAIL_AIRBUS = "airbus@example.com";
+    public static final String VALID_EMAIL_BOEING = "boeing@example.com";
+    public static final String VALID_ADDRESS_AIRBUS = "Block 312, Amy Street 1";
+    public static final String VALID_ADDRESS_BOEING = "Block 123, Bobby Street 3";
+    public static final String VALID_TAG_PENDING_INTERVIEW = "pending-interview";
+    public static final String VALID_TAG_PENDING_APPLICATION = "pending-application";
+    public static final String VALID_REMARK_AIRBUS = "Great location and pay";
+    public static final String VALID_REMARK_BOEING = "Lacking pay but good experience";
 
-    public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
-    public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
-    public static final String PHONE_DESC_AMY = " " + PREFIX_PHONE + VALID_PHONE_AMY;
-    public static final String PHONE_DESC_BOB = " " + PREFIX_PHONE + VALID_PHONE_BOB;
-    public static final String EMAIL_DESC_AMY = " " + PREFIX_EMAIL + VALID_EMAIL_AMY;
-    public static final String EMAIL_DESC_BOB = " " + PREFIX_EMAIL + VALID_EMAIL_BOB;
-    public static final String ADDRESS_DESC_AMY = " " + PREFIX_ADDRESS + VALID_ADDRESS_AMY;
-    public static final String ADDRESS_DESC_BOB = " " + PREFIX_ADDRESS + VALID_ADDRESS_BOB;
-    public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
-    public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
-    public static final String REMARK_DESC_AMY = " " + PREFIX_REMARK + VALID_REMARK_AMY;
-    public static final String REMARK_DESC_BOB = " " + PREFIX_REMARK + VALID_REMARK_BOB;
+    public static final String NAME_DESC_AIRBUS = " " + PREFIX_NAME + VALID_NAME_AIRBUS;
+    public static final String NAME_DESC_BOEING = " " + PREFIX_NAME + VALID_NAME_BOEING;
+    public static final String PHONE_DESC_AIRBUS = " " + PREFIX_PHONE + VALID_PHONE_AIRBUS;
+    public static final String PHONE_DESC_BOEING = " " + PREFIX_PHONE + VALID_PHONE_BOEING;
+    public static final String EMAIL_DESC_AIRBUS = " " + PREFIX_EMAIL + VALID_EMAIL_AIRBUS;
+    public static final String EMAIL_DESC_BOEING = " " + PREFIX_EMAIL + VALID_EMAIL_BOEING;
+    public static final String ADDRESS_DESC_AIRBUS = " " + PREFIX_ADDRESS + VALID_ADDRESS_AIRBUS;
+    public static final String ADDRESS_DESC_BOEING = " " + PREFIX_ADDRESS + VALID_ADDRESS_BOEING;
+    public static final String TAG_DESC_PENDING_APPLICATION = " " + PREFIX_TAG + VALID_TAG_PENDING_APPLICATION;
+    public static final String TAG_DESC_PENDING_INTERVIEW = " " + PREFIX_TAG + VALID_TAG_PENDING_INTERVIEW;
+    public static final String REMARK_DESC_AIRBUS = " " + PREFIX_REMARK + VALID_REMARK_AIRBUS;
+    public static final String REMARK_DESC_BOEING = " " + PREFIX_REMARK + VALID_REMARK_BOEING;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
@@ -65,16 +62,17 @@ public class CommandTestUtil {
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 
-    public static final EditCommand.EditCompanyDescriptor DESC_AMY;
-    public static final EditCommand.EditCompanyDescriptor DESC_BOB;
+    public static final EditCommand.EditCompanyDescriptor DESC_AIRBUS;
+    public static final EditCommand.EditCompanyDescriptor DESC_BOEING;
 
     static {
-        DESC_AMY = new EditCompanyDescriptorBuilder().withName(VALID_NAME_AMY)
-                .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
-                .withTags(VALID_TAG_FRIEND).withRemark(VALID_REMARK_AMY).build();
-        DESC_BOB = new EditCompanyDescriptorBuilder().withName(VALID_NAME_BOB)
-                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
-                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).withRemark(VALID_REMARK_BOB).build();
+        DESC_AIRBUS = new EditCompanyDescriptorBuilder().withName(VALID_NAME_AIRBUS)
+                .withPhone(VALID_PHONE_AIRBUS).withEmail(VALID_EMAIL_AIRBUS).withAddress(VALID_ADDRESS_AIRBUS)
+                .withTags(VALID_TAG_PENDING_APPLICATION).withRemark(VALID_REMARK_AIRBUS).build();
+        DESC_BOEING = new EditCompanyDescriptorBuilder().withName(VALID_NAME_BOEING)
+                .withPhone(VALID_PHONE_BOEING).withEmail(VALID_EMAIL_BOEING).withAddress(VALID_ADDRESS_BOEING)
+                .withTags(VALID_TAG_PENDING_INTERVIEW, VALID_TAG_PENDING_APPLICATION).withRemark(VALID_REMARK_BOEING)
+                .build();
     }
 
     /**
