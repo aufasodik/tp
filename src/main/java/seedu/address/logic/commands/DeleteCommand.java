@@ -33,15 +33,24 @@ public class DeleteCommand extends Command {
 
     public static final String MESSAGE_DELETE_COMPANY_SUCCESS = "Deleted Company: %1$s";
 
-    /** Sorted (ascending) list of target indices as provided by the parser (1-based). */
     private final List<Index> targetIndices;
 
+    /**
+     * Make a list for multiple target indices and sorted in ascending order
+     *
+     * @param targetIndices
+     */
     public DeleteCommand(List<Index> targetIndices) {
         // Defensive copy + normalize ascending for display; we’ll delete in descending later.
         this.targetIndices = new ArrayList<>(requireNonNull(targetIndices));
         this.targetIndices.sort(Comparator.comparingInt(Index::getZeroBased));
     }
 
+    /**
+     * Make a list for single target index
+     *
+     * @param targetIndex
+     */
     public DeleteCommand(Index targetIndex) {
         this(List.of(requireNonNull(targetIndex)));
     }
