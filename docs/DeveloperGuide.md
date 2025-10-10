@@ -156,6 +156,47 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Status field feature
+
+#### Implementation
+
+The status field feature allows users to track the application stage for each company. The status is implemented as a `Status` class in `seedu.address.model.company` package with the following characteristics:
+
+* **Validation**: Status values must be alphanumeric and may contain hyphens to separate words (e.g., `technical-interview`, `offer-received`)
+* **Default value**: When a company is added without specifying a status, it defaults to `"pending-application"`
+* **Immutability**: The `Status` class is immutable, following the same pattern as other company fields
+
+The status field is integrated into the following components:
+
+1. **Model Component**: The `Company` class includes a `Status` field, stored and validated by the `Status` class
+2. **Logic Component**:
+   - `StatusCommand` allows users to update a company's status via the `status INDEX s/STATUS` command
+   - `StatusCommandParser` parses user input and creates the appropriate `StatusCommand`
+   - The `add` and `edit` commands also support the optional `s/` prefix for setting status
+3. **Storage Component**: Status is persisted as a string field in the JSON file via `JsonAdaptedCompany`
+
+#### Design considerations
+
+**Aspect: Default status value:**
+
+* **Alternative 1 (current choice):** Default to `"pending-application"` when status is not specified.
+  * Pros: Sensible default for new applications; reduces user input required
+  * Cons: Users must remember to update status as application progresses
+
+* **Alternative 2:** Require status to be specified for every company.
+  * Pros: Forces users to be explicit about application stage
+  * Cons: More verbose; inconvenient for bulk adding of companies
+
+**Aspect: Status validation:**
+
+* **Alternative 1 (current choice):** Allow any alphanumeric string with hyphens.
+  * Pros: Flexible; users can define custom statuses that fit their workflow
+  * Cons: No standardization; potential for inconsistent status values
+
+* **Alternative 2:** Enforce a fixed set of allowed statuses (enum).
+  * Pros: Consistent data; easier to filter and sort by status
+  * Cons: Less flexible; may not fit all users' workflows
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
@@ -377,6 +418,72 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
   * 1a1. Cerebro shows an error message with the correct command format.
 
+---
+
+**Use case: UC03 - Update company status**
+
+**MSS**
+
+1. User requests to list companies
+2. Cerebro shows a list of companies
+3. User requests to update the status of a specific company in the list
+4. Cerebro updates the company's application status
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  * 2a1. Cerebro shows a message indicating no companies to update.
+
+    Use case ends.
+
+* 3a. The given index is invalid.
+
+  * 3a1. Cerebro shows an error message.
+
+    Use case resumes at step 2.
+
+* 3b. The status format is invalid.
+
+  * 3b1. Cerebro shows an error message with the correct status format.
+
+    Use case resumes at step 2.
+
+---
+
+**Use case: UC04 - Add/Edit company remark**
+
+**MSS**
+
+1. User requests to list companies
+2. Cerebro shows a list of companies
+3. User requests to add/edit a remark for a specific company in the list
+4. Cerebro adds/updates the company's remark
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  * 2a1. Cerebro shows a message indicating no companies to update.
+
+    Use case ends.
+
+* 3a. The given index is invalid.
+
+  * 3a1. Cerebro shows an error message.
+
+    Use case resumes at step 2.
+
+* 3b. The remark field is empty.
+
+  * 3b1. Cerebro removes the existing remark from the company.
+
+    Use case ends.
+
 
 ### Non-Functional Requirements
 
@@ -437,7 +544,7 @@ testers are expected to do more *exploratory* testing.
 
    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1. Double-click the jar file Expected: Shows the GUI with a set of sample companies. The window size may not be optimum.
 
 1. Saving window preferences
 
@@ -455,12 +562,52 @@ testers are expected to do more *exploratory* testing.
    1. Prerequisites: List all companies using the `list` command. Multiple companies in the list.
 
    1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+      Expected: First company is deleted from the list. Details of the deleted company shown in the status message. Timestamp in the status bar is updated.
 
    1. Test case: `delete 0`<br>
       Expected: No company is deleted. Error details shown in the status message. Status bar remains the same.
 
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+      Expected: Similar to previous.
+
+1. _{ more test cases …​ }_
+
+### Updating company status
+
+1. Updating status while all companies are being shown
+
+   1. Prerequisites: List all companies using the `list` command. At least one company in the list.
+
+   1. Test case: `status 1 s/technical-interview`<br>
+      Expected: Status of the first company is updated to `technical-interview`. Details of the updated company shown in the status message.
+
+   1. Test case: `status 1 s/invalid status!`<br>
+      Expected: No status update. Error message indicating invalid status format shown.
+
+   1. Test case: `status 0 s/pending-application`<br>
+      Expected: No status update. Error message indicating invalid index shown.
+
+   1. Other incorrect status commands to try: `status`, `status x s/pending-application` (where x is larger than the list size)<br>
+      Expected: Similar to previous.
+
+1. _{ more test cases …​ }_
+
+### Adding/Editing company remarks
+
+1. Adding/editing remarks while all companies are being shown
+
+   1. Prerequisites: List all companies using the `list` command. At least one company in the list.
+
+   1. Test case: `remark 1 r/ Strong interest in AI and machine learning`<br>
+      Expected: Remark is added to the first company. Success message indicating remark was added shown in the status message.
+
+   1. Test case: `remark 1 r/`<br>
+      Expected: Existing remark is removed from the first company. Success message indicating remark was removed shown.
+
+   1. Test case: `remark 0 r/ Some remark`<br>
+      Expected: No remark update. Error message indicating invalid index shown.
+
+   1. Other incorrect remark commands to try: `remark`, `remark x r/ Some remark` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
