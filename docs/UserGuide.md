@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-Cerebro is a **desktop app for managing internship applications, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, Cerebro can get your internship tracking tasks done faster than traditional GUI apps.
+AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
 
 * Table of Contents
 {:toc}
@@ -17,7 +17,7 @@ Cerebro is a **desktop app for managing internship applications, optimized for u
 
 1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your Cerebro.
+1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
 
 1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
@@ -26,13 +26,13 @@ Cerebro is a **desktop app for managing internship applications, optimized for u
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * `list` : Lists all companies.
+   * `list` : Lists all contacts.
 
-   * `add n/Google p/98765432 e/recruit@google.com a/70 Pasir Panjang Rd, #03-71` : Adds a company named `Google` to Cerebro.
+   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
 
-   * `delete 3` : Deletes the 3rd company shown in the current list.
+   * `delete 3` : Deletes the 3rd contact shown in the current list.
 
-   * `clear` : Deletes all companies.
+   * `clear` : Deletes all contacts.
 
    * `exit` : Exits the app.
 
@@ -75,44 +75,40 @@ Format: `help`
 
 ### Adding a company: `add`
 
-Adds a company to Cerebro.
+Adds a company to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​ [r/REMARK] [s/STATUS]`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A company can have any number of tags (including 0). 
-</div>
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-If status is not specified, it defaults to "pending-application".
+A company can have any number of tags (including 0)
 </div>
 
 Examples:
-* `add n/Google p/98765432 e/recruit@google.com a/70 Pasir Panjang Rd, #03-71`
-* `add n/Meta p/12345678 e/careers@meta.com a/9 Straits View, Marina One t/tech s/technical-interview`
+* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
+* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 
 ### Listing all companies : `list`
 
-Shows a list of all companies in Cerebro.
+Shows a list of all companies in the address book.
 
 Format: `list`
 
 ### Editing a company : `edit`
 
-Edits an existing company in Cerebro.
+Edits an existing company in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [r/REMARK] [s/STATUS]`
+Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
 * Edits the company at the specified `INDEX`. The index refers to the index number shown in the displayed company list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the company will be removed i.e adding of tags is not cumulative.
-* You can remove all the company's tags by typing `t/` without
+* You can remove all the company’s tags by typing `t/` without
     specifying any tags after it.
 
 Examples:
-*  `edit 1 p/91234567 e/recruit@google.com` Edits the phone number and email address of the 1st company to be `91234567` and `recruit@google.com` respectively.
-*  `edit 2 n/Apple t/` Edits the name of the 2nd company to be `Apple` and clears all existing tags.
-*  `edit 3 s/offer-received r/Offer expires in 2 weeks` Edits the status and remark of the 3rd company.
+*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st company to be `91234567` and `johndoe@example.com` respectively.
+*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd company to be `Betsy Crower` and clears all existing tags.
 
 ### Locating companies by name: `find`
 
@@ -128,30 +124,13 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
 Examples:
-* `find Google` returns `google` and `Google Singapore`
-* `find meta apple` returns `Meta`, `Apple Inc`<br>
+* `find John` returns `john` and `John Doe`
+* `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
-
-### Adding/Editing remarks : `remark`
-
-Adds or edits a remark for an existing company in Cerebro.
-
-Format: `remark INDEX r/ [REMARK]`
-
-* Adds/edits the remark of the company at the specified `INDEX`.
-* The index refers to the index number shown in the displayed company list.
-* The index **must be a positive integer** 1, 2, 3, …​
-* Existing remark will be overwritten by the input.
-* You can remove a company's remark by leaving the remark field empty (i.e., `remark INDEX r/`).
-
-Examples:
-* `remark 1 r/ Strong interest in AI and machine learning` Adds the remark to the 1st company.
-* `remark 2 r/ Referral from John Doe, apply by end of month` Edits the remark of the 2nd company.
-* `remark 3 r/` Removes the remark from the 3rd company.
 
 ### Deleting a company : `delete`
 
-Deletes the specified company from Cerebro.
+Deletes the specified company from the address book.
 
 Format: `delete INDEX`
 
@@ -160,27 +139,12 @@ Format: `delete INDEX`
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd company in Cerebro.
-* `find Google` followed by `delete 1` deletes the 1st company in the results of the `find` command.
-
-### Updating status : `status`
-
-Updates the application status of an existing company in Cerebro.
-
-Format: `status INDEX s/STATUS`
-
-* Updates the status of the company at the specified `INDEX`.
-* The index refers to the index number shown in the displayed company list.
-* The index **must be a positive integer** 1, 2, 3, …​
-* Status should be alphanumeric and may contain hyphens to separate words (e.g., `technical-interview`, `offer-received`, `pending-application`).
-
-Examples:
-* `status 1 s/technical-interview` Updates the status of the 1st company to `technical-interview`.
-* `status 2 s/offer-received` Updates the status of the 2nd company to `offer-received`.
+* `list` followed by `delete 2` deletes the 2nd company in the address book.
+* `find Betsy` followed by `delete 1` deletes the 1st company in the results of the `find` command.
 
 ### Clearing all entries : `clear`
 
-Clears all entries from Cerebro.
+Clears all entries from the address book.
 
 Format: `clear`
 
@@ -192,15 +156,15 @@ Format: `exit`
 
 ### Saving the data
 
-Cerebro data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-Cerebro data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, Cerebro will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause Cerebro to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
 ### Archiving data files `[coming in v2.0]`
@@ -212,7 +176,7 @@ _Details coming soon ..._
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Cerebro home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -227,12 +191,10 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​ [r/REMARK] [s/STATUS]` <br> e.g., `add n/Google p/22224444 e/recruit@google.com a/70 Pasir Panjang Rd, #03-71 t/tech s/pending-application`
+**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [r/REMARK] [s/STATUS]`<br> e.g.,`edit 2 n/Apple e/jobs@apple.com s/offer-received`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find Google Meta`
+**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
-**Remark** | `remark INDEX r/ [REMARK]`<br> e.g., `remark 1 r/ Strong interest in AI`
-**Status** | `status INDEX s/STATUS`<br> e.g., `status 1 s/technical-interview`
 **Help** | `help`
