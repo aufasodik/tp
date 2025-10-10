@@ -5,6 +5,10 @@ package seedu.address.logic.commands.exceptions;
  */
 public class IndexOutOfBoundsException extends CommandException {
 
+    private static final String MESSAGE_EMPTY_LIST = "Index out of bounds: The company list is empty.";
+    private static final String MESSAGE_INVALID_INDEX = "Index out of bounds: %d. Index must be greater than 0.";
+    private static final String MESSAGE_OUT_OF_BOUNDS = "Index out of bounds: %d. Valid range: 1 to %d.";
+
     /**
      * Constructs an IndexOutOfBoundsException with a simple error message.
      *
@@ -20,14 +24,14 @@ public class IndexOutOfBoundsException extends CommandException {
      */
     private static String createErrorMessage(int invalidIndex, int listSize) {
         if (listSize == 0) {
-            return "Index out of bounds: The company list is empty.";
+            return MESSAGE_EMPTY_LIST;
         }
 
         if (invalidIndex <= 0) {
-            return String.format("Index out of bounds: %d. Index must be greater than 0. Valid range: 1 to %d.",
-                    invalidIndex, listSize);
+            return String.format(MESSAGE_INVALID_INDEX, invalidIndex)
+                    + String.format(" Valid range: 1 to %d.", listSize);
         }
 
-        return String.format("Index out of bounds: %d. Valid range: 1 to %d.", invalidIndex, listSize);
+        return String.format(MESSAGE_OUT_OF_BOUNDS, invalidIndex, listSize);
     }
 }
