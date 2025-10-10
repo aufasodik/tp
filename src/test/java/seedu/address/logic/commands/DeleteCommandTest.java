@@ -1,7 +1,7 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
@@ -12,6 +12,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_COMPANY;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
@@ -49,7 +50,7 @@ public class DeleteCommandTest {
         Company c2 = model.getFilteredCompanyList().get(INDEX_SECOND_COMPANY.getZeroBased());
         DeleteCommand deleteCommand = new DeleteCommand(List.of(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY));
 
-        String joined = List.of(c1, c2).stream().map(Messages::format).collect(Collectors.joining(", "));
+        String joined = Stream.of(c1, c2).map(Messages::format).collect(Collectors.joining(", "));
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_COMPANY_SUCCESS, joined);
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
@@ -103,18 +104,20 @@ public class DeleteCommandTest {
         DeleteCommand deleteSecond = new DeleteCommand(List.of(INDEX_SECOND_COMPANY));
         DeleteCommand deleteBoth = new DeleteCommand(List.of(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY));
 
-        // same object -> true
-        assertTrue(deleteFirst.equals(deleteFirst));
         // same values -> true
-        assertTrue(deleteFirst.equals(new DeleteCommand(List.of(INDEX_FIRST_COMPANY))));
+        assertEquals(deleteFirst, new DeleteCommand(List.of(INDEX_FIRST_COMPANY)));
+
         // different types -> false
-        assertFalse(deleteFirst.equals(1));
+        assertNotEquals(new Object(), deleteFirst);
+
         // null -> false
-        assertFalse(deleteFirst.equals(null));
+        assertNotEquals(null, deleteFirst);
+
         // different single index -> false
-        assertFalse(deleteFirst.equals(deleteSecond));
+        assertNotEquals(deleteFirst, deleteSecond);
+
         // different set of indices -> false
-        assertFalse(deleteFirst.equals(deleteBoth));
+        assertNotEquals(deleteFirst, deleteBoth);
     }
 
     @Test

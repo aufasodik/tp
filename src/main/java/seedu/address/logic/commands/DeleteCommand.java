@@ -38,7 +38,7 @@ public class DeleteCommand extends Command {
     /**
      * Make a list for multiple target indices and sorted in ascending order
      *
-     * @param targetIndices
+     * @param targetIndices List of multiple indices
      */
     public DeleteCommand(List<Index> targetIndices) {
         // Defensive copy + normalize ascending for display; we’ll delete in descending later.
@@ -49,7 +49,7 @@ public class DeleteCommand extends Command {
     /**
      * Make a list for single target index
      *
-     * @param targetIndex
+     * @param targetIndex Single index
      */
     public DeleteCommand(Index targetIndex) {
         this(List.of(requireNonNull(targetIndex)));
@@ -72,7 +72,7 @@ public class DeleteCommand extends Command {
         // Snapshot the companies to be deleted (before mutation), in ascending order for message.
         final List<Company> companiesToDelete = targetIndices.stream()
                 .map(i -> lastShownList.get(i.getZeroBased()))
-                .collect(Collectors.toList());
+                .toList();
 
         // Delete in descending index order to avoid shifting
         targetIndices.stream()
