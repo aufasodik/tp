@@ -42,6 +42,10 @@ public class DeleteCommand extends Command {
         this.targetIndices.sort(Comparator.comparingInt(Index::getZeroBased));
     }
 
+    public DeleteCommand(Index targetIndex) {
+        this(List.of(requireNonNull(targetIndex)));
+    }
+
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
