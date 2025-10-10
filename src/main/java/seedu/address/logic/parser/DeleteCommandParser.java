@@ -37,7 +37,8 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
                 // Range: a-b
                 String[] parts = token.split("-", -1);
                 if (parts.length != 2) {
-                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+                    throw new ParseException(
+                            String.format(MESSAGE_INVALID_COMMAND_FORMAT,DeleteCommand.MESSAGE_USAGE));
                 }
                 Index start = ParserUtil.parseIndex(parts[0].trim());
                 Index end = ParserUtil.parseIndex(parts[1].trim());
@@ -45,7 +46,8 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
                 int e = end.getZeroBased();
                 if (e < s) {
                     // allow "4-2" by swapping? Keep strict & user-friendly: invalid format
-                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+                    throw new ParseException(
+                            String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
                 }
                 for (int i = s; i <= e; i++) {
                     zeroBasedSet.add(i);
