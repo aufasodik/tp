@@ -57,5 +57,6 @@ public class CompanyCard extends UiPart<Region> {
         company.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        remark.setText(company.getRemark().value);
     }
 }
