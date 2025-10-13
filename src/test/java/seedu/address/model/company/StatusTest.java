@@ -12,25 +12,28 @@ public class StatusTest {
 
     @Test
     public void constructor_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new Status(null));
+        assertThrows(NullPointerException.class, () -> new Status((String) null));
+        assertThrows(NullPointerException.class, () -> new Status((Status.Stage) null));
     }
 
     @Test
-    public void constructor_invalidStatus_throwsIllegalArgumentException() {
+    public void constructor_invalidStatus_throwsUnsupportedStatusException() {
         String invalidStatus = "";
-        assertThrows(IllegalArgumentException.class, () -> new Status(invalidStatus));
+        assertThrows(
+                seedu.address.model.company.exceptions.UnsupportedStatusException.class, () -> new Status(invalidStatus)
+        );
     }
 
     @Test
     public void constructor_noArgument_createsDefaultStatus() {
         Status status = new Status();
-        assertEquals(Status.DEFAULT_STATUS, status.value);
+        assertEquals(Status.Stage.TO_APPLY, status.value);
     }
 
     @Test
     public void isValidStatus() {
         // null status
-        assertThrows(NullPointerException.class, () -> Status.isValidStatus(null));
+        assertFalse(Status.isValidStatus(null));
 
         // invalid statuses
         assertFalse(Status.isValidStatus("")); // empty string
@@ -38,28 +41,20 @@ public class StatusTest {
         assertFalse(Status.isValidStatus("pending application")); // contains space
         assertFalse(Status.isValidStatus("technical*interview")); // contains special character
         assertFalse(Status.isValidStatus("hr_interview")); // contains underscore
-        assertFalse(Status.isValidStatus("follow-up-")); // ends with hyphen
-        assertFalse(Status.isValidStatus("-pending")); // starts with hyphen
-        assertFalse(Status.isValidStatus("technical--interview")); // double hyphen
-
-        // valid statuses
-        assertTrue(Status.isValidStatus("pending-application")); // alphanumeric with hyphens
-        assertTrue(Status.isValidStatus("technical-interview")); // alphanumeric with hyphens
-        assertTrue(Status.isValidStatus("hr-interview")); // alphanumeric with hyphens
-        assertTrue(Status.isValidStatus("offer-received")); // alphanumeric with hyphens
-        assertTrue(Status.isValidStatus("rejected")); // single word
-        assertTrue(Status.isValidStatus("accepted")); // single word
-        assertTrue(Status.isValidStatus("round-1")); // with number
-        assertTrue(Status.isValidStatus("2nd-interview")); // starts with number
-        assertTrue(Status.isValidStatus("follow-up-round-3")); // multiple hyphens
+        // valid statuses (only canonical five)
+        assertTrue(Status.isValidStatus("to-apply"));
+        assertTrue(Status.isValidStatus("applied"));
+        assertTrue(Status.isValidStatus("in-process"));
+        assertTrue(Status.isValidStatus("offered"));
+        assertTrue(Status.isValidStatus("rejected"));
     }
 
     @Test
     public void equals() {
-        Status status = new Status("pending-application");
+        Status status = new Status("to-apply");
 
         // same values -> returns true
-        assertTrue(status.equals(new Status("pending-application")));
+        assertTrue(status.equals(new Status("to-apply")));
 
         // same object -> returns true
         assertTrue(status.equals(status));
@@ -71,32 +66,32 @@ public class StatusTest {
         assertFalse(status.equals(5.0f));
 
         // different values -> returns false
-        assertFalse(status.equals(new Status("technical-interview")));
+        assertFalse(status.equals(new Status("in-process")));
     }
 
     @Test
     public void hashCode_sameStatus_returnsSameHashCode() {
-        Status status1 = new Status("pending-application");
-        Status status2 = new Status("pending-application");
+        Status status1 = new Status("to-apply");
+        Status status2 = new Status("to-apply");
         assertEquals(status1.hashCode(), status2.hashCode());
     }
 
     @Test
     public void hashCode_differentStatus_returnsDifferentHashCode() {
-        Status status1 = new Status("pending-application");
-        Status status2 = new Status("technical-interview");
+        Status status1 = new Status("to-apply");
+        Status status2 = new Status("in-process");
         assertNotEquals(status1.hashCode(), status2.hashCode());
     }
 
     @Test
     public void toString_returnsCorrectValue() {
-        Status status = new Status("technical-interview");
-        assertEquals("technical-interview", status.toString());
+        Status status = new Status("in-process");
+        assertEquals("in-process", status.toString());
     }
 
     @Test
     public void toString_defaultStatus_returnsDefaultValue() {
         Status status = new Status();
-        assertEquals(Status.DEFAULT_STATUS, status.toString());
+        assertEquals("to-apply", status.toString());
     }
 }

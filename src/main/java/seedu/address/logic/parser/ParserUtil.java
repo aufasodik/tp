@@ -208,9 +208,10 @@ public class ParserUtil {
     public static Status parseStatus(String status) throws ParseException {
         requireNonNull(status);
         String trimmedStatus = status.trim();
-        if (!Status.isValidStatus(trimmedStatus)) {
+        try {
+            return new Status(trimmedStatus);
+        } catch (RuntimeException e) {
             throw new ParseException(Status.MESSAGE_CONSTRAINTS);
         }
-        return new Status(trimmedStatus);
     }
 }

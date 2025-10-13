@@ -54,7 +54,7 @@ public class EditCommand extends Command {
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com\n"
             + "For batch editing: " + COMMAND_WORD + " 1,2,3 "
-            + PREFIX_STATUS + "interview-pending";
+            + PREFIX_STATUS + "in-process";
 
     public static final String MESSAGE_EDIT_COMPANY_SUCCESS = "Edited Company: %1$s";
     public static final String MESSAGE_BATCH_EDIT_SUCCESS = "Edited %1$d companies successfully";

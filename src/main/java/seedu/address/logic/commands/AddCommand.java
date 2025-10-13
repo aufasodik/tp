@@ -40,7 +40,7 @@ public class AddCommand extends Command {
             + PREFIX_EMAIL + "google@example.com "
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
             + PREFIX_REMARK + "FAANG Jackpot "
-            + PREFIX_STATUS + "technical-interview "
+            + PREFIX_STATUS + "in-process "
             + PREFIX_TAG + "good-pay "
             + PREFIX_TAG + "decent-location";
 

@@ -26,7 +26,7 @@ import seedu.address.testutil.CompanyBuilder;
  */
 public class StatusCommandTest {
 
-    private static final String STATUS_STUB = "technical-interview";
+    private static final String STATUS_STUB = "in-process";
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
@@ -57,11 +57,11 @@ public class StatusCommandTest {
     @Test
     public void equals() {
         final StatusCommand standardCommand = new StatusCommand(INDEX_FIRST_COMPANY,
-                new Status("pending-application"));
+                new Status("to-apply"));
 
         // same values -> returns true
         StatusCommand commandWithSameValues = new StatusCommand(INDEX_FIRST_COMPANY,
-                new Status("pending-application"));
+                new Status("to-apply"));
         assertTrue(standardCommand.equals(commandWithSameValues));
 
         // same object -> returns true
@@ -75,17 +75,17 @@ public class StatusCommandTest {
 
         // different index -> returns false
         assertFalse(standardCommand.equals(new StatusCommand(INDEX_SECOND_COMPANY,
-                new Status("pending-application"))));
+                new Status("to-apply"))));
 
         // different status -> returns false
         assertFalse(standardCommand.equals(new StatusCommand(INDEX_FIRST_COMPANY,
-                new Status("technical-interview"))));
+                new Status("in-process"))));
     }
 
     @Test
     public void toStringMethod() {
         Index index = Index.fromOneBased(1);
-        Status status = new Status("pending-application");
+        Status status = new Status("to-apply");
         StatusCommand statusCommand = new StatusCommand(index, status);
         String expected = StatusCommand.class.getCanonicalName()
                 + "{index=" + index + ", status=" + status + "}";

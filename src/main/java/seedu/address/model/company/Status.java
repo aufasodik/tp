@@ -1,13 +1,12 @@
 package seedu.address.model.company;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import seedu.address.model.company.exceptions.UnsupportedStatusException;
 
 /**
  * Represents a Company's application status in the address book.
- * Guarantees: immutable; status value is valid as declared in {@link #isValidStatus(String)}
+ * Now backed by a fixed enum set of stages.
  */
 public class Status {
 
@@ -23,36 +22,44 @@ public class Status {
         REJECTED
     }
 
-    public static final String DEFAULT_STATUS = "pending-application";
     public static final String MESSAGE_CONSTRAINTS =
-            "Status should be alphanumeric and may contain hyphens to separate words";
-    public static final String VALIDATION_REGEX = "[\\p{Alnum}]+(-[\\p{Alnum}]+)*";
+            "Status must be one of: TO-APPLY, APPLIED, IN-PROCESS, OFFERED, REJECTED";
 
-    public final String value;
+    public final Stage value;
 
     /**
-     * Constructs a {@code Status}.
-     *
-     * @param status A valid status value.
+     * Constructs a {@code Status} with the given {@link Stage}.
      */
-    public Status(String status) {
-        requireNonNull(status);
-        checkArgument(isValidStatus(status), MESSAGE_CONSTRAINTS);
-        this.value = status;
+    public Status(Stage stage) {
+        requireNonNull(stage);
+        this.value = stage;
     }
 
     /**
-     * Constructs a {@code Status} with the default value.
+     * Constructs a {@code Status} by parsing a user-provided token.
+     */
+    public Status(String token) {
+        requireNonNull(token);
+        this.value = ofUserInput(token);
+    }
+
+    /**
+     * Constructs a {@code Status} with the default stage (TO-APPLY).
      */
     public Status() {
-        this.value = DEFAULT_STATUS;
+        this.value = Stage.TO_APPLY;
     }
 
     /**
-     * Returns true if a given string is a valid status.
+     * Returns true if a given string corresponds to a supported status.
      */
     public static boolean isValidStatus(String test) {
-        return test.matches(VALIDATION_REGEX);
+        try {
+            ofUserInput(test);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /* === Enum mapping helpers (backward compatible, not yet enforced) === */
@@ -152,12 +159,7 @@ public class Status {
      * If the current value is not recognized (custom/legacy), the original value is returned.
      */
     public String toUserInputString() {
-        try {
-            Stage stage = fromStorage(this.value);
-            return toUserInputString(stage);
-        } catch (UnsupportedStatusException ex) {
-            return this.value;
-        }
+        return toUserInputString(this.value);
     }
 
     /**
@@ -176,7 +178,7 @@ public class Status {
 
     @Override
     public String toString() {
-        return value;
+        return toUserInputString();
     }
 
     @Override
@@ -191,7 +193,7 @@ public class Status {
         }
 
         Status otherStatus = (Status) other;
-        return value.equals(otherStatus.value);
+        return value == otherStatus.value;
     }
 
     @Override

@@ -40,8 +40,8 @@ public class CommandTestUtil {
     public static final String VALID_TAG_DECENT_LOCATION = "decent-location";
     public static final String VALID_REMARK_AIRBUS = "Great location and pay";
     public static final String VALID_REMARK_BOEING = "Lacking pay but good experience";
-    public static final String VALID_STATUS_AIRBUS = "technical-interview";
-    public static final String VALID_STATUS_BOEING = "pending-application";
+    public static final String VALID_STATUS_AIRBUS = "in-process";
+    public static final String VALID_STATUS_BOEING = "to-apply";
 
     public static final String NAME_DESC_AIRBUS = " " + PREFIX_NAME + VALID_NAME_AIRBUS;
     public static final String NAME_DESC_BOEING = " " + PREFIX_NAME + VALID_NAME_BOEING;

@@ -17,7 +17,6 @@ import seedu.address.model.company.Status;
 public class StatusCommand extends Command {
 
     public static final String COMMAND_WORD = "status";
-    public static final String MESSAGE_ARGUMENTS = "Index: %1$d, Status: %2$s";
     public static final String MESSAGE_UPDATE_STATUS_SUCCESS = "Updated status of Company: %1$s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
@@ -25,9 +24,9 @@ public class StatusCommand extends Command {
             + "by the index number used in the last company listing. "
             + "Existing status will be overwritten by the input.\n"
             + "Parameters: INDEX (must be a positive integer) "
-            + "s/ STATUS\n"
+            + "s/STATUS (one of: to-apply, applied, in-process, offered, rejected)\n"
             + "Example: " + COMMAND_WORD + " 1 "
-            + "s/ technical-interview";
+            + "s/in-process";
 
     private final Index index;
     private final Status status;

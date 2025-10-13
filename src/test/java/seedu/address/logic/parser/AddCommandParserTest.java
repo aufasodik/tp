@@ -147,8 +147,8 @@ public class AddCommandParserTest {
 
     @Test
     public void parse_optionalFieldsMissing_success() {
-        // zero tags and status defaults to pending-application
-        Company expectedCompany = new CompanyBuilder(AIRBUS).withTags().withStatus("pending-application").build();
+        // zero tags and status defaults to to-apply
+        Company expectedCompany = new CompanyBuilder(AIRBUS).withTags().withStatus("to-apply").build();
         assertParseSuccess(parser,
                 NAME_DESC_AIRBUS + PHONE_DESC_AIRBUS + EMAIL_DESC_AIRBUS + ADDRESS_DESC_AIRBUS
                         + REMARK_DESC_AIRBUS,
@@ -254,7 +254,7 @@ public class AddCommandParserTest {
                 .withAddress("No address provided")
                 .withTags()
                 .withRemark("")
-                .withStatus("pending-application")
+                .withStatus("to-apply")
                 .build();
 
         assertParseSuccess(parser, NAME_DESC_BOEING, new AddCommand(expectedCompany));
