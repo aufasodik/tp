@@ -75,14 +75,18 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
 
     /** Parses a token like "a-b" (inclusive) into a {@link Range}. */
     private static Range parseRangeToken(String token) throws ParseException {
-        final String[] parts = token.split("-", -1); // keep empties to catch "3-" / "-3"
+        // keep empties to catch "3-" / "-3"
+        final String[] parts = token.split("-", -1);
+
         if (parts.length != 2 || parts[0].isBlank() || parts[1].isBlank()) {
             throw invalidFormat();
         }
 
         final int start = toZeroBasedIndex(parts[0].trim());
         final int end = toZeroBasedIndex(parts[1].trim());
-        if (end < start) { // disallow "4-2"
+
+        // disallow "4-2"
+        if (end < start) {
             throw invalidFormat();
         }
         return new Range(start, end);
