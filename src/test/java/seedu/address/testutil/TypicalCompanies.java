@@ -36,7 +36,11 @@ public class TypicalCompanies {
             .withAddress("311, Clementi Ave 2, #02-25")
             .withEmail("info@beta.com").withPhone("98765432")
             .withTags("client", "partner").withRemark("Trusted partner for software solutions.")
+<<<<<<< HEAD
             .withStatus("tech-interview").build();
+=======
+            .withStatus("in-process").build();
+>>>>>>> 956392f7 (Enforce enums with 5 stages of application. Other statuses not accepted.)
     public static final Company CONS = new CompanyBuilder().withName("Consolidated Traders").withPhone("95352563")
             .withEmail("sales@consolidated.com").withAddress("1 Wall Street Plaza")
             .withRemark("Specializes in bulk trading operations.")
@@ -44,7 +48,7 @@ public class TypicalCompanies {
     public static final Company DELTA = new CompanyBuilder().withName("Delta Enterprises").withPhone("87652533")
             .withEmail("contact@delta.com").withAddress("10 Enterprise Road").withTags("supplier")
             .withRemark("Supplier of high-quality raw materials.")
-            .withStatus("hr-interview").build();
+            .withStatus("in-process").build();
     public static final Company ELITE = new CompanyBuilder().withName("Elite Manufacturing").withPhone("9482224")
             .withEmail("enquiry@elite.com").withAddress("50 Michigan Avenue")
             .withRemark("Known for precision engineering.")
@@ -52,7 +56,11 @@ public class TypicalCompanies {
     public static final Company FUSION = new CompanyBuilder().withName("Fusion Systems").withPhone("9482427")
             .withEmail("hello@fusion.com").withAddress("88 Little Tokyo Street")
             .withRemark("Innovative solutions for IT infrastructure.")
+<<<<<<< HEAD
             .withStatus("oa").build();
+=======
+            .withStatus("in-process").build();
+>>>>>>> 956392f7 (Enforce enums with 5 stages of application. Other statuses not accepted.)
     public static final Company GLOBAL = new CompanyBuilder().withName("Global Trading Co").withPhone("9482442")
             .withEmail("info@globaltrading.com")
             .withAddress("4 Commerce Street")

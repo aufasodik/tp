@@ -27,8 +27,12 @@ public class Status {
     }
 
     public static final String MESSAGE_CONSTRAINTS =
+<<<<<<< HEAD
             "Status must be one of: TO-APPLY, APPLIED, OA, TECH-INTERVIEW, HR-INTERVIEW, IN-PROCESS, "
                     + "OFFERED, ACCEPTED, REJECTED";
+=======
+            "Status must be one of: TO-APPLY, APPLIED, IN-PROCESS, OFFERED, REJECTED";
+>>>>>>> 956392f7 (Enforce enums with 5 stages of application. Other statuses not accepted.)
 
     public final Stage value;
 

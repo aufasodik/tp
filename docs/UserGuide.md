@@ -103,6 +103,7 @@ Format: `list`
 ### Editing a company : `edit`
 
 Edits an existing company in the address book.
+You can update the application status using `s/STATUS` where `STATUS` is one of `to-apply`, `applied`, `in-process`, `offered`, `rejected`.
 
 Format: `edit INDEX[,INDEX]... [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARKS] [s/STATUS] [t/TAG]…​`
 
@@ -245,6 +246,7 @@ Action | Format, Examples
 **Status** | `status INDEX s/STATUS`<br> e.g., `status 1 s/technical-interview`
 **Filter** | `filter`
 **Remark** | `remark INDEX r/ [REMARK]`<br> e.g., `remark 1 r/ Strong interest in AI`
-**Help** | `help`
 **Status** | `status INDEX s/STATUS`<br> e.g., `status 1 s/offered`
+**Help** | `help`
 **Exit** | `exit`
+
