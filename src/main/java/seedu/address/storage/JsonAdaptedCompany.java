@@ -17,6 +17,7 @@ import seedu.address.model.company.Name;
 import seedu.address.model.company.Phone;
 import seedu.address.model.company.Remark;
 import seedu.address.model.company.Status;
+import seedu.address.model.company.exceptions.UnsupportedStatusException;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -65,7 +66,7 @@ class JsonAdaptedCompany {
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
         remark = source.getRemark().value;
-        status = source.getStatus().value;
+        status = source.getStatus().toStorageValue();
     }
 
     /**
@@ -124,10 +125,12 @@ class JsonAdaptedCompany {
         if (status == null) {
             modelStatus = new Status();
         } else {
-            if (!Status.isValidStatus(status)) {
+            try {
+                Status.Stage mapped = Status.fromStorage(status);
+                modelStatus = new Status(mapped);
+            } catch (UnsupportedStatusException e) {
                 throw new IllegalValueException(Status.MESSAGE_CONSTRAINTS);
             }
-            modelStatus = new Status(status);
         }
 
         return new Company(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelRemark, modelStatus);

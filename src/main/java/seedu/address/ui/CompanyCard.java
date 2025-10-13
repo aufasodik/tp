@@ -56,7 +56,7 @@ public class CompanyCard extends UiPart<Region> {
         phone.setText(company.getPhone().value);
         address.setText(company.getAddress().value);
         email.setText(company.getEmail().value);
-        status.setText("Status: " + company.getStatus().value);
+        status.setText("Status: " + company.getStatus().toUserInputString());
         company.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));

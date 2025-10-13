@@ -40,7 +40,7 @@ public class CompanyUtil {
             s -> sb.append(PREFIX_TAG + s.tagName + " ")
         );
         sb.append(PREFIX_REMARK + company.getRemark().value + " ");
-        sb.append(PREFIX_STATUS + company.getStatus().value + " ");
+        sb.append(PREFIX_STATUS + company.getStatus().toUserInputString() + " ");
         return sb.toString();
     }
 
@@ -54,7 +54,8 @@ public class CompanyUtil {
         descriptor.getEmail().ifPresent(email -> sb.append(PREFIX_EMAIL).append(email.value).append(" "));
         descriptor.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS).append(address.value).append(" "));
         descriptor.getRemark().ifPresent(remark -> sb.append(PREFIX_REMARK).append(remark.value).append(" "));
-        descriptor.getStatus().ifPresent(status -> sb.append(PREFIX_STATUS).append(status.value).append(" "));
+        descriptor.getStatus().ifPresent(status ->
+                sb.append(PREFIX_STATUS).append(status.toUserInputString()).append(" "));
         if (descriptor.getTags().isPresent()) {
             Set<Tag> tags = descriptor.getTags().get();
             if (tags.isEmpty()) {
