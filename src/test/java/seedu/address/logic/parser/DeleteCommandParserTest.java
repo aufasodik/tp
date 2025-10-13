@@ -30,7 +30,7 @@ public class DeleteCommandParserTest {
 
     @Test
     public void parse_validRange_returnsDeleteCommand() {
-        assertParseSuccess(parser, "1, 5, 6", new DeleteCommand(List.of(
+        assertParseSuccess(parser, "1, 5,               6", new DeleteCommand(List.of(
                 INDEX_FIRST_COMPANY,
                 Index.fromOneBased(5),
                 Index.fromOneBased(6))));
@@ -44,6 +44,15 @@ public class DeleteCommandParserTest {
     }
 
     @Test
+    public void parse_randomOrderingIndices_returnsDeleteCommand() {
+        // 1 2-2 should dedupe to [1,2]
+        assertParseSuccess(parser, "5,4,3", new DeleteCommand(List.of(
+                Index.fromOneBased(3),
+                Index.fromOneBased(4),
+                Index.fromOneBased(5))));
+    }
+
+    @Test
     public void parse_invalidArgs_throwsParseException() {
         assertParseFailure(parser, "a",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
@@ -52,6 +61,10 @@ public class DeleteCommandParserTest {
         assertParseFailure(parser, "",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         assertParseFailure(parser, "1 3 5",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "1,3 533",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "1,3, , 533",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
     }
 }

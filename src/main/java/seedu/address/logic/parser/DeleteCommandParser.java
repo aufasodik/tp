@@ -57,7 +57,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
             if (trimmed.isEmpty()) {
                 throw invalidFormat();
             }
-            out.add(toZeroBasedIndex(trimmed));
+            out.add(parseIndexToken(trimmed));
         }
         return out;
     }
@@ -80,8 +80,8 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
             throw invalidFormat();
         }
 
-        final int start = toZeroBasedIndex(parts[0].trim());
-        final int end = toZeroBasedIndex(parts[1].trim());
+        final int start = parseIndexToken(parts[0].trim());
+        final int end = parseIndexToken(parts[1].trim());
 
         // disallow "4-2"
         if (end < start) {
@@ -98,7 +98,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
     }
 
     /** Parses a single index token to zero-based, mapping errors to a standard invalid-format message. */
-    private static int toZeroBasedIndex(String token) throws ParseException {
+    private static int parseIndexToken(String token) throws ParseException {
         try {
             return ParserUtil.parseIndex(token).getZeroBased();
         } catch (ParseException e) {
