@@ -21,7 +21,7 @@ import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.commands.exceptions.IndexOutOfBoundsException;
+import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.Model;
 import seedu.address.model.company.Address;
 import seedu.address.model.company.Company;
@@ -50,14 +50,15 @@ public class EditCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com\n"
-            + "For batch editing: " + COMMAND_WORD + " 1,2,3 "
+            + "For batch editing: " + COMMAND_WORD + " 1,2,3 (no trailing comma)\n"
             + PREFIX_TAG + "applied";
 
     public static final String MESSAGE_EDIT_COMPANY_SUCCESS = "Edited Company: %1$s";
     public static final String MESSAGE_BATCH_EDIT_SUCCESS = "Edited %1$d companies successfully";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_COMPANY = "This company already exists in the address book.";
-    public static final String MESSAGE_BATCH_EDIT_FOR_TAGS_REMARK_ONLY = "Batch editing is only allowed for tags and remarks.";
+    public static final String MESSAGE_BATCH_EDIT_FOR_TAGS_REMARK_ONLY =
+            "Batch editing is only allowed for tags and remarks.";
 
     private final Index index;
     private final List<Index> indices;
@@ -117,7 +118,8 @@ public class EditCommand extends Command {
         List<Company> lastShownList = model.getFilteredCompanyList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
-            throw new IndexOutOfBoundsException(index.getOneBased(), lastShownList.size());
+            throw new CommandException(String.format(ParserUtil.MESSAGE_INDEX_OUT_OF_RANGE,
+                    index.getOneBased(), lastShownList.size()));
         }
 
         Company companyToEdit = lastShownList.get(index.getZeroBased());
@@ -167,12 +169,13 @@ public class EditCommand extends Command {
      * Validates that all indices are within valid range.
      *
      * @param listSize the size of the current company list
-     * @throws IndexOutOfBoundsException if any index is out of range
+     * @throws CommandException if any index is out of range
      */
-    private void validateIndicesRange(int listSize) throws IndexOutOfBoundsException {
+    private void validateIndicesRange(int listSize) throws CommandException {
         for (Index index : indices) {
             if (index.getZeroBased() >= listSize) {
-                throw new IndexOutOfBoundsException(index.getOneBased(), listSize);
+                throw new CommandException(String.format(ParserUtil.MESSAGE_INDEX_OUT_OF_RANGE,
+                        index.getOneBased(), listSize));
             }
         }
     }
@@ -284,8 +287,7 @@ public class EditCommand extends Command {
         }
 
         /**
-         * Returns true if only tags and/or remarks are being edited.
-         * Returns false if name, phone, email, or address is being edited.
+         * Returns true if name, phone, email and address are not edited.
          */
         public boolean isTagsAndRemarksOnly() {
             return !CollectionUtil.isAnyNonNull(name, phone, email, address);

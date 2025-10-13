@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditCommand.EditCompanyDescriptor;
+import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -139,7 +140,7 @@ public class EditCommandTest {
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withName(VALID_NAME_BOEING).build();
         EditCommand editCommand = new EditCommand(outOfBoundIndex, descriptor);
 
-        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+        String expectedMessage = String.format(ParserUtil.MESSAGE_INDEX_OUT_OF_RANGE,
                 outOfBoundIndex.getOneBased(), model.getFilteredCompanyList().size());
         assertCommandFailure(editCommand, model, expectedMessage);
     }
@@ -158,7 +159,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(outOfBoundIndex,
                 new EditCompanyDescriptorBuilder().withName(VALID_NAME_BOEING).build());
 
-        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+        String expectedMessage = String.format(ParserUtil.MESSAGE_INDEX_OUT_OF_RANGE,
                 outOfBoundIndex.getOneBased(), model.getFilteredCompanyList().size());
         assertCommandFailure(editCommand, model, expectedMessage);
     }
@@ -249,7 +250,7 @@ public class EditCommandTest {
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("applied").build();
         EditCommand editCommand = new EditCommand(indices, descriptor);
 
-        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+        String expectedMessage = String.format(ParserUtil.MESSAGE_INDEX_OUT_OF_RANGE,
                 outOfBoundIndex.getOneBased(), model.getFilteredCompanyList().size());
         assertCommandFailure(editCommand, model, expectedMessage);
     }
@@ -262,7 +263,7 @@ public class EditCommandTest {
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("applied").build();
         EditCommand editCommand = new EditCommand(indices, descriptor);
 
-        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+        String expectedMessage = String.format(ParserUtil.MESSAGE_INDEX_OUT_OF_RANGE,
                 outOfBound1.getOneBased(), model.getFilteredCompanyList().size());
         assertCommandFailure(editCommand, model, expectedMessage);
     }
@@ -295,7 +296,7 @@ public class EditCommandTest {
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("applied").build();
         EditCommand editCommand = new EditCommand(indices, descriptor);
 
-        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+        String expectedMessage = String.format(ParserUtil.MESSAGE_INDEX_OUT_OF_RANGE,
                 INDEX_SECOND_COMPANY.getOneBased(), model.getFilteredCompanyList().size());
         assertCommandFailure(editCommand, model, expectedMessage);
     }
@@ -384,7 +385,7 @@ public class EditCommandTest {
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withName("Test Company").build();
         EditCommand editCommand = new EditCommand(outOfBoundIndex, descriptor);
 
-        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+        String expectedMessage = String.format(ParserUtil.MESSAGE_INDEX_OUT_OF_RANGE,
                 outOfBoundIndex.getOneBased(), model.getFilteredCompanyList().size());
         assertCommandFailure(editCommand, model, expectedMessage);
     }
@@ -397,7 +398,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(indices, descriptor);
 
         // Should fail on the first out-of-bounds index (8)
-        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+        String expectedMessage = String.format(ParserUtil.MESSAGE_INDEX_OUT_OF_RANGE,
                 8, model.getFilteredCompanyList().size());
         assertCommandFailure(editCommand, model, expectedMessage);
     }
@@ -410,7 +411,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(indices, descriptor);
 
         // Should fail on the first out-of-bounds index (8)
-        String expectedMessage = String.format("Index out of bounds: %d. Valid range: 1 to %d.",
+        String expectedMessage = String.format(ParserUtil.MESSAGE_INDEX_OUT_OF_RANGE,
                 8, model.getFilteredCompanyList().size());
         assertCommandFailure(editCommand, model, expectedMessage);
     }
