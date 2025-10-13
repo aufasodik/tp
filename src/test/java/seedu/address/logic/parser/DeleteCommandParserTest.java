@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.DeleteCommand;
 
 public class DeleteCommandParserTest {
@@ -23,21 +24,23 @@ public class DeleteCommandParserTest {
 
     @Test
     public void parse_validMultipleIndices_returnsDeleteCommand() {
-        assertParseSuccess(parser, "1 2", new DeleteCommand(List.of(
+        assertParseSuccess(parser, "1,2", new DeleteCommand(List.of(
                 INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY)));
     }
 
     @Test
     public void parse_validRange_returnsDeleteCommand() {
-        assertParseSuccess(parser, "1-2", new DeleteCommand(List.of(
-                INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY)));
+        assertParseSuccess(parser, "1,5,6", new DeleteCommand(List.of(
+                INDEX_FIRST_COMPANY,
+                Index.fromOneBased(5),
+                Index.fromOneBased(6))));
     }
 
     @Test
     public void parse_mixedIndicesAndRange_returnsDeleteCommand() {
         // 1 2-2 should dedupe to [1,2]
-        assertParseSuccess(parser, "1 2-2", new DeleteCommand(List.of(
-                INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY)));
+        assertParseSuccess(parser, "1,1,1", new DeleteCommand(List.of(
+                INDEX_FIRST_COMPANY)));
     }
 
     @Test

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.DeleteCommand;
@@ -18,12 +19,13 @@ import seedu.address.logic.parser.exceptions.ParseException;
  * Parses input arguments and creates a new DeleteCommand object.
  * Supports:
  *   - Single index: "1"
- *   - Multiple indices: "1 3 5"
- *   - Ranges: "2-4" (inclusive)
- *   - Mixed: "1 3-5 7"
+ *   - Multiple indices: "1,3,5"
  * Duplicates are ignored (first occurrence kept).
  */
 public class DeleteCommandParser implements Parser<DeleteCommand> {
+    private static final Pattern COMMA_LIST =
+            Pattern.compile("^\\s*\\d+(?:\\s*,\\s*\\d+)*\\s*$");
+
     @Override
     public DeleteCommand parse(String args) throws ParseException {
         requireNonNull(args);
@@ -41,25 +43,21 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
     /** Splits and validates the raw input into non-empty tokens. */
     private static String[] tokenize(String raw) throws ParseException {
         final String trimmed = raw.trim();
-        if (trimmed.isEmpty()) {
+        if (!COMMA_LIST.matcher(trimmed).matches()) {
             throw invalidFormat();
         }
-        return trimmed.split("\\s+");
+        return trimmed.split(",");
     }
 
     /** Parses tokens into a de-duplicated, insertion-ordered set of zero-based indices. */
     private static Set<Integer> collectZeroBased(String[] tokens) throws ParseException {
         final Set<Integer> out = new LinkedHashSet<>();
         for (String tok : tokens) {
-            if (tok.isBlank()) {
-                continue;
+            final String trimmed = tok.trim();
+            if (trimmed.isEmpty()) {
+                throw invalidFormat();
             }
-            if (tok.contains("-")) {
-                Range r = parseRangeToken(tok);
-                addRange(out, r.start, r.end);
-            } else {
-                out.add(toZeroBasedIndex(tok));
-            }
+            out.add(toZeroBasedIndex(trimmed));
         }
         return out;
     }
