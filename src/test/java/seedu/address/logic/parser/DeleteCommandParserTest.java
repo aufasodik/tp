@@ -30,7 +30,7 @@ public class DeleteCommandParserTest {
 
     @Test
     public void parse_validRange_returnsDeleteCommand() {
-        assertParseSuccess(parser, "1,5,6", new DeleteCommand(List.of(
+        assertParseSuccess(parser, "1, 5, 6", new DeleteCommand(List.of(
                 INDEX_FIRST_COMPANY,
                 Index.fromOneBased(5),
                 Index.fromOneBased(6))));
@@ -50,6 +50,8 @@ public class DeleteCommandParserTest {
         assertParseFailure(parser, "2-1",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
         assertParseFailure(parser, "",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "1 3 5",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
     }
 }
