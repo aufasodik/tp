@@ -7,7 +7,7 @@
     "address" : "123, Jurong West Ave 6, #08-111",
     "tags" : [ "supplier" ],
     "remark" : "Leading manufacturer of industrial equipment.",
-    "status" : "pending-application"
+    "status" : "to-apply"
   }, {
     "name" : "Beta Corporation",
     "phone" : "98765432",
@@ -15,7 +15,7 @@
     "address" : "311, Clementi Ave 2, #02-25",
     "tags" : [ "client", "partner" ],
     "remark" : "Trusted partner for software solutions.",
-    "status" : "technical-interview"
+    "status" : "tech-interview"
   }, {
     "name" : "Consolidated Traders",
     "phone" : "95352563",
@@ -23,7 +23,7 @@
     "address" : "1 Wall Street Plaza",
     "tags" : [ ],
     "remark" : "Specializes in bulk trading operations.",
-    "status" : "application-submitted"
+    "status" : "applied"
   }, {
     "name" : "Delta Enterprises",
     "phone" : "87652533",
@@ -39,7 +39,7 @@
     "address" : "50 Michigan Avenue",
     "tags" : [ ],
     "remark" : "Known for precision engineering.",
-    "status" : "offer-received"
+    "status" : "offered"
   }, {
     "name" : "Fusion Systems",
     "phone" : "9482427",
@@ -47,7 +47,7 @@
     "address" : "88 Little Tokyo Street",
     "tags" : [ ],
     "remark" : "Innovative solutions for IT infrastructure.",
-    "status" : "online-assessment"
+    "status" : "oa"
   }, {
     "name" : "Global Trading Co",
     "phone" : "9482442",

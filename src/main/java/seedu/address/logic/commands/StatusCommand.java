@@ -23,8 +23,9 @@ public class StatusCommand extends Command {
             + ": Edits the application status of the company identified "
             + "by the index number used in the last company listing. "
             + "Existing status will be overwritten by the input.\n"
-            + "Parameters: INDEX (must be a positive integer) "
-            + "s/STATUS (one of: to-apply, applied, in-process, offered, rejected)\n"
+            + "Parameters: INDEX (must be a positive integer)\n"
+            + "s/STATUS (one of: to-apply, applied, oa, tech-interview, hr-interview, in-process, rejected, "
+            + "offered, accepted)\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + "s/in-process";
 

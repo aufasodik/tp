@@ -17,13 +17,18 @@ public class Status {
     public enum Stage {
         TO_APPLY,
         APPLIED,
+        OA,
+        TECH_INTERVIEW,
+        HR_INTERVIEW,
         IN_PROCESS,
         OFFERED,
+        ACCEPTED,
         REJECTED
     }
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Status must be one of: TO-APPLY, APPLIED, IN-PROCESS, OFFERED, REJECTED";
+            "Status must be one of: TO-APPLY, APPLIED, OA, TECH-INTERVIEW, HR-INTERVIEW, IN-PROCESS, "
+                    + "OFFERED, ACCEPTED, REJECTED";
 
     public final Stage value;
 
@@ -66,7 +71,7 @@ public class Status {
 
     /**
      * Maps a user-provided status token (case-insensitive; hyphen/underscore treated as separators)
-     * into a {@link Stage}. Only the five canonical stages are accepted.
+     * into a {@link Stage}. Only the canonical stages are accepted.
      *
      * @throws UnsupportedStatusException if the input does not correspond to a canonical stage
      */
@@ -78,10 +83,18 @@ public class Status {
             return Stage.TO_APPLY;
         case "APPLIED":
             return Stage.APPLIED;
+        case "OA":
+            return Stage.OA;
+        case "TECH-INTERVIEW":
+            return Stage.TECH_INTERVIEW;
+        case "HR-INTERVIEW":
+            return Stage.HR_INTERVIEW;
         case "IN-PROCESS":
             return Stage.IN_PROCESS;
         case "OFFERED":
             return Stage.OFFERED;
+        case "ACCEPTED":
+            return Stage.ACCEPTED;
         case "REJECTED":
             return Stage.REJECTED;
         default:
@@ -90,45 +103,34 @@ public class Status {
     }
 
     /**
-     * Maps values found in storage (legacy and canonical) into a {@link Stage}.
-     * Recognizes historical values used before the enum migration.
+     * Maps stored canonical tokens into a {@link Stage}.
      *
      * @throws UnsupportedStatusException if the input is unknown
      */
     public static Stage fromStorage(String stored) {
         requireNonNull(stored);
         String s = stored.trim().toLowerCase();
-        // Already canonical tokens
         switch (s) {
         case "to-apply":
             return Stage.TO_APPLY;
         case "applied":
             return Stage.APPLIED;
+        case "oa":
+            return Stage.OA;
+        case "tech-interview":
+            return Stage.TECH_INTERVIEW;
+        case "hr-interview":
+            return Stage.HR_INTERVIEW;
         case "in-process":
             return Stage.IN_PROCESS;
         case "offered":
             return Stage.OFFERED;
+        case "accepted":
+            return Stage.ACCEPTED;
         case "rejected":
             return Stage.REJECTED;
         default:
-            // Legacy tokens mapping
-            switch (s) {
-            case "pending-application":
-                return Stage.TO_APPLY;
-            case "application-submitted":
-                return Stage.APPLIED;
-            case "technical-interview":
-            case "hr-interview":
-            case "online-assessment":
-                return Stage.IN_PROCESS;
-            case "offer-received":
-            case "accepted":
-                return Stage.OFFERED;
-            case "rejected":
-                return Stage.REJECTED;
-            default:
-                throw new UnsupportedStatusException(stored);
-            }
+            throw new UnsupportedStatusException(stored);
         }
     }
 
@@ -142,10 +144,18 @@ public class Status {
             return "to-apply";
         case APPLIED:
             return "applied";
+        case OA:
+            return "oa";
+        case TECH_INTERVIEW:
+            return "tech-interview";
+        case HR_INTERVIEW:
+            return "hr-interview";
         case IN_PROCESS:
             return "in-process";
         case OFFERED:
             return "offered";
+        case ACCEPTED:
+            return "accepted";
         case REJECTED:
             return "rejected";
         // Should never happen

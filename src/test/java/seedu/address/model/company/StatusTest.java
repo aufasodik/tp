@@ -40,12 +40,17 @@ public class StatusTest {
         assertFalse(Status.isValidStatus(" ")); // spaces only
         assertFalse(Status.isValidStatus("pending application")); // contains space
         assertFalse(Status.isValidStatus("technical*interview")); // contains special character
-        assertFalse(Status.isValidStatus("hr_interview")); // contains underscore
-        // valid statuses (only canonical five)
+        assertFalse(Status.isValidStatus("tech interview")); // contains space
+        assertFalse(Status.isValidStatus("online-assessment")); // legacy token
+        // valid statuses
         assertTrue(Status.isValidStatus("to-apply"));
         assertTrue(Status.isValidStatus("applied"));
+        assertTrue(Status.isValidStatus("oa"));
+        assertTrue(Status.isValidStatus("tech-interview"));
+        assertTrue(Status.isValidStatus("hr_interview"));
         assertTrue(Status.isValidStatus("in-process"));
         assertTrue(Status.isValidStatus("offered"));
+        assertTrue(Status.isValidStatus("accepted"));
         assertTrue(Status.isValidStatus("rejected"));
     }
 
@@ -85,13 +90,42 @@ public class StatusTest {
 
     @Test
     public void toString_returnsCorrectValue() {
-        Status status = new Status("in-process");
-        assertEquals("in-process", status.toString());
+        Status status = new Status("tech-interview");
+        assertEquals("tech-interview", status.toString());
     }
 
     @Test
     public void toString_defaultStatus_returnsDefaultValue() {
         Status status = new Status();
         assertEquals("to-apply", status.toString());
+    }
+
+    @Test
+    public void fromStorage_legacyValues_throwsException() {
+        assertThrows(
+                seedu.address.model.company.exceptions.UnsupportedStatusException.class, () ->
+                        Status.fromStorage("pending-application")
+        );
+        assertThrows(
+                seedu.address.model.company.exceptions.UnsupportedStatusException.class, () ->
+                        Status.fromStorage("online-assessment")
+        );
+        assertThrows(
+                seedu.address.model.company.exceptions.UnsupportedStatusException.class, () ->
+                        Status.fromStorage("offer-received")
+        );
+    }
+
+    @Test
+    public void fromStorage_canonicalValues_success() {
+        assertEquals(Status.Stage.TO_APPLY, Status.fromStorage("to-apply"));
+        assertEquals(Status.Stage.APPLIED, Status.fromStorage("applied"));
+        assertEquals(Status.Stage.OA, Status.fromStorage("oa"));
+        assertEquals(Status.Stage.TECH_INTERVIEW, Status.fromStorage("tech-interview"));
+        assertEquals(Status.Stage.HR_INTERVIEW, Status.fromStorage("hr-interview"));
+        assertEquals(Status.Stage.IN_PROCESS, Status.fromStorage("in-process"));
+        assertEquals(Status.Stage.OFFERED, Status.fromStorage("offered"));
+        assertEquals(Status.Stage.ACCEPTED, Status.fromStorage("accepted"));
+        assertEquals(Status.Stage.REJECTED, Status.fromStorage("rejected"));
     }
 }

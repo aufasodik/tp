@@ -26,7 +26,7 @@ import seedu.address.testutil.CompanyBuilder;
  */
 public class StatusCommandTest {
 
-    private static final String STATUS_STUB = "in-process";
+    private static final String STATUS_STUB = "hr_interview";
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
