@@ -26,13 +26,13 @@ Cerebro is a **desktop app for managing internship applications progress, optimi
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * `list` : Lists all contacts.
+   * `list` : Lists all applications.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * `add n/Google p/67676767 e/google@example.com a/Goggles street, block 123, #01-01 r/FAANG Jackpot t/pending-interview` : Adds a company named `Google` to the Application List.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
-   * `clear` : Deletes all contacts.
+   * `clear` : Deletes all applications.
 
     * `exit` : Exits the app.
 
@@ -78,12 +78,12 @@ Format: `help`
 Adds a company to the application tracker.
 
 You can also set an application status when adding:
-`add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS r/REMARK [s/STATUS] [t/TAG]...`
+`add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/REMARK] [s/STATUS] [t/TAG]...`
 
 - Valid `STATUS` values: `to-apply`, `applied`, `in-process`, `offered`, `rejected`.
 - If `s/STATUS` is omitted, status defaults to `to-apply`.
 
-Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL a/ADDRESS] [r/REMARKS] [s/STATUS] [t/TAG]…​`
+Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/REMARKS] [s/STATUS] [t/TAG]…​`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A company can have any number of tags (including 0)
@@ -200,11 +200,11 @@ Format: `exit`
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+Application tracker data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+Application tracker data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
