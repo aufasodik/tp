@@ -47,10 +47,10 @@ Cerebro is a **desktop app for managing internship companies progress, optimized
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/Google`.
 
 * Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/Google t/friend` or as `n/Google`.
+  e.g `n/NAME [t/TAG]` can be used as `n/Google t/remote-work` or as `n/Google`.
 
 * Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/remote-work`, `t/remote-work t/good-salary` etc.
 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
@@ -89,7 +89,7 @@ A company can have any number of tags (including 0)
 Examples:
 
 * `add n/Google p/18301893 e/google@example.com a/Goggles street, block 123, #01-01`
-* `add n/LinkedIn e/linkedin@example.com a/Pulau Tekong p/67676767 t/criminal`
+* `add n/LinkedIn e/linkedin@example.com a/Pulau Tekong p/67676767 t/remote-work`
 
 ### Listing all companies : `list`
 
