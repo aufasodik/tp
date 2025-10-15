@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-Cerebro is a **desktop app for managing internship applications progress, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, Cerebro can get your application tracking tasks done faster than traditional GUI apps.
+Cerebro is a **desktop app for managing internship companies progress, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, Cerebro can get your application tracking tasks done faster than traditional GUI apps.
 
 * Table of Contents
 {:toc}
@@ -26,13 +26,13 @@ Cerebro is a **desktop app for managing internship applications progress, optimi
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * `list` : Lists all applications.
+    * `list` : Lists all companies.
 
-   * `add n/Google p/67676767 e/google@example.com a/Goggles street, block 123, #01-01 r/FAANG Jackpot t/pending-interview` : Adds a company named `Google` to the Application List.
+    * `add n/Google p/67676767 e/google@example.com a/Goggles street, block 123, #01-01 r/FAANG Jackpot t/pending-interview` : Adds a company named `Google` to the Application List.
 
-   * `delete 3` : Deletes the 3rd contact shown in the current list.
+    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
-   * `clear` : Deletes all applications.
+    * `clear` : Deletes all companies.
 
     * `exit` : Exits the app.
 
