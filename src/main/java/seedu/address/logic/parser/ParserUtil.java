@@ -45,7 +45,7 @@ public class ParserUtil {
      * @return List of valid unique indices
      * @throws ParseIndicesException if any index is invalid or duplicate
      */
-    public static List<Index> parseIndices(String indicesString) throws ParseException {
+    public static List<Index> parseIndices(String indicesString) throws ParseIndicesException {
         return IndexParser.parseIndices(indicesString);
     }
 

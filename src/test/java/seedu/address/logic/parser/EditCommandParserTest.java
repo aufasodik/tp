@@ -74,6 +74,9 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_invalidPreamble_failure() {
+        // invalid index
+        assertParseFailure(parser, "a" + NAME_DESC_AIRBUS, MESSAGE_INVALID_INDICES);
+
         // negative index
         assertParseFailure(parser, "-5" + NAME_DESC_AIRBUS, MESSAGE_INVALID_INDICES);
 

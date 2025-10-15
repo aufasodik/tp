@@ -52,7 +52,7 @@ public class IndexParser {
      * @return List of valid unique indices
      * @throws ParseIndicesException if any index is invalid or duplicate
      */
-    public static List<Index> parseIndices(String indicesString) throws ParseException, ParseIndicesException {
+    public static List<Index> parseIndices(String indicesString) throws ParseIndicesException {
         requireNonNull(indicesString);
         String trimmedIndices = indicesString.trim();
 
