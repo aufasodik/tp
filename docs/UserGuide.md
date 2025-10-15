@@ -78,7 +78,7 @@ Format: `help`
 Adds a company to the application tracker.
 
 You can also set an application status when adding:
-`add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/REMARK] [s/STATUS] [t/TAG]...`
+`add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]...`
 
 - Valid `STATUS` values: `to-apply`, `applied`, `in-process`, `offered`, `rejected`.
 - If `s/STATUS` is omitted, status defaults to `to-apply`.
