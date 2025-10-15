@@ -104,6 +104,7 @@ Edits an existing company in the address book.
 Format: `edit INDEX[,INDEX]... [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
 * Edits the company at the specified `INDEX/INDICES`. The indices refers to the index number shown in the displayed company list. The index/indices **must be a present and is a positive integer** 1, 2, 3, …​
+* Indices input has to be separated by commas
 * At least one of the optional fields must be provided.
 * All provided fields are applied to each specified company.
 * When editing tags, the existing tags of the company will be removed i.e adding of tags is not cumulative.
@@ -142,6 +143,7 @@ Format: `delete INDEX[, INDEX]`
 * Deletes the company at the specified `INDEX/INDICES`.
 * The index/indices refers to the index number shown in the displayed company list.
 * The index/indices **must be a positive integer** 1, 2, 3, …​
+* Indices input has to be separated by commas
 * The command allows random ordering index.
 
 Examples:
