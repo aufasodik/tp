@@ -15,6 +15,7 @@ import seedu.address.model.company.Email;
 import seedu.address.model.company.Name;
 import seedu.address.model.company.Phone;
 import seedu.address.model.company.Remark;
+import seedu.address.model.company.Status;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -145,5 +146,21 @@ public class ParserUtil {
         requireNonNull(remark);
         String trimmedRemark = remark.trim();
         return new Remark(trimmedRemark);
+    }
+
+    /**
+     * Parses a {@code String status} into a {@code Status}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code status} is invalid.
+     */
+    public static Status parseStatus(String status) throws ParseException {
+        requireNonNull(status);
+        String trimmedStatus = status.trim();
+        try {
+            return new Status(trimmedStatus);
+        } catch (RuntimeException e) {
+            throw new ParseException(Status.MESSAGE_CONSTRAINTS);
+        }
     }
 }
