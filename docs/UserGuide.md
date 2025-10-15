@@ -212,7 +212,7 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/REMARKS] [t/TAG]…​` <br> e.g., `add n/Facebook p/76395739 e/Facebook@example.com a/354, Clementi Rd, 3544665 r/FAANG Jackpot t/pending-interview`
+**Add** | `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/REMARKS] [t/TAG]…​` <br> e.g., `add n/Facebook p/76395739 e/Facebook@example.com a/354, Clementi Rd, 3544665 r/FAANG Jackpot s/offered t/remote-work`
 **Clear** | `clear`
 **Delete** | `delete <INDEX OR INDICES>`<br> e.g., `delete 3` or `delete 3, 4, 9`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
