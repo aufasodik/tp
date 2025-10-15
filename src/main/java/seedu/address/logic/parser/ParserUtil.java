@@ -25,16 +25,20 @@ import seedu.address.model.tag.Tag;
  */
 public class ParserUtil {
 
-    public static final String MESSAGE_INVALID_INDEX = "Index must be a positive integer (1, 2, 3, ...).";
+    public static final String MESSAGE_INVALID_INDEX = "Indices must be a comma-separated list of positive integers"
+        + " (1, 2, 3) or a range (1-3) or a combination of both (1, 2-4).";
     public static final String MESSAGE_DUPLICATE_INDICES = "Duplicate indices found: %1$s. "
             + "Each index should appear only once.";
     public static final String MESSAGE_INDEX_OUT_OF_RANGE = "Index(es) out of range: %1$s. "
             + "Valid range is 1 to %2$d.";
 
     /**
-     * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
+     * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading
+     * and trailing whitespaces will be
      * trimmed. Range validation should be done separately in the command.
-     * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
+     *
+     * @throws ParseException if the specified index is invalid (not non-zero
+     *                        unsigned integer).
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
         String trimmedIndex = oneBasedIndex.trim();
@@ -44,12 +48,13 @@ public class ParserUtil {
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
     }
 
-
     /**
-     * Parses comma-separated indices into a {@code List<Index>} without range validation.
+     * Parses comma-separated indices into a {@code List<Index>} without range
+     * validation.
      * Use this when range validation will be done later in the command execution.
      *
-     * @param indicesString String containing comma-separated indices (e.g., "1", "1,2,3")
+     * @param indicesString String containing comma-separated indices (e.g., "1",
+     *                      "1,2,3")
      * @return List of valid unique indices
      * @throws ParseIndicesException if any index is invalid or duplicate
      */
@@ -65,6 +70,20 @@ public class ParserUtil {
         List<Index> indexList = new ArrayList<>();
         Set<Integer> seenIndices = new HashSet<>();
         List<String> duplicates = new ArrayList<>();
+        @FunctionalInterface
+        interface Function2<One, Two> {
+            public Two apply(One one, Two two);
+        }
+
+        Function2<Integer, String> addIndex = (Integer idx, String trimmedIndexString) -> {
+            if (seenIndices.contains(idx)) {
+                duplicates.add(trimmedIndexString);
+            } else {
+                seenIndices.add(idx);
+                indexList.add(Index.fromOneBased(idx));
+            }
+            return null;
+        };
 
         for (String indexString : indexStrings) {
             String trimmedIndexString = indexString.trim();
@@ -72,22 +91,21 @@ public class ParserUtil {
                 throw new ParseException(MESSAGE_INVALID_INDEX);
             }
 
-            try {
+            if (trimmedIndexString.contains("-")) {
+                Range range = parseRangeToken(trimmedIndexString);
+                for (int i = range.start; i <= range.end; i++) {
+                    int oneBasedIndex = i + 1;
+                    addIndex.apply(oneBasedIndex, trimmedIndexString);
+                }
+            } else {
+                if (trimmedIndexString.contains(" ")) {
+                    throw new ParseException(MESSAGE_INVALID_INDEX);
+                }
                 Index index = parseIndex(trimmedIndexString);
                 int oneBasedIndex = index.getOneBased();
-
-                if (seenIndices.contains(oneBasedIndex)) {
-                    duplicates.add(trimmedIndexString);
-                    continue;
-                }
-
-                seenIndices.add(oneBasedIndex);
-                indexList.add(index);
-
-            } catch (ParseException e) {
-                // Re-throw the same invalid index exception for consistency
-                throw e;
+                addIndex.apply(oneBasedIndex, trimmedIndexString);
             }
+
         }
 
         // Only duplicate checking gets the specific exception
@@ -97,6 +115,37 @@ public class ParserUtil {
         }
 
         return indexList;
+    }
+
+    /** Parses a token like "a-b" (inclusive) into a {@link Range}. */
+    private static Range parseRangeToken(String token) throws ParseException {
+        ParseException invalidFormat = new ParseException(
+                String.format(MESSAGE_INVALID_INDEX, token));
+        // keep empties to catch "3-" / "-3"
+        final String[] parts = token.split("-", -1);
+
+        if (parts.length != 2 || parts[0].isBlank() || parts[1].isBlank()) {
+            throw invalidFormat;
+        }
+
+        final int start = ParserUtil.parseIndex(parts[0].trim()).getZeroBased();
+        final int end = ParserUtil.parseIndex(parts[1].trim()).getZeroBased();
+
+        // disallow "4-2"
+        if (end < start) {
+            throw invalidFormat;
+        }
+        return new Range(start, end);
+    }
+
+    /** Simple inclusive integer range. */
+    private static final class Range {
+        final int start;
+        final int end;
+        Range(int start, int end) {
+            this.start = start;
+            this.end = end;
+        }
     }
 
     /**
