@@ -2,8 +2,9 @@ package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.parser.ParserUtil.MESSAGE_DUPLICATE_INDICES;
-import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
+import static seedu.address.logic.parser.IndexParser.MESSAGE_DUPLICATE_INDICES;
+import static seedu.address.logic.parser.IndexParser.MESSAGE_INVALID_INDEX;
+import static seedu.address.logic.parser.IndexParser.MESSAGE_INVALID_INDICES;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_COMPANY;
 
@@ -71,8 +72,8 @@ public class ParserUtilTest {
 
     @Test
     public void parseIndices_emptyString_throwsParseException() {
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () -> ParserUtil.parseIndices(""));
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () -> ParserUtil.parseIndices("   "));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices(""));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("   "));
     }
 
     @Test
@@ -123,26 +124,26 @@ public class ParserUtilTest {
 
     @Test
     public void parseIndices_invalidIndex_throwsParseException() {
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () -> ParserUtil.parseIndices("1,abc"));
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () -> ParserUtil.parseIndices("0,1"));
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () -> ParserUtil.parseIndices("1,-2"));
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () -> ParserUtil.parseIndices("1,2,0"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("1,abc"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("0,1"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("1,-2"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("1,2,0"));
     }
 
     @Test
     public void parseIndices_malformedCommas_throwsParseException() {
         // Empty indices after commas
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () -> ParserUtil.parseIndices("1,"));
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () -> ParserUtil.parseIndices(",2"));
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () -> ParserUtil.parseIndices("1,,3"));
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () -> ParserUtil.parseIndices("1, ,3"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("1,"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices(",2"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("1,,3"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("1, ,3"));
     }
 
     @Test
     public void parseIndices_mixedInvalidAndDuplicate_throwsParseExceptionForInvalid() {
         // Invalid indices should be caught first
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () -> ParserUtil.parseIndices("abc,1,1"));
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () -> ParserUtil.parseIndices("1,0,1"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("abc,1,1"));
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () -> ParserUtil.parseIndices("1,0,1"));
     }
 
     @Test
@@ -158,7 +159,7 @@ public class ParserUtilTest {
     @Test
     public void parseIndices_outOfIntegerRange_throwsParseException() {
         String largeNumber = Long.toString((long) Integer.MAX_VALUE + 1);
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () ->
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () ->
                 ParserUtil.parseIndices("1," + largeNumber));
     }
 
@@ -326,29 +327,29 @@ public class ParserUtilTest {
     @Test
     public void parseIndices_mixedValidInvalidAndDuplicate_throwsParseExceptionForInvalidFirst() {
         // Invalid format should be caught before duplicate checking
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () ->
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () ->
                 ParserUtil.parseIndices("abc,1,2,1"));
 
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () ->
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () ->
                 ParserUtil.parseIndices("1,0,2,2"));
     }
 
     @Test
     public void parseIndices_leadingTrailingCommasAndSpaces_throwsParseException() {
         // Leading comma
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () ->
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () ->
                 ParserUtil.parseIndices(",1,2"));
 
         // Trailing comma
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () ->
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () ->
                 ParserUtil.parseIndices("1,2,"));
 
         // Multiple consecutive commas
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () ->
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () ->
                 ParserUtil.parseIndices("1,,2"));
 
         // Space only between commas
-        assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, () ->
+        assertThrows(ParseException.class, MESSAGE_INVALID_INDICES, () ->
                 ParserUtil.parseIndices("1, ,2"));
     }
 

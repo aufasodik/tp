@@ -43,6 +43,14 @@ public class EditCommandParser implements Parser<EditCommand> {
 
         List<Index> indices;
 
+        if (args.isEmpty() || argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        }
+
+        if (argMultimap.getPreamble().contains("/")) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        }
+
         try {
             // Parse indices - supports both single and comma-separated multiple indices
             indices = ParserUtil.parseIndices(argMultimap.getPreamble());

@@ -1,16 +1,16 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.parser.exceptions.ParseIndicesException;
 
 /**
  * Parses input arguments and creates a new DeleteCommand object.
@@ -20,95 +20,125 @@ import seedu.address.logic.parser.exceptions.ParseException;
  * Duplicates are ignored (first occurrence kept).
  */
 public class IndexParser {
-    /** Parses input arguments and creates a new List of Index objects. */
-    public static List<Index> parse(String args) throws ParseException {
-        requireNonNull(args);
+    public static final String MESSAGE_INVALID_INDEX = "Index must be a positive integer: 1, 2, 3...";
+    public static final String MESSAGE_INVALID_INDICES = "Indices must be a comma-separated list of positive integers"
+            + " (1, 2, 3) or a range (1-3) or a combination of both (1, 2-4).";
+    public static final String MESSAGE_DUPLICATE_INDICES = "Duplicate indices found: %1$s. "
+            + "Each index should appear only once.";
 
-        final String[] tokens = tokenize(args);
-        final Set<Integer> zeroBased = collectZeroBased(tokens);
-        if (zeroBased.isEmpty()) {
-            throw invalidFormat();
+    /**
+     * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading
+     * and trailing whitespaces will be
+     * trimmed. Range validation should be done separately in the command.
+     *
+     * @throws ParseIndicesException if the specified index is invalid (not non-zero
+     *                        unsigned integer).
+     */
+    public static Index parseIndex(String oneBasedIndex) throws ParseException {
+        String trimmedIndex = oneBasedIndex.trim();
+        if (!StringUtil.isNonZeroUnsignedInteger(trimmedIndex)) {
+            throw new ParseException(MESSAGE_INVALID_INDEX);
         }
-
-        return toIndexList(zeroBased);
-    }
-
-    /** Splits and validates the raw input into non-empty tokens. */
-    private static String[] tokenize(String raw) throws ParseException {
-        final String trimmed = raw.trim();
-        return trimmed.split(",");
+        return Index.fromOneBased(Integer.parseInt(trimmedIndex));
     }
 
     /**
-     * Parses tokens into a de-duplicated, insertion-ordered set of zero-based
-     * indices.
+     * Parses comma-separated indices into a {@code List<Index>} without range
+     * validation.
+     * Use this when range validation will be done later in the command execution.
+     *
+     * @param indicesString String containing comma-separated indices (e.g., "1",
+     *                      "1,2,3")
+     * @return List of valid unique indices
+     * @throws ParseIndicesException if any index is invalid or duplicate
      */
-    private static Set<Integer> collectZeroBased(String[] tokens) throws ParseException {
-        final Set<Integer> out = new LinkedHashSet<>();
-        for (String tok : tokens) {
-            final String trimmed = tok.trim();
-            if (trimmed.isBlank()) {
-                continue;
-            }
-            if (tok.contains("-")) {
-                Range r = parseRangeToken(trimmed);
-                addRange(out, r.start, r.end);
-            } else {
-                out.add(parseIndexToken(trimmed));
-            }
-        }
-        return out;
-    }
+    public static List<Index> parseIndices(String indicesString) throws ParseException, ParseIndicesException {
+        requireNonNull(indicesString);
+        String trimmedIndices = indicesString.trim();
 
-    /** Converts a set of zero-based ints to a list of {@link Index}. */
-    private static List<Index> toIndexList(Set<Integer> zeroBased) {
-        final List<Index> indices = new ArrayList<>(zeroBased.size());
-        for (int zb : zeroBased) {
-            indices.add(Index.fromZeroBased(zb));
+        if (trimmedIndices.isEmpty()) {
+            throw new ParseIndicesException(MESSAGE_INVALID_INDICES);
         }
-        return indices;
+
+        String[] indexStrings = trimmedIndices.split(",", -1);
+        List<Index> indexList = new ArrayList<>();
+        Set<Integer> seenIndices = new HashSet<>();
+        List<String> duplicates = new ArrayList<>();
+        @FunctionalInterface
+        interface Function2<One, Two> {
+            public Two apply(One one, Two two);
+        }
+
+        Function2<Integer, String> addIndex = (Integer idx, String trimmedIndexString) -> {
+            if (seenIndices.contains(idx)) {
+                duplicates.add(trimmedIndexString);
+            } else {
+                seenIndices.add(idx);
+                indexList.add(Index.fromOneBased(idx));
+            }
+            return null;
+        };
+
+        for (String indexString : indexStrings) {
+            String trimmedIndexString = indexString.trim();
+            if (trimmedIndexString.isEmpty()) {
+                throw new ParseIndicesException(MESSAGE_INVALID_INDICES);
+            }
+
+            if (trimmedIndexString.contains("-")) {
+                Range range = parseRangeToken(trimmedIndexString);
+                for (int i = range.start; i <= range.end; i++) {
+                    int oneBasedIndex = i + 1;
+                    addIndex.apply(oneBasedIndex, trimmedIndexString);
+                }
+            } else {
+                if (trimmedIndexString.contains(" ")) {
+                    throw new ParseIndicesException(MESSAGE_INVALID_INDICES);
+                }
+                Index index;
+                try {
+                    index = parseIndex(trimmedIndexString);
+                } catch (ParseException pe) {
+                    throw new ParseIndicesException(MESSAGE_INVALID_INDICES);
+                }
+                int oneBasedIndex = index.getOneBased();
+                addIndex.apply(oneBasedIndex, trimmedIndexString);
+            }
+
+        }
+
+        // Only duplicate checking gets the specific exception
+        if (!duplicates.isEmpty()) {
+            throw new ParseIndicesException(String.format(MESSAGE_DUPLICATE_INDICES,
+                    String.join(", ", duplicates)));
+        }
+
+        return indexList;
     }
 
     /** Parses a token like "a-b" (inclusive) into a {@link Range}. */
-    private static Range parseRangeToken(String token) throws ParseException {
+    private static Range parseRangeToken(String token) throws ParseIndicesException {
         // keep empties to catch "3-" / "-3"
         final String[] parts = token.split("-", -1);
 
         if (parts.length != 2 || parts[0].isBlank() || parts[1].isBlank()) {
-            throw invalidFormat();
+            throw new ParseIndicesException(MESSAGE_INVALID_INDICES);
         }
 
-        final int start = parseIndexToken(parts[0].trim());
-        final int end = parseIndexToken(parts[1].trim());
+        final int start;
+        final int end;
+        try {
+            start = parseIndex(parts[0].trim()).getZeroBased();
+            end = parseIndex(parts[1].trim()).getZeroBased();
+        } catch (ParseException pe) {
+            throw new ParseIndicesException(MESSAGE_INVALID_INDICES);
+        }
 
         // disallow "4-2"
         if (end < start) {
-            throw invalidFormat();
+            throw new ParseIndicesException(MESSAGE_INVALID_INDICES);
         }
         return new Range(start, end);
-    }
-
-    /** Adds all indices in [start, end] (inclusive) to the set. */
-    private static void addRange(Set<Integer> set, int start, int end) {
-        for (int i = start; i <= end; i++) {
-            set.add(i);
-        }
-    }
-
-    /**
-     * Parses a single index token to zero-based, mapping errors to a standard
-     * invalid-format message.
-     */
-    private static int parseIndexToken(String token) throws ParseException {
-        try {
-            return ParserUtil.parseIndex(token).getZeroBased();
-        } catch (ParseException e) {
-            throw new ParseException(MESSAGE_INVALID_INDEX);
-        }
-    }
-
-    private static ParseException invalidFormat() {
-        return new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
     }
 
     /** Simple inclusive integer range. */
