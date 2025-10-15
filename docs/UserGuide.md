@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-Cerebro is a **desktop app for managing internship applications progress, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, Cerebro can get your application tracking tasks done faster than traditional GUI apps.
+Cerebro is a **desktop app for managing internship companies progress, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, Cerebro can get your application tracking tasks done faster than traditional GUI apps.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -23,15 +23,15 @@ Cerebro is a **desktop app for managing internship applications progress, optimi
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * `list` : Lists all applications.
+    * `list` : Lists all companies.
 
-   * `add n/Google p/67676767 e/google@example.com a/Goggles street, block 123, #01-01 r/FAANG Jackpot t/pending-interview` : Adds a company named `Google` to the Application List.
+    * `add n/Google p/67676767 e/google@example.com a/Goggles street, block 123, #01-01 r/FAANG Jackpot t/pending-interview` : Adds a company named `Google` to the Application List.
 
-   * `delete 3` : Deletes the 3rd contact shown in the current list.
+    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
-   * `clear` : Deletes all applications.
+    * `clear` : Deletes all companies.
 
-   * `exit` : Exits the app.
+    * `exit` : Exits the app.
 
 6. Refer to the [Features](#features) below for details of each command.
 
@@ -50,7 +50,7 @@ Cerebro is a **desktop app for managing internship applications progress, optimi
   e.g `n/NAME [t/TAG]` can be used as `n/Google t/friend` or as `n/Google`.
 
 * Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
@@ -108,7 +108,7 @@ Format: `edit INDEX[,INDEX]... [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]�
 * All provided fields are applied to each specified company.
 * When editing tags, the existing tags of the company will be removed i.e adding of tags is not cumulative.
 * You can remove all the company’s tags by typing `t/` without
-    specifying any tags after it.
+  specifying any tags after it.
 
 Examples:
 *  `edit 1 p/91234567 e/google@example.com` Edits the phone number and email address of the 1st company to be `91234567` and `johndoe@example.com` respectively.
