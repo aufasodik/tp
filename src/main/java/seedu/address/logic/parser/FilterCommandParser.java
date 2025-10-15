@@ -16,15 +16,25 @@ public class FilterCommandParser implements Parser<FilterCommand> {
     @Override
     public FilterCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_STATUS);
+        String trimmedArgs = args.trim();
+        // ArgumentTokenizer only recognises prefixes preceded by whitespace.
+        // Prepend a single space so inputs like "s/applied" are tokenized correctly.
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(" " + trimmedArgs, PREFIX_STATUS);
 
         // No preamble expected; require s/STATUS present
         if (!argMultimap.getPreamble().trim().isEmpty() || argMultimap.getValue(PREFIX_STATUS).isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
         }
 
-        Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS).get());
-        return new FilterCommand(status);
+        // Disallow duplicate status prefixes
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_STATUS);
+
+        try {
+            Status status = ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS).get());
+            return new FilterCommand(status);
+        } catch (ParseException pe) {
+            // For this command, invalid status should surface as an invalid format message per tests
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FilterCommand.MESSAGE_USAGE));
+        }
     }
 }
-
