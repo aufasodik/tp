@@ -80,14 +80,14 @@ You can also set an application status when adding:
 - Valid `STATUS` values: `to-apply`, `applied`, `in-process`, `offered`, `rejected`.
 - If `s/STATUS` is omitted, status defaults to `to-apply`.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/REMARKS] [s/STATUS] [t/TAG]…​`
+Format: `add n/NAME [p/PHONE_NUMBER] [e/EMAIL a/ADDRESS] [r/REMARKS] [s/STATUS] [t/TAG]…​`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A company can have any number of tags (including 0)
 </div>
 
 Examples:
-
+* `add n/Figma`
 * `add n/Google p/18301893 e/google@example.com a/Goggles street, block 123, #01-01`
 * `add n/LinkedIn e/linkedin@example.com a/Pulau Tekong p/67676767 t/remote-work`
 
@@ -209,7 +209,7 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [r/REMARKS] [t/TAG]…​` <br> e.g., `add n/Facebook p/76395739 e/Facebook@example.com a/354, Clementi Rd, 3544665 r/FAANG Jackpot t/pending-interview`
+**Add** | `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/REMARKS] [t/TAG]…​` <br> e.g., `add n/Facebook p/76395739 e/Facebook@example.com a/354, Clementi Rd, 3544665 r/FAANG Jackpot t/pending-interview`
 **Clear** | `clear`
 **Delete** | `delete <INDEX OR INDICES>`<br> e.g., `delete 3` or `delete 3, 4, 9`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
