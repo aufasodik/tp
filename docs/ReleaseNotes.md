@@ -6,7 +6,7 @@ Cerebro is a specialized desktop application for CS students to track internship
 
 ---
 
-## 🎯 Purpose Transformation
+## Purpose Transformation
 
 **From:** General-purpose contact management for any users
 **To:** Specialized internship application tracking for CS students
@@ -15,7 +15,7 @@ This fundamental shift drives all feature changes and enhancements detailed belo
 
 ---
 
-## ✨ Major New Features
+## Major New Features
 
 ### 1. **Application Status Tracking System**
 A comprehensive status management system to track your entire internship application journey:
@@ -66,7 +66,7 @@ Companies can now be added with minimal information and expanded later:
   </tr>
 </table>
 
-### 3. **Enhanced Remark System**
+### 3. **New Remark System**
 A dedicated command for managing application notes:
 
 - **New `remark` Command:** `remark INDEX r/[REMARK]`
@@ -93,12 +93,14 @@ Powerful bulk editing and deletion capabilities for efficient management:
 #### **Batch Edit**
 - **Comma-Separated:** `edit 1,3,5 s/rejected`
 - **Range Edit:** `edit 2-4 s/applied t/tech`
+- **Hybrid:** `edit 1,3-5 s/applied`
 - **Batch Fields:** Status, tags, and remarks can be edited in bulk
 - **Use Case:** Update multiple applications that moved to the same stage
 
 #### **Batch Delete**
 - **Comma-Separated:** `delete 1,3,5`
 - **Range Delete:** `delete 2-4`
+- **Hybrid:** `delete 1,3-5 s/applied`
 - **Duplicate Handling:** Duplicate indices automatically ignored
 
 **Comparison:**
@@ -107,7 +109,7 @@ Powerful bulk editing and deletion capabilities for efficient management:
 
 ---
 
-## 🔄 Enhanced Existing Features
+## Enhanced Existing Features
 
 ### **Add Command Improvements**
 
@@ -128,8 +130,10 @@ add n/Apple r/Great benefits s/applied
 ### **Edit Command Enhancements**
 
 **New Capabilities:**
-- Batch editing with comma-separated indices
-- Range editing with `START-END` syntax
+- Batch editing with: 
+  - comma-separated indices
+  - `START-END` syntax
+  - or BOTH
 - Status field editing
 - Remark field editing
 - Batch operations limited to tags, status, and remarks for data integrity
@@ -144,8 +148,10 @@ edit 2 n/Meta Platforms s/offered t/
 ### **Delete Command Upgrades**
 
 **New Features:**
-- Batch deletion with comma syntax
-- Range deletion with hyphen syntax
+- Batch delete with:
+  - comma-separated indices
+  - `START-END` syntax
+  - or BOTH
 - Automatic duplicate index handling
 - Single atomic operation for all deletions
 
@@ -155,7 +161,7 @@ edit 2 n/Meta Platforms s/offered t/
 
 ---
 
-## 📝 Terminology & Context Changes
+## Terminology & Context Changes
 
 ### Entity Renaming
 
@@ -179,7 +185,7 @@ edit 2 n/Meta Platforms s/offered t/
 
 ---
 
-## 🎨 User Experience Improvements
+## User Experience Improvements
 
 ### **Simplified Quick Start**
 - Streamlined example commands focused on internship tracking workflow
@@ -208,7 +214,7 @@ edit 2 n/Meta Platforms s/offered t/
 
 ---
 
-## 🔧 Technical Enhancements
+## Technical Enhancements
 
 ### **Data Validation**
 - **Unique Company Names:** Case-insensitive duplicate prevention
@@ -230,7 +236,7 @@ edit 2 n/Meta Platforms s/offered t/
 
 ---
 
-## 📋 Command Reference Evolution
+## Command Reference Evolution
 
 ### New Commands
 
@@ -256,7 +262,7 @@ edit 2 n/Meta Platforms s/offered t/
 
 ---
 
-## ❓ New FAQ Entries
+## New FAQ Entries
 
 **Q: What happens if I add a company with the same name as an existing one?**
 A: Company names must be unique (case-insensitive). Cerebro will reject duplicates with an error message.
@@ -269,7 +275,7 @@ A: `status` is a quick single-purpose command, while `edit` allows multi-field u
 
 ---
 
-## 🐛 Maintained Known Issues
+## Maintained Known Issues
 
 The following known issues from AB3 remain in Cerebro:
 
@@ -281,7 +287,7 @@ The following known issues from AB3 remain in Cerebro:
 
 ---
 
-## 🚀 Future Enhancements (v2.0)
+## Future Enhancements (v2.0)
 
 **Planned Features:**
 - Data archiving functionality (Undo your delete/clear commands)
@@ -290,49 +296,7 @@ The following known issues from AB3 remain in Cerebro:
 
 ---
 
-## 📦 Migration from AB3
-
-### For Existing AB3 Users
-
-**What Carries Over:**
-- ✅ Core CLI-first interaction model
-- ✅ Command syntax patterns
-- ✅ JSON data storage format
-- ✅ Auto-save functionality
-- ✅ Fast typing optimization
-
-**What Changes:**
-- ⚠️ Required fields (now only name is required)
-- ⚠️ Entity concept (persons → companies)
-- ⚠️ Data file content (new fields: status, remark)
-- ⚠️ Batch operation syntax (new comma and range formats)
-
-**Migration Path:**
-1. Export your AB3 data
-2. Manually convert entries to company format if repurposing contact data
-3. Add status values to track application stages
-4. Leverage new optional fields for flexible data entry
-
----
-
-## 🎓 Design Philosophy
-
-**Cerebro's Core Principles:**
-
-1. **Minimal Friction Entry:** Add companies quickly with just a name, expand details later
-2. **Pipeline Visibility:** Status system provides clear view of application progress
-3. **Batch Efficiency:** Bulk operations for managing multiple applications simultaneously
-4. **Progressive Enhancement:** Start simple, add complexity as needed
-5. **Student-Centric:** Every feature designed for CS internship application workflow
-
-**From AB3's Foundation:**
-- Retained: CLI-first speed, simple commands, auto-save reliability
-- Enhanced: Flexibility, batch operations, domain-specific features
-- Added: Status tracking, remarks, optional fields
-
----
-
-## 📊 Feature Comparison Summary
+## Feature Comparison Summary
 
 | Category | AB3 | Cerebro |
 |----------|-----|---------|
@@ -347,7 +311,7 @@ The following known issues from AB3 remain in Cerebro:
 
 ---
 
-## 💡 Getting Started with Cerebro
+## Getting Started with Cerebro
 
 **For AB3 Users:**
 1. Commands will feel familiar but offer more flexibility
@@ -363,9 +327,9 @@ The following known issues from AB3 remain in Cerebro:
 
 ---
 
-## 🏆 Key Achievements
+## Key Changes
 
-Cerebro successfully transforms AB3's general-purpose contact manager into a specialized, powerful tool for CS students navigating the complex internship application process. The application maintains AB3's speed and simplicity while adding domain-specific features that directly address student needs.
+Cerebro transforms AB3's general-purpose contact manager into a specialized, powerful tool for CS students navigating the complex internship application process. The application maintains AB3's speed and simplicity while adding domain-specific features that directly address student needs.
 
 **Transformation Metrics:**
 - **10 commands** (up from 8)
