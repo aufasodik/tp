@@ -26,11 +26,7 @@ import seedu.address.testutil.CompanyBuilder;
  */
 public class StatusCommandTest {
 
-<<<<<<< HEAD
     private static final String STATUS_STUB = "hr_interview";
-=======
-    private static final String STATUS_STUB = "in-process";
->>>>>>> 956392f7 (Enforce enums with 5 stages of application. Other statuses not accepted.)
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 

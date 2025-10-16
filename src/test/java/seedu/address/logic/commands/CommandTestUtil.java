@@ -40,11 +40,7 @@ public class CommandTestUtil {
     public static final String VALID_TAG_DECENT_LOCATION = "decent-location";
     public static final String VALID_REMARK_AIRBUS = "Great location and pay";
     public static final String VALID_REMARK_BOEING = "Lacking pay but good experience";
-<<<<<<< HEAD
     public static final String VALID_STATUS_AIRBUS = "tech-interview";
-=======
-    public static final String VALID_STATUS_AIRBUS = "in-process";
->>>>>>> 956392f7 (Enforce enums with 5 stages of application. Other statuses not accepted.)
     public static final String VALID_STATUS_BOEING = "to-apply";
 
     public static final String NAME_DESC_AIRBUS = " " + PREFIX_NAME + VALID_NAME_AIRBUS;

@@ -40,7 +40,6 @@ public class StatusTest {
         assertFalse(Status.isValidStatus(" ")); // spaces only
         assertFalse(Status.isValidStatus("pending application")); // contains space
         assertFalse(Status.isValidStatus("technical*interview")); // contains special character
-<<<<<<< HEAD
         assertFalse(Status.isValidStatus("tech interview")); // contains space
         assertFalse(Status.isValidStatus("online-assessment")); // legacy token
         // valid statuses
@@ -52,14 +51,6 @@ public class StatusTest {
         assertTrue(Status.isValidStatus("in-process"));
         assertTrue(Status.isValidStatus("offered"));
         assertTrue(Status.isValidStatus("accepted"));
-=======
-        assertFalse(Status.isValidStatus("hr_interview")); // contains underscore
-        // valid statuses (only canonical five)
-        assertTrue(Status.isValidStatus("to-apply"));
-        assertTrue(Status.isValidStatus("applied"));
-        assertTrue(Status.isValidStatus("in-process"));
-        assertTrue(Status.isValidStatus("offered"));
->>>>>>> 956392f7 (Enforce enums with 5 stages of application. Other statuses not accepted.)
         assertTrue(Status.isValidStatus("rejected"));
     }
 
@@ -99,20 +90,14 @@ public class StatusTest {
 
     @Test
     public void toString_returnsCorrectValue() {
-<<<<<<< HEAD
         Status status = new Status("tech-interview");
         assertEquals("tech-interview", status.toString());
-=======
-        Status status = new Status("in-process");
-        assertEquals("in-process", status.toString());
->>>>>>> 956392f7 (Enforce enums with 5 stages of application. Other statuses not accepted.)
     }
 
     @Test
     public void toString_defaultStatus_returnsDefaultValue() {
         Status status = new Status();
         assertEquals("to-apply", status.toString());
-<<<<<<< HEAD
     }
 
     @Test
@@ -142,7 +127,5 @@ public class StatusTest {
         assertEquals(Status.Stage.OFFERED, Status.fromStorage("offered"));
         assertEquals(Status.Stage.ACCEPTED, Status.fromStorage("accepted"));
         assertEquals(Status.Stage.REJECTED, Status.fromStorage("rejected"));
-=======
->>>>>>> 956392f7 (Enforce enums with 5 stages of application. Other statuses not accepted.)
     }
 }

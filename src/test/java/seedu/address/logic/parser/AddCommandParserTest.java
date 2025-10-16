@@ -249,15 +249,6 @@ public class AddCommandParserTest {
         // Test simple format with just name prefix
         Company expectedCompany = new CompanyBuilder()
                 .withName(VALID_NAME_BOEING)
-<<<<<<< HEAD
-=======
-                .withPhone("000")
-                .withEmail("noemail@placeholder.com")
-                .withAddress("No address provided")
-                .withTags()
-                .withRemark("")
-                .withStatus("to-apply")
->>>>>>> 956392f7 (Enforce enums with 5 stages of application. Other statuses not accepted.)
                 .build();
 
         assertParseSuccess(parser, NAME_DESC_BOEING, new AddCommand(expectedCompany));
