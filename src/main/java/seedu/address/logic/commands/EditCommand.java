@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.IndexParser.MESSAGE_INDEX_OUT_OF_RANGE;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_COMPANIES;
 
 import java.util.ArrayList;
@@ -22,7 +23,6 @@ import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.commands.exceptions.IndexOutOfBoundsException;
 import seedu.address.model.Model;
 import seedu.address.model.company.Address;
 import seedu.address.model.company.Company;
@@ -50,16 +50,18 @@ public class EditCommand extends Command {
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_STATUS + "STATUS] "
             + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " 1 "
+            + "Example (single edit): " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com\n"
-            + "For batch editing: " + COMMAND_WORD + " 1,2,3 "
-            + PREFIX_STATUS + "in-process";
+            + "Example (batch edit - for tags, status, remarks only): " + COMMAND_WORD + " 1,2,3 OR "
+            + COMMAND_WORD + " 1-3 OR " + COMMAND_WORD + " 1,3-6\n";
 
     public static final String MESSAGE_EDIT_COMPANY_SUCCESS = "Edited Company: %1$s";
     public static final String MESSAGE_BATCH_EDIT_SUCCESS = "Edited %1$d companies successfully";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_COMPANY = "This company already exists in the address book.";
+    public static final String MESSAGE_BATCH_EDIT_FOR_TAGS_REMARK_ONLY =
+            "Batch editing is only allowed for tags, remarks and status.";
 
     private final Index index;
     private final List<Index> indices;
@@ -119,7 +121,8 @@ public class EditCommand extends Command {
         List<Company> lastShownList = model.getFilteredCompanyList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
-            throw new IndexOutOfBoundsException(index.getOneBased(), lastShownList.size());
+            throw new CommandException(String.format(MESSAGE_INDEX_OUT_OF_RANGE,
+                    index.getOneBased(), lastShownList.size()));
         }
 
         Company companyToEdit = lastShownList.get(index.getZeroBased());
@@ -151,6 +154,9 @@ public class EditCommand extends Command {
         // Validate that editing won't create duplicate companies
         validateNoDuplicateCompanies(model, lastShownList);
 
+        // Validate that editing in batch is only allowed for tags and remarks
+        validateIsTagsAndRemarksOnly();
+
         // All validations passed - perform batch edit
         for (Index index : indices) {
             Company companyToEdit = lastShownList.get(index.getZeroBased());
@@ -166,12 +172,13 @@ public class EditCommand extends Command {
      * Validates that all indices are within valid range.
      *
      * @param listSize the size of the current company list
-     * @throws IndexOutOfBoundsException if any index is out of range
+     * @throws CommandException if any index is out of range
      */
-    private void validateIndicesRange(int listSize) throws IndexOutOfBoundsException {
+    private void validateIndicesRange(int listSize) throws CommandException {
         for (Index index : indices) {
             if (index.getZeroBased() >= listSize) {
-                throw new IndexOutOfBoundsException(index.getOneBased(), listSize);
+                throw new CommandException(String.format(MESSAGE_INDEX_OUT_OF_RANGE,
+                        index.getOneBased(), listSize));
             }
         }
     }
@@ -191,6 +198,17 @@ public class EditCommand extends Command {
             if (!companyToEdit.isSameCompany(editedCompany) && model.hasCompany(editedCompany)) {
                 throw new CommandException(MESSAGE_DUPLICATE_COMPANY);
             }
+        }
+    }
+
+    /**
+     * Validates that batch editing is not allowed for name, phone, email, address.
+     *
+     * @throws CommandException if a batch edit edits name, phone, email, address
+     */
+    private void validateIsTagsAndRemarksOnly() throws CommandException {
+        if (!editCompanyDescriptor.isTagsAndRemarksOnly()) {
+            throw new CommandException(MESSAGE_BATCH_EDIT_FOR_TAGS_REMARK_ONLY);
         }
     }
 
@@ -273,6 +291,13 @@ public class EditCommand extends Command {
          */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(name, phone, email, address, tags, remark, status);
+        }
+
+        /**
+         * Returns true if name, phone, email and address are not edited.
+         */
+        public boolean isTagsAndRemarksOnly() {
+            return !CollectionUtil.isAnyNonNull(name, phone, email, address);
         }
 
         public void setName(Name name) {
