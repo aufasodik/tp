@@ -39,7 +39,7 @@ public class FilterCommandParserTest {
     @Test
     public void parse_validArgs_returnsFilterCommand() {
         FilterCommand expected = new FilterCommand(new Status("applied"));
-        assertParseSuccess(parser, "s/applied", expected);
+        assertParseSuccess(parser, " s/applied", expected);
         // underscores accepted and normalized by Status
         assertParseSuccess(parser, " s/hr_interview ", new FilterCommand(new Status("hr-interview")));
     }

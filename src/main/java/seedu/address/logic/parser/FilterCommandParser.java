@@ -16,10 +16,7 @@ public class FilterCommandParser implements Parser<FilterCommand> {
     @Override
     public FilterCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        String trimmedArgs = args.trim();
-        // ArgumentTokenizer only recognises prefixes preceded by whitespace.
-        // Prepend a single space so inputs like "s/applied" are tokenized correctly.
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(" " + trimmedArgs, PREFIX_STATUS);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_STATUS);
 
         // No preamble expected; require s/STATUS present
         if (!argMultimap.getPreamble().trim().isEmpty() || argMultimap.getValue(PREFIX_STATUS).isEmpty()) {
