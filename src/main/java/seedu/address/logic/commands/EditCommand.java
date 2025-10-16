@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.IndexParser.MESSAGE_INDEX_OUT_OF_RANGE;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_COMPANIES;
 
 import java.util.ArrayList;
@@ -22,7 +23,6 @@ import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.Model;
 import seedu.address.model.company.Address;
 import seedu.address.model.company.Company;
@@ -50,11 +50,11 @@ public class EditCommand extends Command {
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_STATUS + "STATUS] "
             + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " 1 "
+            + "Example (single edit): " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com\n"
-            + "For batch editing: " + COMMAND_WORD + " 1,2,3 (no trailing comma)\n"
-            + PREFIX_STATUS + "in-process";
+            + "Example (batch edit - for tags, status, remarks only): " + COMMAND_WORD + " 1,2,3 OR "
+            + COMMAND_WORD + " 1-3 OR " + COMMAND_WORD + " 1,3-6\n";
 
     public static final String MESSAGE_EDIT_COMPANY_SUCCESS = "Edited Company: %1$s";
     public static final String MESSAGE_BATCH_EDIT_SUCCESS = "Edited %1$d companies successfully";
@@ -121,7 +121,7 @@ public class EditCommand extends Command {
         List<Company> lastShownList = model.getFilteredCompanyList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(String.format(ParserUtil.MESSAGE_INDEX_OUT_OF_RANGE,
+            throw new CommandException(String.format(MESSAGE_INDEX_OUT_OF_RANGE,
                     index.getOneBased(), lastShownList.size()));
         }
 
@@ -177,7 +177,7 @@ public class EditCommand extends Command {
     private void validateIndicesRange(int listSize) throws CommandException {
         for (Index index : indices) {
             if (index.getZeroBased() >= listSize) {
-                throw new CommandException(String.format(ParserUtil.MESSAGE_INDEX_OUT_OF_RANGE,
+                throw new CommandException(String.format(MESSAGE_INDEX_OUT_OF_RANGE,
                         index.getOneBased(), listSize));
             }
         }

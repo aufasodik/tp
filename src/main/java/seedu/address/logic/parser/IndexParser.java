@@ -25,6 +25,8 @@ public class IndexParser {
             + " (1, 2, 3) or a range (1-3) or a combination of both (1, 2-4).";
     public static final String MESSAGE_DUPLICATE_INDICES = "Duplicate indices found: %1$s. "
             + "Each index should appear only once.";
+    public static final String MESSAGE_INDEX_OUT_OF_RANGE = "Index(es) out of range: %1$s. "
+            + "Valid range is 1 to %2$d.";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading
