@@ -241,16 +241,15 @@ Action | Format, Examples
 
 --------|------------------
 
-**Add** | `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/REMARKS] [t/TAG]…​` <br> e.g., `add n/Facebook p/76395739 e/Facebook@example.com a/354, Clementi Rd, 3544665 r/FAANG Jackpot s/offered t/remote-work`
+**Add** | `add n/NAME [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/REMARKS] [s/STATUS] [t/TAG]…​` <br> e.g., `add n/Facebook p/76395739 e/Facebook@example.com a/354, Clementi Rd, 3544665 r/FAANG Jackpot s/offered t/remote-work`
 **Clear** | `clear`
 **Delete** | `delete INDEX[, INDEX]...`<br> e.g., `delete 3` or `delete 3, 4, 9`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit** | `edit INDEX[, INDEX]... [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/REMARKS] [s/STATUS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
 **Status** | `status INDEX s/STATUS`<br> e.g., `status 1 s/technical-interview`
 **Filter** | `filter`
 **Remark** | `remark INDEX r/ [REMARK]`<br> e.g., `remark 1 r/ Strong interest in AI`
-**Status** | `status INDEX s/STATUS`<br> e.g., `status 1 s/offered`
 **Help** | `help`
 **Exit** | `exit`
 
