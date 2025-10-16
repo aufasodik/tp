@@ -87,7 +87,23 @@ remark 3 r/
   </tr>
 </table>
 
-### 4. **Batch Operations**
+### 4. **Application Status Filtering**
+Quickly view companies at specific stages of your application pipeline:
+
+- **New `filter` Command:** Filter by status with `filter s/STATUS`
+- **Status-Specific Views:** Display only companies matching a particular application stage
+- **Pipeline Focus:** Concentrate on applications needing attention (e.g., view all `oa` or `tech-interview` entries)
+- **Complements Status Tracking:** Works seamlessly with the status system to provide targeted views
+- **Return to Full List:** Use `list` command to restore complete view
+
+**Examples:**
+```
+filter s/tech-interview
+filter s/offered
+filter s/in-process
+```
+
+### 5. **Batch Operations**
 Powerful bulk editing and deletion capabilities for efficient management:
 
 #### **Batch Edit**
@@ -244,6 +260,7 @@ edit 2 n/Meta Platforms s/offered t/
 |---------|--------|---------|
 | **status** | `status INDEX s/STATUS` | Quick status updates |
 | **remark** | `remark INDEX r/[REMARK]` | Manage application notes |
+| **filter** | `filter s/STATUS` | Filter companies by application status |
 
 ### Enhanced Commands
 
@@ -306,7 +323,7 @@ The following known issues from AB3 remain in Cerebro:
 | **Remarks/Notes** | ❌ | ✅ Dedicated command |
 | **Batch Operations** | ❌ | ✅ Edit & delete |
 | **Optional Fields** | Tags only | Phone, Email, Address, Status, Remark, Tags |
-| **Commands** | 8 commands | 10 commands |
+| **Commands** | 8 commands | 11 commands |
 | **Use Case** | Any contact management | Internship pipeline tracking |
 
 ---
@@ -332,7 +349,7 @@ The following known issues from AB3 remain in Cerebro:
 Cerebro transforms AB3's general-purpose contact manager into a specialized, powerful tool for CS students navigating the complex internship application process. The application maintains AB3's speed and simplicity while adding domain-specific features that directly address student needs.
 
 **Transformation Metrics:**
-- **10 commands** (up from 8)
+- **11 commands** (up from 8)
 - **2 new field types** (Status, Remark)
 - **75% reduction** in required fields (4 → 1)
 - **Batch operations** for edit and delete
