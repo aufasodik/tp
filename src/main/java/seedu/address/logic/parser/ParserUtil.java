@@ -2,14 +2,12 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
-import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.exceptions.ParseIndicesException;
 import seedu.address.model.company.Address;
@@ -25,79 +23,30 @@ import seedu.address.model.tag.Tag;
  * classes.
  */
 public class ParserUtil {
-
-    public static final String MESSAGE_INVALID_INDEX = "Index must be a positive integer (1, 2, 3, ...).";
-    public static final String MESSAGE_DUPLICATE_INDICES = "Duplicate indices found: %1$s. "
-            + "Each index should appear only once.";
-    public static final String MESSAGE_INDEX_OUT_OF_RANGE = "Index(es) out of range: %1$s. "
-            + "Valid range is 1 to %2$d.";
-
     /**
-     * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
+     * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading
+     * and trailing whitespaces will be
      * trimmed. Range validation should be done separately in the command.
-     * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
+     *
+     * @throws ParseException if the specified index is invalid (not non-zero
+     *                        unsigned integer).
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
-        String trimmedIndex = oneBasedIndex.trim();
-        if (!StringUtil.isNonZeroUnsignedInteger(trimmedIndex)) {
-            throw new ParseException(MESSAGE_INVALID_INDEX);
-        }
-        return Index.fromOneBased(Integer.parseInt(trimmedIndex));
+        return IndexParser.parseIndex(oneBasedIndex);
     }
 
-
     /**
-     * Parses comma-separated indices into a {@code List<Index>} without range validation.
+     * Parses comma-separated indices into a {@code List<Index>} without range
+     * validation.
      * Use this when range validation will be done later in the command execution.
      *
-     * @param indicesString String containing comma-separated indices (e.g., "1", "1,2,3")
+     * @param indicesString String containing comma-separated indices (e.g., "1",
+     *                      "1,2,3")
      * @return List of valid unique indices
      * @throws ParseIndicesException if any index is invalid or duplicate
      */
-    public static List<Index> parseIndices(String indicesString) throws ParseException {
-        requireNonNull(indicesString);
-        String trimmedIndices = indicesString.trim();
-
-        if (trimmedIndices.isEmpty()) {
-            throw new ParseException(MESSAGE_INVALID_INDEX);
-        }
-
-        String[] indexStrings = trimmedIndices.split(",", -1);
-        List<Index> indexList = new ArrayList<>();
-        Set<Integer> seenIndices = new HashSet<>();
-        List<String> duplicates = new ArrayList<>();
-
-        for (String indexString : indexStrings) {
-            String trimmedIndexString = indexString.trim();
-            if (trimmedIndexString.isEmpty()) {
-                throw new ParseException(MESSAGE_INVALID_INDEX);
-            }
-
-            try {
-                Index index = parseIndex(trimmedIndexString);
-                int oneBasedIndex = index.getOneBased();
-
-                if (seenIndices.contains(oneBasedIndex)) {
-                    duplicates.add(trimmedIndexString);
-                    continue;
-                }
-
-                seenIndices.add(oneBasedIndex);
-                indexList.add(index);
-
-            } catch (ParseException e) {
-                // Re-throw the same invalid index exception for consistency
-                throw e;
-            }
-        }
-
-        // Only duplicate checking gets the specific exception
-        if (!duplicates.isEmpty()) {
-            throw new ParseIndicesException(String.format(MESSAGE_DUPLICATE_INDICES,
-                    String.join(", ", duplicates)));
-        }
-
-        return indexList;
+    public static List<Index> parseIndices(String indicesString) throws ParseIndicesException {
+        return IndexParser.parseIndices(indicesString);
     }
 
     /**

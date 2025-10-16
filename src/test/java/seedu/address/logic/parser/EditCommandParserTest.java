@@ -30,6 +30,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.address.logic.parser.IndexParser.MESSAGE_INVALID_INDICES;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_COMPANY;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_COMPANY;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_COMPANY;
@@ -62,7 +63,7 @@ public class EditCommandParserTest {
     @Test
     public void parse_missingParts_failure() {
         // no index specified
-        assertParseFailure(parser, VALID_NAME_AIRBUS, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, VALID_NAME_AIRBUS, MESSAGE_INVALID_INDICES);
 
         // no field specified
         assertParseFailure(parser, "1", EditCommand.MESSAGE_NOT_EDITED);
@@ -73,14 +74,17 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_invalidPreamble_failure() {
+        // invalid index
+        assertParseFailure(parser, "a" + NAME_DESC_AIRBUS, MESSAGE_INVALID_INDICES);
+
         // negative index
-        assertParseFailure(parser, "-5" + NAME_DESC_AIRBUS, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "-5" + NAME_DESC_AIRBUS, MESSAGE_INVALID_INDICES);
 
         // zero index
-        assertParseFailure(parser, "0" + NAME_DESC_AIRBUS, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "0" + NAME_DESC_AIRBUS, MESSAGE_INVALID_INDICES);
 
         // invalid arguments being parsed as preamble
-        assertParseFailure(parser, "1 some random string", MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1 some random string", MESSAGE_INVALID_INDICES);
 
         // invalid prefix being parsed as preamble
         assertParseFailure(parser, "1 i/ string", MESSAGE_INVALID_FORMAT);
@@ -291,18 +295,18 @@ public class EditCommandParserTest {
                 "Duplicate indices found: 1. Each index should appear only once.");
 
         // Invalid index format
-        assertParseFailure(parser, "1,abc" + TAG_DESC_DECENT_LOCATION, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1,abc" + TAG_DESC_DECENT_LOCATION, MESSAGE_INVALID_INDICES);
 
         // Zero index
-        assertParseFailure(parser, "0,1" + TAG_DESC_DECENT_LOCATION, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "0,1" + TAG_DESC_DECENT_LOCATION, MESSAGE_INVALID_INDICES);
 
         // Negative index
-        assertParseFailure(parser, "1,-2" + TAG_DESC_DECENT_LOCATION, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1,-2" + TAG_DESC_DECENT_LOCATION, MESSAGE_INVALID_INDICES);
 
         // Empty indices
-        assertParseFailure(parser, "1," + TAG_DESC_DECENT_LOCATION, MESSAGE_INVALID_FORMAT);
-        assertParseFailure(parser, ",2" + TAG_DESC_DECENT_LOCATION, MESSAGE_INVALID_FORMAT);
-        assertParseFailure(parser, "1,,3" + TAG_DESC_DECENT_LOCATION, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1," + TAG_DESC_DECENT_LOCATION, MESSAGE_INVALID_INDICES);
+        assertParseFailure(parser, ",2" + TAG_DESC_DECENT_LOCATION, MESSAGE_INVALID_INDICES);
+        assertParseFailure(parser, "1,,3" + TAG_DESC_DECENT_LOCATION, MESSAGE_INVALID_INDICES);
     }
 
     @Test
@@ -342,6 +346,6 @@ public class EditCommandParserTest {
     @Test
     public void parse_batchEditOutOfIntegerRange_failure() {
         String largeNumber = Long.toString((long) Integer.MAX_VALUE + 1);
-        assertParseFailure(parser, "1," + largeNumber + TAG_DESC_DECENT_LOCATION, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1," + largeNumber + TAG_DESC_DECENT_LOCATION, MESSAGE_INVALID_INDICES);
     }
 }
