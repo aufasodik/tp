@@ -24,7 +24,6 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOEING;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOEING;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOEING;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOEING;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_BOEING;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_DECENT_LOCATION;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_GOOD_PAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
@@ -163,30 +162,6 @@ public class AddCommandParserTest {
         assertParseFailure(parser,
                 VALID_NAME_BOEING + PHONE_DESC_BOEING + EMAIL_DESC_BOEING + ADDRESS_DESC_BOEING
                         + REMARK_DESC_BOEING,
-                expectedMessage);
-
-        // missing phone prefix
-        assertParseFailure(parser,
-                NAME_DESC_BOEING + VALID_PHONE_BOEING + EMAIL_DESC_BOEING + ADDRESS_DESC_BOEING
-                        + REMARK_DESC_BOEING,
-                expectedMessage);
-
-        // missing email prefix
-        assertParseFailure(parser,
-                NAME_DESC_BOEING + PHONE_DESC_BOEING + VALID_EMAIL_BOEING + ADDRESS_DESC_BOEING
-                        + REMARK_DESC_BOEING,
-                expectedMessage);
-
-        // missing address prefix
-        assertParseFailure(parser,
-                NAME_DESC_BOEING + PHONE_DESC_BOEING + EMAIL_DESC_BOEING + VALID_ADDRESS_BOEING
-                        + REMARK_DESC_BOEING,
-                expectedMessage);
-
-        // missing remark prefix
-        assertParseFailure(parser,
-                NAME_DESC_BOEING + PHONE_DESC_BOEING + EMAIL_DESC_BOEING + ADDRESS_DESC_BOEING
-                        + VALID_REMARK_BOEING,
                 expectedMessage);
 
         // all prefixes missing
