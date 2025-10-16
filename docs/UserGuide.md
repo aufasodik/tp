@@ -107,6 +107,7 @@ You can update the application status using `s/STATUS` where `STATUS` is one of 
 
 Format: `edit INDEX[,INDEX]... [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARKS] [s/STATUS] [t/TAG]…​`
 
+* Provide range of integer values as the target indices
 * Edits the company at the specified `INDEX/INDICES`. The indices refers to the index number shown in the displayed company list. The index/indices **must be a present and is a positive integer** 1, 2, 3, …​
 * Batch edits feature can only be used for editing `[r/REMARKS] [s/STATUS] [t/TAG]`
 * Multiple indices input has to be separated by commas
@@ -161,6 +162,7 @@ Deletes the specified company from the address book.
 
 Format: `delete INDEX[, INDEX]...`
 
+* Provide range of integer values as the target indices
 * Deletes the company at the specified `INDEX/INDICES`.
 * The index/indices refers to the index number shown in the displayed company list.
 * The index/indices **must be a positive integer** 1, 2, 3, …​
