@@ -40,6 +40,8 @@ status 1 s/tech-interview
 status 3 s/offered
 add n/Google s/applied
 ```
+![status 1 s/tech-interview](images/StatusDemo1.png)
+![result for status command](images/StatusDemo2.png)
 
 ### 2. **Flexible Company Entry System**
 Companies can now be added with minimal information and expanded later:
