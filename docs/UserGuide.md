@@ -28,6 +28,8 @@ Cerebro is a **desktop app for managing internship companies progress, optimized
 
     * `list` : Lists all companies.
 
+    * `add n/Facebook` : Adds a company named `Facebook` to the Application List.
+
     * `add n/Google p/67676767 e/google@example.com a/Goggles street, block 123, #01-01 r/FAANG Jackpot t/pending-interview` : Adds a company named `Google` to the Application List.
 
     * `delete 3` : Deletes the 3rd contact shown in the current list.
@@ -96,13 +98,13 @@ Examples:
 
 ### Listing all companies : `list`
 
-Shows a list of all companies in the address book.
+Shows a list of all companies in the Cerebro.
 
 Format: `list`
 
 ### Editing a company : `edit`
 
-Edits an existing company in the address book.
+Edits an existing company in the Cerebro.
 You can update the application status using `s/STATUS` where `STATUS` is one of `to-apply`, `applied`, `in-process`, `offered`, `rejected`.
 
 Format: `edit INDEX[,INDEX]... [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARKS] [s/STATUS] [t/TAG]…​`
