@@ -33,7 +33,7 @@ public class FilterCommandParserTest {
     @Test
     public void parse_invalidStatus_throwsParseException() {
         // unknown token
-        assertParseFailure(parser, "s/unknown-stage", Status.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, " s/unknown-stage", Status.MESSAGE_CONSTRAINTS);
     }
 
     @Test
