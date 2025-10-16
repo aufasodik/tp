@@ -90,9 +90,10 @@ public class AddCommandTest {
         Company companyWithPlaceholders = new CompanyBuilder()
                 .withName("Test Company")
                 .withPhone("000")
-                .withEmail("noemail@placeholder.com")
+                .withEmail("noemailprovided@placeholder.com")
                 .withAddress("No address provided")
                 .withTags()
+                .withRemark("No remark provided")
                 .build();
 
         CommandResult commandResult = new AddCommand(companyWithPlaceholders).execute(modelStub);
@@ -105,11 +106,6 @@ public class AddCommandTest {
     @Test
     public void execute_duplicateCompanyWithPlaceholders_throwsCommandException() {
         Company companyWithPlaceholders = new CompanyBuilder()
-                .withName("Test Company")
-                .withPhone("000")
-                .withEmail("noemail@placeholder.com")
-                .withAddress("No address provided")
-                .withTags()
                 .build();
         AddCommand addCommand = new AddCommand(companyWithPlaceholders);
         ModelStub modelStub = new ModelStubWithCompany(companyWithPlaceholders);

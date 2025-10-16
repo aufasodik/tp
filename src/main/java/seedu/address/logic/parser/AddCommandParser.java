@@ -95,10 +95,10 @@ public class AddCommandParser implements Parser<AddCommand> {
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME);
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         Phone phone = new Phone("000"); // Placeholder that meets validation (3+ digits)
-        Email email = new Email("noemail@placeholder.com"); // Placeholder that meets validation
+        Email email = new Email("noemailprovided@placeholder.com"); // Placeholder that meets validation
         Address address = new Address("No address provided"); // Placeholder that meets validation
         Set<Tag> tagList = new HashSet<>(); // Empty tags
-        Remark remark = new Remark(""); // Empty remark
+        Remark remark = new Remark("No remark provided"); // Empty remark
         Status status = new Status(); // Default status
 
         Company company = new Company(name, phone, email, address, tagList, remark, status);
