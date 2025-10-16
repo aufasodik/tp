@@ -15,7 +15,7 @@ Cerebro is a **desktop app for managing internship companies progress, optimized
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-2. Download the latest `.jar` file from **Releases** page of this repository.
+2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-F08a-1/tp/releases).
 
 3. Copy the file to the folder you want to use as the _home folder_ for your Cerebro.
 
