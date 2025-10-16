@@ -31,7 +31,7 @@
     "address" : "10 Enterprise Road",
     "tags" : [ "supplier" ],
     "remark" : "Supplier of high-quality raw materials.",
-    "status" : "in-process"
+    "status" : "hr-interview"
   }, {
     "name" : "Elite Manufacturing",
     "phone" : "9482224",

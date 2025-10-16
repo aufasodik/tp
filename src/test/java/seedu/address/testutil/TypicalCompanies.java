@@ -44,7 +44,7 @@ public class TypicalCompanies {
     public static final Company DELTA = new CompanyBuilder().withName("Delta Enterprises").withPhone("87652533")
             .withEmail("contact@delta.com").withAddress("10 Enterprise Road").withTags("supplier")
             .withRemark("Supplier of high-quality raw materials.")
-            .withStatus("in-process").build();
+            .withStatus("hr-interview").build();
     public static final Company ELITE = new CompanyBuilder().withName("Elite Manufacturing").withPhone("9482224")
             .withEmail("enquiry@elite.com").withAddress("50 Michigan Avenue")
             .withRemark("Known for precision engineering.")
