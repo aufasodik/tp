@@ -55,6 +55,9 @@ Companies can now be added with minimal information and expanded later:
 - **AB3:** Required name, phone, email, and address for every contact
 - **Cerebro:** Only company name required; build your entry incrementally, can still add all at once if you'd like
 
+![add n/Google e/google@gmail.com p/67676767](images/UpdatedAddDemo1.png)
+![result for updated add command](images/UpdatedAddDemo2.png)
+
 ### 3. **Enhanced Remark System**
 A dedicated command for managing application notes:
 
