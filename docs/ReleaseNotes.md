@@ -21,7 +21,7 @@ This fundamental shift drives all feature changes and enhancements detailed belo
 A comprehensive status management system to track your entire internship application journey:
 
 - **New `status` Command:** Quick-update application status with `status INDEX s/STATUS`
-- **9 Predefined Status Values:**
+- **9 Predefined Status Values (Case insensitive):**
     - `to-apply` - Not yet applied (default)
     - `applied` - Application submitted
     - `oa` - Online Assessment stage
@@ -80,6 +80,12 @@ remark 1 r/Great company culture, flexible hours
 remark 2 r/Referral from John Doe
 remark 3 r/
 ```
+<table>
+  <tr>
+    <td><img src="images/RemarkDemo1.png" alt="remark 1 r/Great company culture, flexible hours" /></td>
+    <td><img src="images/RemarkDemo2.png" alt="result for remark command" /></td>
+  </tr>
+</table>
 
 ### 4. **Batch Operations**
 Powerful bulk editing and deletion capabilities for efficient management:
