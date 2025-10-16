@@ -1,12 +1,5 @@
 package seedu.address.testutil;
 
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AIRBUS;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AIRBUS;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AIRBUS;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AIRBUS;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_AIRBUS;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_STATUS_AIRBUS;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,12 +18,12 @@ import seedu.address.model.util.SampleDataUtil;
  */
 public class CompanyBuilder {
 
-    public static final String DEFAULT_NAME = VALID_NAME_AIRBUS;
-    public static final String DEFAULT_PHONE = VALID_PHONE_AIRBUS;
-    public static final String DEFAULT_EMAIL = VALID_EMAIL_AIRBUS;
-    public static final String DEFAULT_ADDRESS = VALID_ADDRESS_AIRBUS;
-    public static final String DEFAULT_REMARK = VALID_REMARK_AIRBUS;
-    public static final String DEFAULT_STATUS = VALID_STATUS_AIRBUS;
+    public static final String DEFAULT_NAME = "Test Company";
+    public static final String DEFAULT_PHONE = "000";
+    public static final String DEFAULT_EMAIL = "noemailprovided@placeholder.com";
+    public static final String DEFAULT_ADDRESS = "No address provided";
+    public static final String DEFAULT_REMARK = "No remark provided";
+    public static final String DEFAULT_STATUS = "to-apply";
 
     private Name name;
     private Phone phone;

@@ -249,12 +249,6 @@ public class AddCommandParserTest {
         // Test simple format with just name prefix
         Company expectedCompany = new CompanyBuilder()
                 .withName(VALID_NAME_BOEING)
-                .withPhone("000")
-                .withEmail("noemail@placeholder.com")
-                .withAddress("No address provided")
-                .withTags()
-                .withRemark("")
-                .withStatus("to-apply")
                 .build();
 
         assertParseSuccess(parser, NAME_DESC_BOEING, new AddCommand(expectedCompany));

@@ -53,10 +53,16 @@ public class CompanyCard extends UiPart<Region> {
         this.company = company;
         id.setText(displayedIndex + ". ");
         name.setText(company.getName().fullName);
-        phone.setText(company.getPhone().value);
         address.setText(company.getAddress().value);
-        email.setText(company.getEmail().value);
         status.setText("Status: " + company.getStatus().toUserInputString());
+
+        // Display user-friendly placeholders
+        String phoneValue = company.getPhone().value;
+        phone.setText(phoneValue.equals("000") ? "No phone provided" : phoneValue);
+
+        String emailValue = company.getEmail().value;
+        email.setText(emailValue.equals("noemailprovided@placeholder.com") ? "No email provided" : emailValue);
+
         company.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
