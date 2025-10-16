@@ -36,13 +36,26 @@ public class Messages {
      */
     public static String format(Company company) {
         final StringBuilder builder = new StringBuilder();
+
+        // Format phone with user-friendly placeholder
+        String phoneDisplay = company.getPhone().value.equals("000")
+                ? "No phone provided"
+                : company.getPhone().value;
+
+        // Format email with user-friendly placeholder
+        String emailDisplay = company.getEmail().value.equals("noemailprovided@placeholder.com")
+                ? "No email provided"
+                : company.getEmail().value;
+
         builder.append(company.getName())
                 .append("; Phone: ")
-                .append(company.getPhone())
+                .append(phoneDisplay)
                 .append("; Email: ")
-                .append(company.getEmail())
+                .append(emailDisplay)
                 .append("; Address: ")
                 .append(company.getAddress())
+                .append("; Status: ")
+                .append(company.getStatus())
                 .append("; Tags: ");
         company.getTags().forEach(builder::append);
         return builder.toString();

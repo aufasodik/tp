@@ -1,11 +1,5 @@
 package seedu.address.testutil;
 
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AIRBUS;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AIRBUS;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AIRBUS;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AIRBUS;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_REMARK_AIRBUS;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +9,7 @@ import seedu.address.model.company.Email;
 import seedu.address.model.company.Name;
 import seedu.address.model.company.Phone;
 import seedu.address.model.company.Remark;
+import seedu.address.model.company.Status;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -23,11 +18,12 @@ import seedu.address.model.util.SampleDataUtil;
  */
 public class CompanyBuilder {
 
-    public static final String DEFAULT_NAME = VALID_NAME_AIRBUS;
-    public static final String DEFAULT_PHONE = VALID_PHONE_AIRBUS;
-    public static final String DEFAULT_EMAIL = VALID_EMAIL_AIRBUS;
-    public static final String DEFAULT_ADDRESS = VALID_ADDRESS_AIRBUS;
-    public static final String DEFAULT_REMARK = VALID_REMARK_AIRBUS;
+    public static final String DEFAULT_NAME = "Test Company";
+    public static final String DEFAULT_PHONE = "000";
+    public static final String DEFAULT_EMAIL = "noemailprovided@placeholder.com";
+    public static final String DEFAULT_ADDRESS = "No address provided";
+    public static final String DEFAULT_REMARK = "No remark provided";
+    public static final String DEFAULT_STATUS = "to-apply";
 
     private Name name;
     private Phone phone;
@@ -35,6 +31,7 @@ public class CompanyBuilder {
     private Address address;
     private Set<Tag> tags;
     private Remark remark;
+    private Status status;
 
     /**
      * Creates a {@code CompanyBuilder} with the default details.
@@ -46,6 +43,7 @@ public class CompanyBuilder {
         address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
         remark = new Remark(DEFAULT_REMARK);
+        status = new Status(DEFAULT_STATUS);
     }
 
     /**
@@ -58,6 +56,7 @@ public class CompanyBuilder {
         address = companyToCopy.getAddress();
         tags = new HashSet<>(companyToCopy.getTags());
         remark = companyToCopy.getRemark();
+        status = companyToCopy.getStatus();
     }
 
     /**
@@ -109,8 +108,16 @@ public class CompanyBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Status} of the {@code Company} that we are building.
+     */
+    public CompanyBuilder withStatus(String status) {
+        this.status = new Status(status);
+        return this;
+    }
+
     public Company build() {
-        return new Company(name, phone, email, address, tags, remark);
+        return new Company(name, phone, email, address, tags, remark, status);
     }
 
 }
