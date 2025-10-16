@@ -40,8 +40,12 @@ status 1 s/tech-interview
 status 3 s/offered
 add n/Google s/applied
 ```
-![status 1 s/tech-interview](images/StatusDemo1.png)
-![result for status command](images/StatusDemo2.png)
+<table>
+  <tr>
+    <td><img src="images/StatusDemo1.png" alt="status 1 s/tech-interview" /></td>
+    <td><img src="images/StatusDemo2.png" alt="result for status command" /></td>
+  </tr>
+</table>
 
 ### 2. **Flexible Company Entry System**
 Companies can now be added with minimal information and expanded later:
@@ -55,8 +59,12 @@ Companies can now be added with minimal information and expanded later:
 - **AB3:** Required name, phone, email, and address for every contact
 - **Cerebro:** Only company name required; build your entry incrementally, can still add all at once if you'd like
 
-![add n/Google e/google@gmail.com p/67676767](images/UpdatedAddDemo1.png)
-![result for updated add command](images/UpdatedAddDemo2.png)
+<table>
+  <tr>
+    <td><img src="images/UpdatedAddDemo1.png" alt="add n/Google e/google@gmail.com p/67676767" /></td>
+    <td><img src="images/UpdatedAddDemo2.png" alt="result for updated add command" /></td>
+  </tr>
+</table>
 
 ### 3. **Enhanced Remark System**
 A dedicated command for managing application notes:
