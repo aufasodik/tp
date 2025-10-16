@@ -5,7 +5,7 @@
 
 **Cerebro** is a desktop app for tracking a CS student’s **internship progress**. It’s designed to be **keyboard-driven** and fast for power users.
 
-**Example usages:** 
+**Example usages:**
   - Track all internship applications in one place (company, role, status, calendar, notes).
   - Plan and prioritise upcoming deadlines by sorting/filtering entries.
   - Review progress over time for reflections or career-advising meetings.

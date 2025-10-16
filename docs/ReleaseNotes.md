@@ -8,7 +8,7 @@ Cerebro is a specialized desktop application for CS students to track internship
 
 ## 🎯 Purpose Transformation
 
-**From:** General-purpose contact management for any users  
+**From:** General-purpose contact management for any users
 **To:** Specialized internship application tracking for CS students
 
 This fundamental shift drives all feature changes and enhancements detailed below.
@@ -239,13 +239,13 @@ edit 2 n/Meta Platforms s/offered t/
 
 ## ❓ New FAQ Entries
 
-**Q: What happens if I add a company with the same name as an existing one?**  
+**Q: What happens if I add a company with the same name as an existing one?**
 A: Company names must be unique (case-insensitive). Cerebro will reject duplicates with an error message.
 
-**Q: Can I undo a delete or clear operation?**  
+**Q: Can I undo a delete or clear operation?**
 A: No, these operations are permanent. Restore from your `addressbook.json` backup if needed.
 
-**Q: What's the difference between `status` and `edit` for updating status?**  
+**Q: What's the difference between `status` and `edit` for updating status?**
 A: `status` is a quick single-purpose command, while `edit` allows multi-field updates. Use whichever is convenient!
 
 ---
