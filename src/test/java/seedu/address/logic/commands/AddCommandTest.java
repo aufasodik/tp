@@ -116,6 +116,19 @@ public class AddCommandTest {
     }
 
     /**
+     * Tests that executing AddCommand with a null model throws NullPointerException. 1Code has comments. Press enter to view.
+     * This is a defensive programming check to ensure proper error handling
+     * when the command is executed with invalid parameters.
+     */
+    @Test
+    public void execute_nullModel_throwsNullPointerException() {
+        Company validCompany = new CompanyBuilder().build();
+        AddCommand addCommand = new AddCommand(validCompany);
+
+        assertThrows(NullPointerException.class, () -> addCommand.execute(null));
+    }
+
+    /**
      * Tests that adding a company without any tags is successful.
      * Verifies that tags are optional and a company can be added
      * with an empty tag set.
