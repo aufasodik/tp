@@ -8,6 +8,11 @@ plugins {
 
 mainClassName = 'seedu.address.Main'
 
+run {
+    enableAssertions = true
+    jvmArgs '-ea'
+}
+
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
