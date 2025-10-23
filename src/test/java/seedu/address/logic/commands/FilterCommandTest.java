@@ -67,9 +67,9 @@ public class FilterCommandTest {
         assertEquals(Arrays.asList(CONS), model.getFilteredCompanyList());
     }
 
-    // Tests filtering for "to-apply" status finds multiple companies (ALPHA, HOLLY)
+    // Ensures filtering finds the correct company with given status (multiple companies found)
     @Test
-    public void execute_statusToApply_multipleCompaniesFound() {
+    public void execute_matchingStatus_multipleCompaniesFound() {
         String expectedMessage = String.format(MESSAGE_COMPANIES_LISTED_OVERVIEW, 2);
         FilterCommand command = new FilterCommand(new Status("to-apply"));
         expectedModel.updateFilteredCompanyList(c -> c.getStatus().equals(new Status("to-apply")));
