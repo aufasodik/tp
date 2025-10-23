@@ -1,6 +1,5 @@
 package seedu.address.logic.commands;
 
-import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -9,30 +8,18 @@ import static seedu.address.logic.Messages.MESSAGE_COMPANIES_LISTED_OVERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalCompanies.ALPHA;
 import static seedu.address.testutil.TypicalCompanies.CONS;
-import static seedu.address.testutil.TypicalCompanies.ELITE;
-import static seedu.address.testutil.TypicalCompanies.FUSION;
-import static seedu.address.testutil.TypicalCompanies.GLOBAL;
 import static seedu.address.testutil.TypicalCompanies.HOLLY;
 import static seedu.address.testutil.TypicalCompanies.getTypicalAddressBook;
 
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import javafx.collections.ObservableList;
-import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.company.Company;
 import seedu.address.model.company.Status;
 
 /**
@@ -100,7 +87,7 @@ public class FilterCommandTest {
         assertEquals(Collections.emptyList(), model.getFilteredCompanyList());
     }
 
-    // Verifies filtering doesn’t mutate the model’s address book contents.
+    // Verifies filtering doesn't mutate the model's address book contents.
     @Test
     public void execute_filterDoesNotModifyOriginalList() {
         AddressBook original = new AddressBook(model.getAddressBook());

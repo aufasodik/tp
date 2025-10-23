@@ -22,6 +22,11 @@ public class FilterCommand extends Command {
 
     private final Status status;
 
+    /**
+     * Creates a FilterCommand object with the given status.
+     *
+     * @param status the status to filter by
+     */
     public FilterCommand(Status status) {
         requireNonNull(status);
         this.status = status;
