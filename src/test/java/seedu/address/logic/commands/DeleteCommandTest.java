@@ -30,6 +30,7 @@ public class DeleteCommandTest {
 
     private final Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
+    /** Tests that a valid index in an unfiltered list deletes the correct company successfully. */
     @Test
     public void execute_validIndexUnfilteredList_success() {
         Company companyToDelete = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
@@ -44,6 +45,7 @@ public class DeleteCommandTest {
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
 
+    /** Tests that multiple valid indices in an unfiltered list delete all specified companies successfully. */
     @Test
     public void execute_multipleIndicesUnfilteredList_success() {
         Company c1 = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
@@ -54,12 +56,13 @@ public class DeleteCommandTest {
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_COMPANY_SUCCESS, joined);
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.deleteCompany(c2); // delete higher index first in expected model
+        expectedModel.deleteCompany(c2);
         expectedModel.deleteCompany(c1);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
 
+    /** Tests that an invalid index in an unfiltered list throws a {@code CommandException}. */
     @Test
     public void execute_invalidIndexUnfilteredList_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredCompanyList().size() + 1);
@@ -68,6 +71,7 @@ public class DeleteCommandTest {
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
     }
 
+    /** Tests that a valid index in a filtered list deletes the correct company and clears the filtered view. */
     @Test
     public void execute_validIndexFilteredList_success() {
         showCompanyAtIndex(model, INDEX_FIRST_COMPANY);
@@ -85,12 +89,12 @@ public class DeleteCommandTest {
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
 
+    /** Tests that an invalid index in a filtered list throws a {@code CommandException}. */
     @Test
     public void execute_invalidIndexFilteredList_throwsCommandException() {
         showCompanyAtIndex(model, INDEX_FIRST_COMPANY);
 
         Index outOfBoundIndex = INDEX_SECOND_COMPANY;
-        // ensures that outOfBoundIndex is still in bounds of address book list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getCompanyList().size());
 
         DeleteCommand deleteCommand = new DeleteCommand(List.of(outOfBoundIndex));
@@ -98,28 +102,44 @@ public class DeleteCommandTest {
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
     }
 
+    /** Tests that two {@code DeleteCommand} instances with the same target indices are considered equal. */
     @Test
-    public void equals() {
+    public void equals_sameValues_returnsTrue() {
+        DeleteCommand deleteFirst = new DeleteCommand(List.of(INDEX_FIRST_COMPANY));
+        assertEquals(deleteFirst, new DeleteCommand(List.of(INDEX_FIRST_COMPANY)));
+    }
+
+    /** Tests that a {@code DeleteCommand} is not equal to an object of a different type. */
+    @Test
+    public void equals_differentTypes_returnsFalse() {
+        DeleteCommand deleteFirst = new DeleteCommand(List.of(INDEX_FIRST_COMPANY));
+        assertNotEquals(new Object(), deleteFirst);
+    }
+
+    /** Tests that a {@code DeleteCommand} is not equal to {@code null}. */
+    @Test
+    public void equals_null_returnsFalse() {
+        DeleteCommand deleteFirst = new DeleteCommand(List.of(INDEX_FIRST_COMPANY));
+        assertNotEquals(null, deleteFirst);
+    }
+
+    /** Tests that two {@code DeleteCommand} instances with different single indices are not equal. */
+    @Test
+    public void equals_differentSingleIndex_returnsFalse() {
         DeleteCommand deleteFirst = new DeleteCommand(List.of(INDEX_FIRST_COMPANY));
         DeleteCommand deleteSecond = new DeleteCommand(List.of(INDEX_SECOND_COMPANY));
-        DeleteCommand deleteBoth = new DeleteCommand(List.of(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY));
-
-        // same values -> true
-        assertEquals(deleteFirst, new DeleteCommand(List.of(INDEX_FIRST_COMPANY)));
-
-        // different types -> false
-        assertNotEquals(new Object(), deleteFirst);
-
-        // null -> false
-        assertNotEquals(null, deleteFirst);
-
-        // different single index -> false
         assertNotEquals(deleteFirst, deleteSecond);
+    }
 
-        // different set of indices -> false
+    /** Tests that two {@code DeleteCommand} instances with different sets of indices are not equal. */
+    @Test
+    public void equals_differentMultipleIndices_returnsFalse() {
+        DeleteCommand deleteFirst = new DeleteCommand(List.of(INDEX_FIRST_COMPANY));
+        DeleteCommand deleteBoth = new DeleteCommand(List.of(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY));
         assertNotEquals(deleteFirst, deleteBoth);
     }
 
+    /** Tests that the {@code toString()} method returns the correct string representation of the command. */
     @Test
     public void toStringMethod() {
         DeleteCommand deleteCommand = new DeleteCommand(List.of(Index.fromOneBased(1), Index.fromOneBased(3)));
@@ -128,7 +148,7 @@ public class DeleteCommandTest {
         assertEquals(expected, deleteCommand.toString());
     }
 
-    /** Updates {@code model}'s filtered list to show no company. */
+    /** Updates {@code model}'s filtered list to show no companies. */
     private void showNoCompany(Model model) {
         model.updateFilteredCompanyList(p -> false);
         assertTrue(model.getFilteredCompanyList().isEmpty());
