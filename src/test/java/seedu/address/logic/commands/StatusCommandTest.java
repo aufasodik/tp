@@ -19,8 +19,8 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.company.Company;
-import seedu.address.model.company.exceptions.UnsupportedStatusException;
 import seedu.address.model.company.Status;
+import seedu.address.model.company.exceptions.UnsupportedStatusException;
 import seedu.address.testutil.CompanyBuilder;
 
 /**

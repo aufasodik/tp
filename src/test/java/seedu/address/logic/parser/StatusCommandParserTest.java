@@ -24,7 +24,7 @@ public class StatusCommandParserTest {
      * Parses a valid index and a canonical hyphenated status.
      */
     @Test
-    public void parse_validArgs_hyphen_success() {
+    public void parse_validArgsHyphen_success() {
         // User input: "1 s/in-process"
         // Expected result: StatusCommand with index=1 and status="in-process"
         Index idx = Index.fromOneBased(1);
@@ -38,7 +38,7 @@ public class StatusCommandParserTest {
      * Accepts underscore form and normalizes to the same status (parser delegates to Status normalization).
      */
     @Test
-    public void parse_validArgs_underscore_success() {
+    public void parse_validArgsUnderscore_success() {
         // User input: "2 s/hr_interview"
         // Expected result: StatusCommand with index=2 and status normalized to "hr-interview"
         Index idx = Index.fromOneBased(2);
@@ -52,7 +52,7 @@ public class StatusCommandParserTest {
      * Tolerates extra whitespace around tokens.
      */
     @Test
-    public void parse_validArgs_whitespace_success() {
+    public void parse_validArgsWhitespace_success() {
         // User input: "  3   s/applied   "
         // Expected result: StatusCommand with index=3 and status="applied"
         Index idx = Index.fromOneBased(3);
@@ -66,7 +66,7 @@ public class StatusCommandParserTest {
      * When multiple status prefixes are provided, the last value should be taken.
      */
     @Test
-    public void parse_duplicateStatusPrefix_lastWins_success() {
+    public void parse_duplicateStatusPrefixLastWins_success() {
         // User input: "1 s/applied s/offered"
         // Expected result: StatusCommand with index=1 and status="offered" (last prefix wins)
         Index idx = Index.fromOneBased(1);
@@ -100,7 +100,7 @@ public class StatusCommandParserTest {
      * Non-integer index should fail with the command usage message (propagated as pe).
      */
     @Test
-    public void parse_invalidIndex_nonInteger_failure() {
+    public void parse_invalidIndexNonInteger_failure() {
         // User input: "one s/in-process"
         // Expected result: Parse failure with MESSAGE_USAGE (index must be a positive integer)
         assertParseFailure(parser, "one s/in-process", MESSAGE_USAGE);
@@ -110,7 +110,7 @@ public class StatusCommandParserTest {
      * Zero index should fail with the command usage message (indices are 1-based).
      */
     @Test
-    public void parse_invalidIndex_zero_failure() {
+    public void parse_invalidIndexZero_failure() {
         // User input: "0 s/in-process"
         // Expected result: Parse failure with MESSAGE_USAGE (index must be >= 1)
         assertParseFailure(parser, "0 s/in-process", MESSAGE_USAGE);
@@ -120,7 +120,7 @@ public class StatusCommandParserTest {
      * Negative index should fail with the command usage message.
      */
     @Test
-    public void parse_invalidIndex_negative_failure() {
+    public void parse_invalidIndexNegative_failure() {
         // User input: "-3 s/in-process"
         // Expected result: Parse failure with MESSAGE_USAGE (index must be a positive integer)
         assertParseFailure(parser, "-3 s/in-process", MESSAGE_USAGE);
