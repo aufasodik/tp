@@ -116,7 +116,7 @@ public class AddCommandTest {
     }
 
     /**
-     * Tests that executing AddCommand with a null model throws NullPointerException. 1Code has comments. Press enter to view.
+     * Tests that executing AddCommand with a null model throws NullPointerException.
      * This is a defensive programming check to ensure proper error handling
      * when the command is executed with invalid parameters.
      */
@@ -149,6 +149,31 @@ public class AddCommandTest {
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(companyWithNoTags)),
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(companyWithNoTags), modelStub.companiesAdded);
+    }
+
+    /**
+     * Tests that adding a company with default placeholder values displays user-friendly text.
+     * Verifies that when optional fields are missing, the system uses placeholder values
+     * that are formatted as "No [field] provided" in the success message.
+     */
+    @Test
+    public void execute_companyWithPlaceholderValues_displaysUserFriendlyText() throws Exception {
+        ModelStubAcceptingCompanyAdded modelStub = new ModelStubAcceptingCompanyAdded();
+        Company companyWithPlaceholders = new CompanyBuilder()
+                .withName("Test Company")
+                .withPhone("000")
+                .withEmail("noemailprovided@placeholder.com")
+                .withAddress("No address provided")
+                .withTags()
+                .withRemark("No remark provided")
+                .build();
+
+        CommandResult commandResult = new AddCommand(companyWithPlaceholders).execute(modelStub);
+
+        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(companyWithPlaceholders));
+        assertTrue(expectedMessage.contains("No phone provided"));
+        assertTrue(expectedMessage.contains("No email provided"));
+        assertEquals(Arrays.asList(companyWithPlaceholders), modelStub.companiesAdded);
     }
 
     /**
@@ -297,7 +322,7 @@ public class AddCommandTest {
     }
 
     /**
-     * A default model stub that have all of the methods failing.
+     * A default model stub that have all the methods failing.
      */
     private class ModelStub implements Model {
         @Override

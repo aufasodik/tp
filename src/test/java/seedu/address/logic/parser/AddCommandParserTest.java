@@ -241,4 +241,20 @@ public class AddCommandParserTest {
         assertParseFailure(parser, NAME_DESC_BOEING + NAME_DESC_AIRBUS,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
     }
+
+    // Test that when only name is provided, other fields get placeholder values
+    @Test
+    public void parse_onlyNameProvided_setsPlaceholderValues() {
+        Company expectedCompany = new CompanyBuilder()
+                .withName(VALID_NAME_BOEING)
+                .withPhone("000")
+                .withEmail("noemailprovided@placeholder.com")
+                .withAddress("No address provided")
+                .withRemark("No remark provided")
+                .withTags()
+                .withStatus("to-apply")
+                .build();
+
+        assertParseSuccess(parser, NAME_DESC_BOEING, new AddCommand(expectedCompany));
+    }
 }
