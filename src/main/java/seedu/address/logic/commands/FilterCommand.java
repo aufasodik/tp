@@ -23,6 +23,7 @@ public class FilterCommand extends Command {
     private final Status status;
 
     public FilterCommand(Status status) {
+        requireNonNull(status);
         this.status = status;
     }
 
