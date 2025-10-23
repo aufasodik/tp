@@ -54,5 +54,5 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](https://github.com/kzfsg)]
 [[portfolio](https://kwokzhengfeng.framer.website/)]
 
-* Role: Developer
+* Role: Lead Developer
 * Responsibilities: UI
