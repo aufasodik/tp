@@ -154,7 +154,7 @@ Format: `list`
 
 ### Editing a company : `edit`
 
-Updates company information. Supports single and batch editing for efficient operations.
+Edits an existing company in Cerebro. Supports single edit and batch edit.
 
 **Format:** `edit INDEX(ES) [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…`
 
@@ -175,10 +175,12 @@ Edited 3 companies (indices 1, 3, 5) - Status updated to rejected
 Edited 3 companies (indices 2, 3, 4) - Status updated to applied
 ```
 
-**Mixed:** `edit 1,3,5-7 s/applied t/tech` (combine methods)
-```
-Edited 4 companies (indices 1, 3, 5, 6, 7) - Status: applied, Tags: [tech]
-```
+* Edits multiple companies at once with the same changes
+* **Comma-Separated:** `edit INDEX,INDEX,INDEX` - Separate specific indices with commas (no spaces)
+* **Range:** `edit START-END` - Edits all companies from START to END index (inclusive)
+* Must have at least 1 field to edit
+* Can only edit tags, status, or remarks for batch editing
+* Useful for updating status or tags for multiple companies simultaneously
 
 **Clear tags:** `edit 3 t/` (tags replaced, not cumulative)
 ```
@@ -223,17 +225,18 @@ Finds companies by name keywords. Case-insensitive, full words only.
 
 ### Deleting a company : `delete`
 
-Removes companies from Cerebro. Supports single, batch, and range deletion.
+Deletes one or more companies from Cerebro. Supports single deletion, batch deletion.
 
 **Format:** `delete INDEX [MORE_INDICES]` or `delete START-END`
 
-<div markdown="block" class="alert alert-danger">
-**⚠️ Deletion Types:**
-* **Single:** `delete 2` - Remove one company
-* **Batch:** `delete 1,3,5` - Remove specific companies (no spaces)
-* **Range:** `delete 2-4` - Remove companies 2, 3, 4 (inclusive)
-* **Permanent:** No undo available!
-</div>
+* Deletes the company(ies) at the specified index/indices
+* The index refers to the index number shown in the displayed company list
+* The index **must be a positive integer** 1, 2, 3, …​
+* **Single deletion:** `delete INDEX` - Deletes one company
+* **Comma-Separated deletion:** `delete INDEX,INDEX,INDEX` - Deletes multiple companies (separate with commas)
+* **Range deletion:** `delete START-END` - Deletes all companies from START to END index (inclusive)
+* Duplicate indices are ignored (first occurrence kept)
+* All specified companies are deleted in a single operation
 
 Examples:
 
@@ -354,29 +357,28 @@ _Details coming soon ..._
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+1. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
----
+--------------------------------------------------------------------------------------------------------------------
 
-## Command Summary
+## Command summary
 
-
-| Action              | Format                                                                                | Examples                                                                                                     |
-| ------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| **Add**             | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…`          | `add n/Google Inc`<br>`add n/Meta p/65432100 e/careers@meta.com`<br>`add n/Apple r/Great benefits s/applied` |
-| **List**            | `list`                                                                                | `list`                                                                                                       |
-| **Edit (Single)**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…` | `edit 2 n/Meta Platforms s/offered`                                                                          |
-| **Edit (Batch)**    | `edit INDEX,INDEX,INDEX [fields]`                                                     | `edit 1,3,5 s/rejected`                                                                                      |
-| **Edit (Range)**    | `edit START-END [fields]`                                                             | `edit 2-4 s/applied t/tech`                                                                                  |
-| **Find**            | `find KEYWORD [MORE_KEYWORDS]`                                                        | `find Google Meta`                                                                                           |
-| **Delete (Single)** | `delete INDEX`                                                                        | `delete 3`                                                                                                   |
-| **Delete (Batch)**  | `delete INDEX [MORE_INDICES]`                                                         | `delete 1 3 5`                                                                                               |
-| **Delete (Range)**  | `delete START-END`                                                                    | `delete 2-4`                                                                                                 |
-| **Status**          | `status INDEX s/STATUS`                                                               | `status 1 s/tech-interview`                                                                                  |
-| **Remark**          | `remark INDEX r/[REMARK]`                                                             | `remark 1 r/Great company culture`                                                                           |
-| **Clear**           | `clear`                                                                               | `clear`                                                                                                      |
-| **Help**            | `help`                                                                                | `help`                                                                                                       |
-| **Exit**            | `exit`                                                                                | `exit`                                                                                                       |
+Action | Format | Examples
+--------|--------|----------
+**Add** | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `add n/Google Inc`<br>`add n/Meta p/65432100 e/careers@meta.com`<br>`add n/Apple r/Great benefits s/applied`
+**List** | `list` | `list`
+**Edit (Single)** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `edit 2 n/Meta Platforms s/offered`
+**Edit (Comma-Separated)** | `edit INDEX,INDEX,INDEX [fields]` | `edit 1,3,5 s/rejected`
+**Edit (Range)** | `edit START-END [fields]` | `edit 2-4 s/applied t/tech`
+**Find** | `find KEYWORD [MORE_KEYWORDS]` | `find Google Meta`
+**Delete (Single)** | `delete INDEX` | `delete 3`
+**Delete (Comma-Separated)** | `delete INDEX [MORE_INDICES]` | `delete 1 3 5`
+**Delete (Range)** | `delete START-END` | `delete 2-4`
+**Status** | `status INDEX s/STATUS` | `status 1 s/tech-interview`
+**Remark** | `remark INDEX r/[REMARK]` | `remark 1 r/Great company culture`
+**Clear** | `clear` | `clear`
+**Help** | `help` | `help`
+**Exit** | `exit` | `exit`
 
 ### Valid Status Values
 
