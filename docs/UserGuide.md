@@ -59,12 +59,13 @@ When Cerebro launches, you'll see a clean interface with sample data:
 **Essential Commands:**
 
 ```bash
-list                          # View all companies
+list                         # View all companies
 add n/Google Inc             # Add company (minimal)
 add n/Meta s/applied t/tech  # Add with details
+remark 1 r/Closed down.      # Update status
 status 1 s/tech-interview    # Update status
 find Google Meta             # Search companies
-edit 1,3,5 s/rejected       # Batch update (no spaces in indices)
+edit 1,3,5 s/rejected        # Batch update (no spaces in indices)
 delete 3                     # Remove company
 ```
 
