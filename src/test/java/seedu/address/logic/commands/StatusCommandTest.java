@@ -39,6 +39,8 @@ public class StatusCommandTest {
      */
     @Test
     public void execute_statusAcceptedByModel_updateSuccessful() throws Exception {
+        // User input: "status 1 s/hr_interview"
+        // Expected result: Company at index 1 updated to status "hr-interview" and command returns success message.
         Company firstCompany = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
         Company editedCompany = new CompanyBuilder(firstCompany).withStatus(STATUS_STUB).build();
 
@@ -58,6 +60,8 @@ public class StatusCommandTest {
      */
     @Test
     public void execute_invalidCompanyIndexUnfilteredList_failure() {
+        // User input: "status (lastIndex+1) s/hr_interview"
+        // Expected result: Failure with MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX.
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredCompanyList().size() + 1);
         StatusCommand statusCommand = new StatusCommand(outOfBoundIndex, new Status(STATUS_STUB));
 
@@ -70,7 +74,9 @@ public class StatusCommandTest {
      */
     @Test
     public void execute_invalidCompanyIndexFilteredList_failure() {
-        // Filter down to only the first company
+        // Setup filter: only the first company is shown
+        // User input: "status 2 s/hr_interview" (2 is out of bounds for the filtered list)
+        // Expected result: Failure with MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX.
         Company firstCompany = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
         model.updateFilteredCompanyList(company -> company.equals(firstCompany));
 
@@ -86,6 +92,8 @@ public class StatusCommandTest {
      */
     @Test
     public void execute_sameStatusNoChange_success() throws Exception {
+        // User input: "status 1 s/<current-status-of-company-1>"
+        // Expected result: Success message; company remains effectively unchanged.
         Company target = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
 
         // Reuse the existing Status object instead of converting to String
@@ -111,6 +119,8 @@ public class StatusCommandTest {
      */
     @Test
     public void constructor_nullIndex_throwsNullPointerException() {
+        // User input: N/A (programmatic misuse)
+        // Expected result: NullPointerException when constructing StatusCommand with null index.
         assertThrows(NullPointerException.class, () -> new StatusCommand(null, new Status(STATUS_STUB)));
     }
 
@@ -119,6 +129,8 @@ public class StatusCommandTest {
      */
     @Test
     public void constructor_nullStatus_throwsNullPointerException() {
+        // User input: N/A (programmatic misuse)
+        // Expected result: NullPointerException when constructing StatusCommand with null status.
         assertThrows(NullPointerException.class, () -> new StatusCommand(INDEX_FIRST_COMPANY, null));
     }
 
@@ -129,6 +141,8 @@ public class StatusCommandTest {
      */
     @Test
     public void status_invalidValue_throwsUnsupportedStatusException() {
+        // User input: "status 1 s/NOT_A_VALID_STATUS"
+        // Expected result: UnsupportedStatusException thrown during Status construction.
         String invalid = "NOT_A_VALID_STATUS";
         assertThrows(UnsupportedStatusException.class, () -> new Status(invalid));
     }
