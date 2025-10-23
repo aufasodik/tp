@@ -12,11 +12,11 @@ UniqueTagList -[hidden]down- UniqueCompanyList
 UniqueStatusList -[hidden]down- UniqueCompanyList
 
 UniqueTagList -right-> "*" Tag
-UniqueStatusList -right-> "1" Status
+UniqueStatusList -right-> "*" Status
 UniqueCompanyList -right-> Company
 
 Company -up-> "*" Tag
-Company -up-> "1" Status
+Company -up-> "0..1" Status
 
 Company *--> Name
 Company *--> Phone

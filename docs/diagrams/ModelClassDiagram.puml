@@ -45,7 +45,7 @@ Company *--> Email
 Company *--> Address
 Company *--> "*" Tag
 Company *--> Remark
-Company *--> Status
+Company *--> "0..1" Status
 
 Company -[hidden]up--> I
 UniqueCompanyList -[hidden]right-> I
