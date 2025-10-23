@@ -7,6 +7,8 @@ skinparam classBackgroundColor LOGIC_COLOR
 package Logic as LogicPackage {
 
 package "Parser Classes" as ParserClasses{
+    Class "<<interface>>\nParser" as Parser
+    Class XYZCommandParser
 }
 Class XYZCommand
 Class CommandResult
@@ -28,8 +30,11 @@ Class HiddenOutside #FFFFFF
 HiddenOutside ..> Logic
 
 LogicManager .right.|> Logic
-LogicManager -right->"1" ParserClasses
-ParserClasses ..> XYZCommand : <<create>>
+LogicManager -right-> XYZCommandParser
+
+XYZCommandParser .up.> Parser
+
+XYZCommandParser ..> XYZCommand : <<create>>
 
 XYZCommand -up-|> Command
 LogicManager .left.> Command : <<call>>
