@@ -137,12 +137,17 @@ public class MainWindow extends UiPart<Stage> {
 
     /**
      * Opens the help window or focuses on it if it's already opened.
+     * If the help window is minimized, it will be restored and brought to front.
      */
     @FXML
     public void handleHelp() {
         if (!helpWindow.isShowing()) {
             helpWindow.show();
         } else {
+            // Check if the window is minimized (iconified)
+            if (helpWindow.getRoot().isIconified()) {
+                helpWindow.getRoot().setIconified(false);
+            }
             helpWindow.focus();
         }
     }
