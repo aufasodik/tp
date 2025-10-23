@@ -10,8 +10,6 @@ import static seedu.address.testutil.TypicalCompanies.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_COMPANY;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_COMPANY;
 
-import java.util.function.Predicate;
-
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
@@ -21,6 +19,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.company.Company;
+import seedu.address.model.company.exceptions.UnsupportedStatusException;
 import seedu.address.model.company.Status;
 import seedu.address.testutil.CompanyBuilder;
 
@@ -124,13 +123,14 @@ public class StatusCommandTest {
     }
 
     /**
-     * Predictive (regression) test: invalid status strings should be rejected by {@code Status}.
-     * If this fails, consider adding validation/normalization to {@code Status}.
+     * Validates that constructing a Status with an unknown label fails fast.
+     * This protects the domain invariant (allowed status set only) and guards
+     * against regressions if validation is weakened in the future.
      */
     @Test
-    public void status_invalidValue_throwsIllegalArgumentException() {
+    public void status_invalidValue_throwsUnsupportedStatusException() {
         String invalid = "NOT_A_VALID_STATUS";
-        assertThrows(IllegalArgumentException.class, () -> new Status(invalid));
+        assertThrows(UnsupportedStatusException.class, () -> new Status(invalid));
     }
 
     @Test
