@@ -54,7 +54,7 @@ public class HelpWindow extends UiPart<Stage> {
 
                                 status INDEX s/STATUS
                                     Update the application status for a company.
-                                    valid statuses: to-apply, applied, oa, tech-interview, hr-interview, 
+                                    valid statuses: to-apply, applied, oa, tech-interview, hr-interview,
                                                     in-process, offered, accepted, rejected
                                     Examples:
                                     status 1 s/tech-interview
