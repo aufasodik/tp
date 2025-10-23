@@ -167,14 +167,15 @@ Examples:
 
 Deletes one or more companies from Cerebro. Supports single deletion, batch deletion, and range deletion.
 
-Format: `delete INDEX [MORE_INDICES]` or `delete START-END`
+Format: `delete INDEX[,INDEX]...` or `delete START-END`
 
 * Deletes the company(ies) at the specified index/indices
 * The index refers to the index number shown in the displayed company list
 * The index **must be a positive integer** 1, 2, 3, …​
 * **Single deletion:** `delete INDEX` - Deletes one company
-* **Batch deletion:** `delete INDEX,INDEX,INDEX` - Deletes multiple companies (separate with commas)
+* **Batch deletion:** `delete INDEX[,INDEX]...` - Deletes multiple companies (separate with commas)
 * **Range deletion:** `delete START-END` - Deletes all companies from START to END index (inclusive)
+* For batch deletion, random ordering is allowed
 * Duplicate indices are ignored (first occurrence kept)
 * All specified companies are deleted in a single operation
 
@@ -299,22 +300,22 @@ _Details coming soon ..._
 
 ## Command summary
 
-Action | Format | Examples
---------|--------|----------
-**Add** | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `add n/Google Inc`<br>`add n/Meta p/65432100 e/careers@meta.com`<br>`add n/Apple r/Great benefits s/applied`
-**List** | `list` | `list`
+Action | Format                                                                                | Examples
+--------|---------------------------------------------------------------------------------------|----------
+**Add** | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​`          | `add n/Google Inc`<br>`add n/Meta p/65432100 e/careers@meta.com`<br>`add n/Apple r/Great benefits s/applied`
+**List** | `list`                                                                                | `list`
 **Edit (Single)** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `edit 2 n/Meta Platforms s/offered`
-**Edit (Batch)** | `edit INDEX,INDEX,INDEX [fields]` | `edit 1,3,5 s/rejected`
-**Edit (Range)** | `edit START-END [fields]` | `edit 2-4 s/applied t/tech`
-**Find** | `find KEYWORD [MORE_KEYWORDS]` | `find Google Meta`
-**Delete (Single)** | `delete INDEX` | `delete 3`
-**Delete (Batch)** | `delete INDEX [MORE_INDICES]` | `delete 1 3 5`
-**Delete (Range)** | `delete START-END` | `delete 2-4`
-**Status** | `status INDEX s/STATUS` | `status 1 s/tech-interview`
-**Remark** | `remark INDEX r/[REMARK]` | `remark 1 r/Great company culture`
-**Clear** | `clear` | `clear`
-**Help** | `help` | `help`
-**Exit** | `exit` | `exit`
+**Edit (Batch)** | `edit INDEX,INDEX,INDEX [fields]`                                                     | `edit 1,3,5 s/rejected`
+**Edit (Range)** | `edit START-END [fields]`                                                             | `edit 2-4 s/applied t/tech`
+**Find** | `find KEYWORD [MORE_KEYWORDS]`                                                        | `find Google Meta`
+**Delete (Single)** | `delete INDEX`                                                                        | `delete 3`
+**Delete (Batch)** | `delete INDEX[,INDEX]...`                                                             | `delete 1 3 5`
+**Delete (Range)** | `delete START-END`                                                                    | `delete 2-4`
+**Status** | `status INDEX s/STATUS`                                                               | `status 1 s/tech-interview`
+**Remark** | `remark INDEX r/[REMARK]`                                                             | `remark 1 r/Great company culture`
+**Clear** | `clear`                                                                               | `clear`
+**Help** | `help`                                                                                | `help`
+**Exit** | `exit`                                                                                | `exit`
 
 ### Valid Status Values
 `to-apply`, `applied`, `oa`, `tech-interview`, `hr-interview`, `in-process`, `offered`, `accepted`, `rejected`
