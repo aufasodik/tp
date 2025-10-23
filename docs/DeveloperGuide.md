@@ -129,7 +129,7 @@ The `Model` component,
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Company` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Company` needing their own `Tag` objects.<br>
+<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Company` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Company` needing their own `Tag` objects. The same logic applies for `Status`<br>
 
 <img src="images/BetterModelClassDiagram.png" width="450" />
 
@@ -267,12 +267,11 @@ _{Explain here how the data archiving feature will be implemented}_
 * Computer Science students mass applying for internships
 * Well-accustomed to CLI-interfaces and prefers keyboard shortcuts over GUI interfaces
 * Fast typist who prefers typing to mouse interactions
-* Tends to be forgetful about deadlines
 * Makes occasional data entry mistakes
 * Needs to manage a significant number of internship applications simultaneously
 * Is reasonably comfortable using CLI apps
 
-**Value proposition**: Helps students keep track of prospective and current internship companies and their application status in a centralized location, with reminders for upcoming application deadlines, interviews, and assessments. Manages applications faster than a typical mouse/GUI driven app.
+**Value proposition**: Helps students keep track of prospective and current internship companies and their application status in a centralized location. Manages applications faster than a typical mouse/GUI driven app.
 
 
 ### User stories
@@ -320,9 +319,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 
 1.  User requests to list companies
-2.  AddressBook shows a list of companies
+2.  Cerebro shows a list of companies
 3.  User requests to delete a specific company in the list
-4.  AddressBook deletes the company
+4.  Cerebro deletes the company
 
     Use case ends.
 
@@ -344,7 +343,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
   * 3b1. Cerebro shows the correct command format.
 
-    Use case ends.
+    Use case resumes at step 2.
 
 * 3c. Multiple indices are provided.
 
@@ -361,7 +360,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1. User requests to view all companies
 2. Cerebro displays a numbered list of all companies with their application status and key details
-3. Cerebro shows the total count of companies
 
     Use case ends.
 

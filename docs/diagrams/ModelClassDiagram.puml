@@ -19,6 +19,8 @@ Class Email
 Class Name
 Class Phone
 Class Tag
+Class Remark
+Class Status
 
 Class I #FFFFFF
 }
@@ -42,6 +44,8 @@ Company *--> Phone
 Company *--> Email
 Company *--> Address
 Company *--> "*" Tag
+Company *--> Remark
+Company *--> Status
 
 Company -[hidden]up--> I
 UniqueCompanyList -[hidden]right-> I
