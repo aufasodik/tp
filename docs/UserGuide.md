@@ -31,6 +31,8 @@ Cerebro is a **desktop application for tracking CS students' internship applicat
    * `add n/Google Inc` : Adds a company named `Google Inc` to Cerebro (only name is required - other fields will use placeholder values).
 
    * `add n/Meta p/65432100 e/careers@meta.com a/1 Hacker Way, Menlo Park r/Great culture s/applied t/tech` : Adds a company entry with multiple details (you can include any combination of optional fields).
+   
+   * `remark 1 r/Closed down.` : Updates the remark of the 1st company.
 
    * `status 1 s/tech-interview` : Updates the application status of the 1st company to "tech-interview".
 
