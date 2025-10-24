@@ -104,7 +104,7 @@ public class MetricsWindow extends UiPart<Stage> {
 
         // Define the order of statuses to display
         String[] statusOrder = {
-            "TO-APPLY", "APPLIED", "OA", "TECH-INTERVIEW", 
+            "TO-APPLY", "APPLIED", "OA", "TECH-INTERVIEW",
             "HR-INTERVIEW", "IN-PROCESS", "REJECTED", "OFFERED", "ACCEPTED"
         };
 
@@ -112,10 +112,10 @@ public class MetricsWindow extends UiPart<Stage> {
         for (String status : statusOrder) {
             long count = statusCounts.getOrDefault(status, 0L);
             double percentage = (count * 100.0) / totalCompanies;
-            
+
             String displayText = String.format("%s:  %d (%.1f%%)",
                     status, count, percentage);
-            
+
             Label statusLabel = new Label(displayText);
             statusLabel.getStyleClass().addAll("metrics-status", "status-" + status.toLowerCase());
             statusMetrics.getChildren().add(statusLabel);
