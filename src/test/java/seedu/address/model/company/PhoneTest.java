@@ -9,8 +9,10 @@ import org.junit.jupiter.api.Test;
 public class PhoneTest {
 
     @Test
-    public void constructor_null_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new Phone(null));
+    public void constructor_null_success() {
+        // null is now allowed - represents no phone provided
+        Phone phone = new Phone(null);
+        assertTrue(phone.value == null);
     }
 
     @Test
@@ -21,8 +23,8 @@ public class PhoneTest {
 
     @Test
     public void isValidPhone() {
-        // null phone number
-        assertThrows(NullPointerException.class, () -> Phone.isValidPhone(null));
+        // null phone number - now returns false instead of throwing exception
+        assertFalse(Phone.isValidPhone(null));
 
         // invalid phone numbers
         assertFalse(Phone.isValidPhone("")); // empty string

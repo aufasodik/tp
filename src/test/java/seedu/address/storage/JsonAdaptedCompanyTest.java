@@ -66,11 +66,11 @@ public class JsonAdaptedCompanyTest {
     }
 
     @Test
-    public void toModelType_nullPhone_throwsIllegalValueException() {
+    public void toModelType_nullPhone_success() throws Exception {
+        // null phone is now allowed
         JsonAdaptedCompany company = new JsonAdaptedCompany(VALID_NAME, null, VALID_EMAIL, VALID_ADDRESS, VALID_TAGS,
                 VALID_REMARK, VALID_STATUS);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName());
-        assertThrows(IllegalValueException.class, expectedMessage, company::toModelType);
+        assertEquals(null, company.toModelType().getPhone().value);
     }
 
     @Test
@@ -82,11 +82,11 @@ public class JsonAdaptedCompanyTest {
     }
 
     @Test
-    public void toModelType_nullEmail_throwsIllegalValueException() {
+    public void toModelType_nullEmail_success() throws Exception {
+        // null email is now allowed
         JsonAdaptedCompany company = new JsonAdaptedCompany(VALID_NAME, VALID_PHONE, null, VALID_ADDRESS, VALID_TAGS,
                 VALID_REMARK, VALID_STATUS);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName());
-        assertThrows(IllegalValueException.class, expectedMessage, company::toModelType);
+        assertEquals(null, company.toModelType().getEmail().value);
     }
 
     @Test
@@ -98,11 +98,11 @@ public class JsonAdaptedCompanyTest {
     }
 
     @Test
-    public void toModelType_nullAddress_throwsIllegalValueException() {
+    public void toModelType_nullAddress_success() throws Exception {
+        // null address is now allowed
         JsonAdaptedCompany company = new JsonAdaptedCompany(VALID_NAME, VALID_PHONE, VALID_EMAIL, null, VALID_TAGS,
                 VALID_REMARK, VALID_STATUS);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName());
-        assertThrows(IllegalValueException.class, expectedMessage, company::toModelType);
+        assertEquals(null, company.toModelType().getAddress().value);
     }
 
     @Test
