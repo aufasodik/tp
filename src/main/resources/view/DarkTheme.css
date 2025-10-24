@@ -129,7 +129,6 @@
 #name {
     -fx-font-family: "Segoe UI Black";
     -fx-font-size: 18px;
-    -fx-font-weight: bold;
     -fx-text-fill: white;
 }
 
@@ -371,55 +370,55 @@
 }
 
 #status .status-TO-APPLY {
-    -fx-background-color: #E8E8E8;
+    -fx-background-color: #F0F0F0;
     -fx-text-fill: black;
     -fx-font-weight: bold;
 }
 
 #status .status-APPLIED {
-    -fx-background-color: #FFA500;
+    -fx-background-color: #FFB366;
     -fx-text-fill: black;
     -fx-font-weight: bold;
 }
 
 #status .status-OA {
-    -fx-background-color: #9370DB;
+    -fx-background-color: #B085F5;
     -fx-text-fill: black;
     -fx-font-weight: bold;
 }
 
 #status .status-TECH-INTERVIEW {
-    -fx-background-color: #FFB6C1;
+    -fx-background-color: #FFB3D9;
     -fx-text-fill: black;
     -fx-font-weight: bold;
 }
 
 #status .status-HR-INTERVIEW {
-    -fx-background-color: #4ECDC4;
+    -fx-background-color: #66D9EF;
     -fx-text-fill: black;
     -fx-font-weight: bold;
 }
 
 #status .status-IN-PROCESS {
-    -fx-background-color: #FFE66D;
+    -fx-background-color: #FFF066;
     -fx-text-fill: black;
     -fx-font-weight: bold;
 }
 
 #status .status-REJECTED {
-    -fx-background-color: #FF4757;
+    -fx-background-color: #FF8A80;
     -fx-text-fill: black;
     -fx-font-weight: bold;
 }
 
 #status .status-OFFERED {
-    -fx-background-color: #2ED573;
+    -fx-background-color: #A8E6CF;
     -fx-text-fill: black;
     -fx-font-weight: bold;
 }
 
 #status .status-ACCEPTED {
-    -fx-background-color: #1DD1A1;
+    -fx-background-color: #98FB98;
     -fx-text-fill: black;
     -fx-font-weight: bold;
 }
