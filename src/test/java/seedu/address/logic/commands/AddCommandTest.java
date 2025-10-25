@@ -150,7 +150,6 @@ public class AddCommandTest {
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(companyWithNoTags), modelStub.companiesAdded);
     }
-    
 
     /**
      * Tests that adding a company with numbers in its name is successful.

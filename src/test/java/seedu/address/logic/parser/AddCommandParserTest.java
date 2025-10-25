@@ -234,5 +234,4 @@ public class AddCommandParserTest {
         assertParseFailure(parser, NAME_DESC_BOEING + NAME_DESC_AIRBUS,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
     }
-
 }
