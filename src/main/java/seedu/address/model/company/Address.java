@@ -34,8 +34,8 @@ public class Address {
     /**
      * Returns true if a given string is a valid address.
      */
-    public static boolean isValidAddress(String test) {
-        return test != null && test.matches(VALIDATION_REGEX);
+    public static boolean isValidAddress(String address) {
+        return address != null && address.matches(VALIDATION_REGEX);
     }
 
     @Override

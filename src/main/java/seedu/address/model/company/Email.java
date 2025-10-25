@@ -48,8 +48,8 @@ public class Email {
     /**
      * Returns if a given string is a valid email.
      */
-    public static boolean isValidEmail(String test) {
-        return test != null && test.matches(VALIDATION_REGEX);
+    public static boolean isValidEmail(String email) {
+        return email != null && email.matches(VALIDATION_REGEX);
     }
 
     @Override

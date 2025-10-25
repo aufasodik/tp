@@ -36,7 +36,6 @@ public class Company {
                    Status status) {
         requireNonNull(name);
         requireNonNull(tags);
-        requireNonNull(remark);
         requireNonNull(status);
         this.name = name;
         this.phone = phone;
