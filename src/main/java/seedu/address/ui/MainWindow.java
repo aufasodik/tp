@@ -144,12 +144,20 @@ public class MainWindow extends UiPart<Stage> {
         if (!helpWindow.isShowing()) {
             helpWindow.show();
         } else {
-            // Check if the window is minimized (iconified)
-            if (helpWindow.getRoot().isIconified()) {
-                helpWindow.getRoot().setIconified(false);
-            }
-            helpWindow.focus();
+            // Save current size before restoring (in case it gets corrupted)
+            Stage stage = helpWindow.getRoot();
+            double savedWidth = stage.getWidth();
+            double savedHeight = stage.getHeight();
+
+            // Restore from minimized
+            stage.setIconified(false);
+
+            // Ensure the size is maintained and center it
+            stage.setWidth(savedWidth);
+            stage.setHeight(savedHeight);
+            stage.centerOnScreen();
         }
+        helpWindow.focus();
     }
 
     void show() {
