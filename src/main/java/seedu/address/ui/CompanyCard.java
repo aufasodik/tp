@@ -93,11 +93,9 @@ public class CompanyCard extends UiPart<Region> {
         // Check overflow after UI fully rendered
         Platform.runLater(this::checkRemarkOverflow);
         
-        // Add listener for width changes (window resizing) - throttled
+        // Add listener for width changes (window resizing) - for both expanded and collapsed modes
         cardPane.widthProperty().addListener((observable, oldValue, newValue) -> {
-            if (!isRemarkExpanded) {
-                Platform.runLater(this::checkRemarkOverflow);
-            }
+            Platform.runLater(this::checkRemarkOverflow);
         });
     }
     
@@ -128,7 +126,7 @@ public class CompanyCard extends UiPart<Region> {
         }
         
         // Get available width, fallback to card width if maxWidth not set yet
-        double availableWidth = cardPane.widthProperty().get() - 25;
+        double availableWidth = cardPane.widthProperty().get();
 
         // Don't proceed if width is still not available
         if (availableWidth <= 0) {
@@ -141,17 +139,19 @@ public class CompanyCard extends UiPart<Region> {
         textNode.setFont(remark.getFont());
         
         double textWidth = textNode.getBoundsInLocal().getWidth();
-        
-        // Only show button if text exceeds single line width
-        if (textWidth > availableWidth && !isRemarkExpanded) {
+
+        if (textWidth > availableWidth) {
+            // Only show button if text exceeds single line width
             seeMoreButton.setVisible(true);
             seeMoreButton.setManaged(true);
-        } else if (isRemarkExpanded) {
-            // In expanded mode, always show "see less" button
-            seeMoreButton.setVisible(true);
-            seeMoreButton.setManaged(true);
-        } else {
-            // Text fits on single line, no button needed
+        }
+        else if (isRemarkExpanded) {
+            // Expanded but text fits — hide button
+            seeMoreButton.setVisible(false);
+            seeMoreButton.setManaged(false);
+        }
+        else {
+            // Collapsed and text fits — hide button
             seeMoreButton.setVisible(false);
             seeMoreButton.setManaged(false);
         }
