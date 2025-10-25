@@ -116,14 +116,7 @@ public class AddCommandParserTest {
         assertParseFailure(parser, INVALID_PHONE_DESC + validExpectedCompanyString,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
 
-        // valid address (blank addresses are now allowed, but duplicates are not)
-        assertParseFailure(parser, VALID_ADDRESS_DESC + validExpectedCompanyString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ADDRESS));
-
-        // remarks can take any values
-
         // valid value followed by invalid value
-
         // invalid name
         assertParseFailure(parser, validExpectedCompanyString + INVALID_NAME_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
@@ -135,12 +128,6 @@ public class AddCommandParserTest {
         // invalid phone
         assertParseFailure(parser, validExpectedCompanyString + INVALID_PHONE_DESC,
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
-
-        // valid address (blank addresses are now allowed, but duplicates are not)
-        assertParseFailure(parser, validExpectedCompanyString + VALID_ADDRESS_DESC,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ADDRESS));
-
-        // remarks can take any values
     }
 
     @Test

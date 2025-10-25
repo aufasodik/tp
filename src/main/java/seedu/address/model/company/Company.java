@@ -30,7 +30,7 @@ public class Company {
 
     /**
      * Name, tags and status must be present and not null.
-     * Phone, email, remark and address can be null.
+     * Phone, email, remark and address can take in null to represent an "empty" field.
      */
     public Company(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Remark remark,
                    Status status) {
