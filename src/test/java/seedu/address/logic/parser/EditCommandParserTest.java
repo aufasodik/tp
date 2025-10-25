@@ -16,7 +16,6 @@ import static seedu.address.logic.commands.CommandTestUtil.REMARK_DESC_AIRBUS;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_DECENT_LOCATION;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_GOOD_PAY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AIRBUS;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AIRBUS;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AIRBUS;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AIRBUS;
@@ -212,11 +211,11 @@ public class EditCommandParserTest {
                 Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS));
 
         // multiple invalid values
-        userInput = targetIndex.getOneBased() + INVALID_PHONE_DESC + VALID_ADDRESS_DESC + INVALID_EMAIL_DESC
-                + INVALID_PHONE_DESC + VALID_ADDRESS_DESC + INVALID_EMAIL_DESC;
+        userInput = targetIndex.getOneBased() + INVALID_PHONE_DESC + INVALID_EMAIL_DESC
+                + INVALID_PHONE_DESC + INVALID_EMAIL_DESC;
 
         assertParseFailure(parser, userInput,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS));
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE, PREFIX_EMAIL));
     }
 
     @Test
