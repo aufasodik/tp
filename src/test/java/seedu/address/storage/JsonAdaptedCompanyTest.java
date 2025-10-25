@@ -122,4 +122,33 @@ public class JsonAdaptedCompanyTest {
         assertThrows(IllegalValueException.class, expectedMessage, company::toModelType);
     }
 
+    @Test
+    public void toModelType_allNullOptionalFields_success() throws Exception {
+        // Test with all nullable fields (phone, email, address) set to null
+        JsonAdaptedCompany company = new JsonAdaptedCompany(VALID_NAME, null, null, null, VALID_TAGS,
+                VALID_REMARK, VALID_STATUS);
+        assertEquals(null, company.toModelType().getPhone().value);
+        assertEquals(null, company.toModelType().getEmail().value);
+        assertEquals(null, company.toModelType().getAddress().value);
+    }
+
+    @Test
+    public void constructor_fromCompanyWithNullFields_success() throws Exception {
+        // Create a company with null phone, email, and address
+        seedu.address.model.company.Company companyWithNulls = new seedu.address.model.company.Company(
+                new seedu.address.model.company.Name("Test Company"),
+                new seedu.address.model.company.Phone(null),
+                new seedu.address.model.company.Email(null),
+                new seedu.address.model.company.Address(null),
+                new java.util.HashSet<>(),
+                new seedu.address.model.company.Remark("Test remark"),
+                new seedu.address.model.company.Status()
+        );
+
+        JsonAdaptedCompany jsonAdapted = new JsonAdaptedCompany(companyWithNulls);
+        seedu.address.model.company.Company converted = jsonAdapted.toModelType();
+
+        assertEquals(companyWithNulls, converted);
+    }
+
 }

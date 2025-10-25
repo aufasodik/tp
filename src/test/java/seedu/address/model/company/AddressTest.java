@@ -54,5 +54,39 @@ public class AddressTest {
 
         // different values -> returns false
         assertFalse(address.equals(new Address("Other Valid Address")));
+
+        // both null values -> returns true
+        Address nullAddress1 = new Address(null);
+        Address nullAddress2 = new Address(null);
+        assertTrue(nullAddress1.equals(nullAddress2));
+
+        // one null, one non-null -> returns false
+        assertFalse(address.equals(nullAddress1));
+        assertFalse(nullAddress1.equals(address));
+    }
+
+    @Test
+    public void hashCode_test() {
+        // same values -> same hash code
+        Address address1 = new Address("Valid Address");
+        Address address2 = new Address("Valid Address");
+        assertTrue(address1.hashCode() == address2.hashCode());
+
+        // both null -> same hash code (0)
+        Address nullAddress1 = new Address(null);
+        Address nullAddress2 = new Address(null);
+        assertTrue(nullAddress1.hashCode() == nullAddress2.hashCode());
+        assertTrue(nullAddress1.hashCode() == 0);
+    }
+
+    @Test
+    public void toString_test() {
+        // Test toString for non-null value
+        Address address = new Address("Valid Address");
+        assertTrue(address.toString().equals("Valid Address"));
+
+        // Test toString for null value
+        Address nullAddress = new Address(null);
+        assertTrue(nullAddress.toString() == null);
     }
 }

@@ -347,4 +347,37 @@ public class EditCommandParserTest {
         String largeNumber = Long.toString((long) Integer.MAX_VALUE + 1);
         assertParseFailure(parser, "1," + largeNumber + TAG_DESC_DECENT_LOCATION, MESSAGE_INVALID_INDICES);
     }
+
+    @Test
+    public void parse_clearPhoneField_success() {
+        // Test clearing phone field with blank value
+        Index targetIndex = INDEX_FIRST_COMPANY;
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_PHONE;
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withPhone(null).build();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_clearEmailField_success() {
+        // Test clearing email field with blank value
+        Index targetIndex = INDEX_FIRST_COMPANY;
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_EMAIL;
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withEmail(null).build();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_clearAddressField_success() {
+        // Test clearing address field with blank value
+        Index targetIndex = INDEX_FIRST_COMPANY;
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_ADDRESS;
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withAddress(null).build();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
 }

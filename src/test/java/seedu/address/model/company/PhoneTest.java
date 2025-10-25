@@ -58,5 +58,39 @@ public class PhoneTest {
 
         // different values -> returns false
         assertFalse(phone.equals(new Phone("995")));
+
+        // both null values -> returns true
+        Phone nullPhone1 = new Phone(null);
+        Phone nullPhone2 = new Phone(null);
+        assertTrue(nullPhone1.equals(nullPhone2));
+
+        // one null, one non-null -> returns false
+        assertFalse(phone.equals(nullPhone1));
+        assertFalse(nullPhone1.equals(phone));
+    }
+
+    @Test
+    public void hashCode_test() {
+        // same values -> same hash code
+        Phone phone1 = new Phone("999");
+        Phone phone2 = new Phone("999");
+        assertTrue(phone1.hashCode() == phone2.hashCode());
+
+        // both null -> same hash code (0)
+        Phone nullPhone1 = new Phone(null);
+        Phone nullPhone2 = new Phone(null);
+        assertTrue(nullPhone1.hashCode() == nullPhone2.hashCode());
+        assertTrue(nullPhone1.hashCode() == 0);
+    }
+
+    @Test
+    public void toString_test() {
+        // Test toString for non-null value
+        Phone phone = new Phone("999");
+        assertTrue(phone.toString().equals("999"));
+
+        // Test toString for null value
+        Phone nullPhone = new Phone(null);
+        assertTrue(nullPhone.toString() == null);
     }
 }
