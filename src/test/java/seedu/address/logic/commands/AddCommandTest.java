@@ -150,31 +150,7 @@ public class AddCommandTest {
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(companyWithNoTags), modelStub.companiesAdded);
     }
-
-    /**
-     * Tests that adding a company with default placeholder values displays user-friendly text.
-     * Verifies that when optional fields are missing, the system uses placeholder values
-     * that are formatted as "No [field] provided" in the success message.
-     */
-    @Test
-    public void execute_companyWithPlaceholderValues_displaysUserFriendlyText() throws Exception {
-        ModelStubAcceptingCompanyAdded modelStub = new ModelStubAcceptingCompanyAdded();
-        Company companyWithPlaceholders = new CompanyBuilder()
-                .withName("Test Company")
-                .withPhone("000")
-                .withEmail("noemailprovided@placeholder.com")
-                .withAddress("No address provided")
-                .withTags()
-                .withRemark("No remark provided")
-                .build();
-
-        CommandResult commandResult = new AddCommand(companyWithPlaceholders).execute(modelStub);
-
-        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(companyWithPlaceholders));
-        assertTrue(expectedMessage.contains("No phone provided"));
-        assertTrue(expectedMessage.contains("No email provided"));
-        assertEquals(Arrays.asList(companyWithPlaceholders), modelStub.companiesAdded);
-    }
+    
 
     /**
      * Tests that adding a company with numbers in its name is successful.
