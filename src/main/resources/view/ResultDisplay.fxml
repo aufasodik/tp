@@ -11,6 +11,6 @@
       <padding>
         <Insets top="5" right="10" bottom="5" left="10" />
       </padding>
-      <Label fx:id="resultDisplay" styleClass="result-display"/>
+      <Label fx:id="resultDisplay" wrapText="true" styleClass="result-display"/>
     </VBox>
 </StackPane>
