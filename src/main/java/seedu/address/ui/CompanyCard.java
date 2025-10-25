@@ -3,16 +3,14 @@ package seedu.address.ui;
 import java.util.Comparator;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import seedu.address.model.company.Company;
 
 /**
@@ -31,7 +29,7 @@ public class CompanyCard extends UiPart<Region> {
      */
 
     public final Company company;
-    
+
     private boolean isRemarkExpanded = false;
     private String fullRemarkText;
 
@@ -74,13 +72,13 @@ public class CompanyCard extends UiPart<Region> {
         company.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        
+
         fullRemarkText = company.getRemark().value;
         remark.setText(fullRemarkText);
 
         setupExpandableRemark();
     }
-    
+
     private void setupExpandableRemark() {
         // Initialize in collapsed state
         isRemarkExpanded = false;
@@ -92,16 +90,16 @@ public class CompanyCard extends UiPart<Region> {
 
         // Check overflow after UI fully rendered
         Platform.runLater(this::checkRemarkOverflow);
-        
+
         // Add listener for width changes (window resizing) - for both expanded and collapsed modes
         cardPane.widthProperty().addListener((observable, oldValue, newValue) -> {
             Platform.runLater(this::checkRemarkOverflow);
         });
     }
-    
+
     private void toggleRemarkExpansion() {
         isRemarkExpanded = !isRemarkExpanded;
-        
+
         if (isRemarkExpanded) {
             // Expanded state: show full text with wrapping
             remark.setWrapText(true);
@@ -124,7 +122,7 @@ public class CompanyCard extends UiPart<Region> {
             seeMoreButton.setManaged(false);
             return;
         }
-        
+
         // Get available width, fallback to card width if maxWidth not set yet
         double availableWidth = cardPane.widthProperty().get();
 
@@ -137,20 +135,18 @@ public class CompanyCard extends UiPart<Region> {
         // Create a Text node to measure actual text width
         Text textNode = new Text(fullRemarkText);
         textNode.setFont(remark.getFont());
-        
+
         double textWidth = textNode.getBoundsInLocal().getWidth();
 
         if (textWidth > availableWidth) {
             // Only show button if text exceeds single line width
             seeMoreButton.setVisible(true);
             seeMoreButton.setManaged(true);
-        }
-        else if (isRemarkExpanded) {
+        } else if (isRemarkExpanded) {
             // Expanded but text fits — hide button
             seeMoreButton.setVisible(false);
             seeMoreButton.setManaged(false);
-        }
-        else {
+        } else {
             // Collapsed and text fits — hide button
             seeMoreButton.setVisible(false);
             seeMoreButton.setManaged(false);
