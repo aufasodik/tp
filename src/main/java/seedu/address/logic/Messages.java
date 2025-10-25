@@ -12,7 +12,7 @@ import seedu.address.model.company.Company;
  */
 public class Messages {
 
-    public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
+    public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command! Use `help` to view a summary of commands available";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
     public static final String MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX = "The company index provided is invalid";
     public static final String MESSAGE_COMPANIES_LISTED_OVERVIEW = "%1$d companies listed!";
