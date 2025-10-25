@@ -29,8 +29,8 @@ public class Company {
     private final Status status;
 
     /**
-     * Name, tags, remark, and status must be present and not null.
-     * Phone, email, and address can be null.
+     * Name, tags and status must be present and not null.
+     * Phone, email, remark and address can be null.
      */
     public Company(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Remark remark,
                    Status status) {
