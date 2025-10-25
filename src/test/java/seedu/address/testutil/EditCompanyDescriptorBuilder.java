@@ -35,11 +35,8 @@ public class EditCompanyDescriptorBuilder {
     public EditCompanyDescriptorBuilder(Company company) {
         descriptor = new EditCompanyDescriptor();
         descriptor.setName(company.getName());
-        // Only set phone/email/address if they have non-null values
         descriptor.setPhone(company.getPhone());
-
         descriptor.setEmail(company.getEmail());
-
         descriptor.setAddress(company.getAddress());
         descriptor.setTags(company.getTags());
         descriptor.setRemark(company.getRemark());
