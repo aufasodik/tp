@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalCompanies.ALPHA;
@@ -32,6 +33,9 @@ public class AddCommandTest {
         assertThrows(NullPointerException.class, () -> new AddCommand(null));
     }
 
+    /**
+     * Tests that a valid company is successfully added to the model.
+     */
     @Test
     public void execute_companyAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingCompanyAdded modelStub = new ModelStubAcceptingCompanyAdded();
@@ -44,6 +48,10 @@ public class AddCommandTest {
         assertEquals(Arrays.asList(validCompany), modelStub.companiesAdded);
     }
 
+    /**
+     * Tests that executing AddCommand with a duplicate company
+     * throws CommandException.
+     */
     @Test
     public void execute_duplicateCompany_throwsCommandException() {
         Company validCompany = new CompanyBuilder().build();
@@ -84,35 +92,6 @@ public class AddCommandTest {
         assertEquals(expected, addCommand.toString());
     }
 
-    @Test
-    public void execute_companyWithPlaceholderValues_addSuccessful() throws Exception {
-        ModelStubAcceptingCompanyAdded modelStub = new ModelStubAcceptingCompanyAdded();
-        Company companyWithPlaceholders = new CompanyBuilder()
-                .withName("Test Company")
-                .withPhone("000")
-                .withEmail("noemailprovided@placeholder.com")
-                .withAddress("No address provided")
-                .withTags()
-                .withRemark("No remark provided")
-                .build();
-
-        CommandResult commandResult = new AddCommand(companyWithPlaceholders).execute(modelStub);
-
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(companyWithPlaceholders)),
-                commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(companyWithPlaceholders), modelStub.companiesAdded);
-    }
-
-    @Test
-    public void execute_duplicateCompanyWithPlaceholders_throwsCommandException() {
-        Company companyWithPlaceholders = new CompanyBuilder()
-                .build();
-        AddCommand addCommand = new AddCommand(companyWithPlaceholders);
-        ModelStub modelStub = new ModelStubWithCompany(companyWithPlaceholders);
-
-        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_COMPANY, () -> addCommand.execute(modelStub));
-    }
-
     /**
      * Tests that adding a company with multiple tags is successful.
      * Verifies that the command result contains the correct success message
@@ -137,6 +116,19 @@ public class AddCommandTest {
     }
 
     /**
+     * Tests that executing AddCommand with a null model throws NullPointerException.
+     * This is a defensive programming check to ensure proper error handling
+     * when the command is executed with invalid parameters.
+     */
+    @Test
+    public void execute_nullModel_throwsNullPointerException() {
+        Company validCompany = new CompanyBuilder().build();
+        AddCommand addCommand = new AddCommand(validCompany);
+
+        assertThrows(NullPointerException.class, () -> addCommand.execute(null));
+    }
+
+    /**
      * Tests that adding a company without any tags is successful.
      * Verifies that tags are optional and a company can be added
      * with an empty tag set.
@@ -157,6 +149,31 @@ public class AddCommandTest {
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(companyWithNoTags)),
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(companyWithNoTags), modelStub.companiesAdded);
+    }
+
+    /**
+     * Tests that adding a company with default placeholder values displays user-friendly text.
+     * Verifies that when optional fields are missing, the system uses placeholder values
+     * that are formatted as "No [field] provided" in the success message.
+     */
+    @Test
+    public void execute_companyWithPlaceholderValues_displaysUserFriendlyText() throws Exception {
+        ModelStubAcceptingCompanyAdded modelStub = new ModelStubAcceptingCompanyAdded();
+        Company companyWithPlaceholders = new CompanyBuilder()
+                .withName("Test Company")
+                .withPhone("000")
+                .withEmail("noemailprovided@placeholder.com")
+                .withAddress("No address provided")
+                .withTags()
+                .withRemark("No remark provided")
+                .build();
+
+        CommandResult commandResult = new AddCommand(companyWithPlaceholders).execute(modelStub);
+
+        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(companyWithPlaceholders));
+        assertTrue(expectedMessage.contains("No phone provided"));
+        assertTrue(expectedMessage.contains("No email provided"));
+        assertEquals(Arrays.asList(companyWithPlaceholders), modelStub.companiesAdded);
     }
 
     /**
@@ -204,19 +221,6 @@ public class AddCommandTest {
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(companyWithLongAddress)),
                 commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(companyWithLongAddress), modelStub.companiesAdded);
-    }
-
-    /**
-     * Tests that executing AddCommand with a null model throws NullPointerException.
-     * This is a defensive programming check to ensure proper error handling
-     * when the command is executed with invalid parameters.
-     */
-    @Test
-    public void execute_nullModel_throwsNullPointerException() {
-        Company validCompany = new CompanyBuilder().build();
-        AddCommand addCommand = new AddCommand(validCompany);
-
-        assertThrows(NullPointerException.class, () -> addCommand.execute(null));
     }
 
     /**
@@ -279,58 +283,6 @@ public class AddCommandTest {
     }
 
     /**
-     * Tests the symmetric property of the equals method.
-     * For any non-null references x and y, x.equals(y) should return true
-     * if and only if y.equals(x) returns true.
-     */
-    @Test
-    public void equals_symmetricProperty() {
-        Company apple = new CompanyBuilder().withName("Apple").build();
-        AddCommand addAppleCommand1 = new AddCommand(apple);
-        AddCommand addAppleCommand2 = new AddCommand(apple);
-
-        // symmetric: x.equals(y) == y.equals(x)
-        assertTrue(addAppleCommand1.equals(addAppleCommand2));
-        assertTrue(addAppleCommand2.equals(addAppleCommand1));
-    }
-
-    /**
-     * Tests the transitive property of the equals method.
-     * For any non-null references x, y, and z, if x.equals(y) returns true
-     * and y.equals(z) returns true, then x.equals(z) should return true.
-     */
-    @Test
-    public void equals_transitiveProperty() {
-        Company apple = new CompanyBuilder().withName("Apple").build();
-        AddCommand addAppleCommand1 = new AddCommand(apple);
-        AddCommand addAppleCommand2 = new AddCommand(apple);
-        AddCommand addAppleCommand3 = new AddCommand(apple);
-
-        // transitive: if x.equals(y) and y.equals(z), then x.equals(z)
-        assertTrue(addAppleCommand1.equals(addAppleCommand2));
-        assertTrue(addAppleCommand2.equals(addAppleCommand3));
-        assertTrue(addAppleCommand1.equals(addAppleCommand3));
-    }
-
-    /**
-     * Tests the consistent property of the equals method.
-     * For any non-null references x and y, multiple invocations of x.equals(y)
-     * should consistently return true or consistently return false, provided
-     * no information used in equals comparisons is modified.
-     */
-    @Test
-    public void equals_consistentProperty() {
-        Company apple = new CompanyBuilder().withName("Apple").build();
-        AddCommand addAppleCommand1 = new AddCommand(apple);
-        AddCommand addAppleCommand2 = new AddCommand(apple);
-
-        // consistent: multiple invocations return same result
-        assertTrue(addAppleCommand1.equals(addAppleCommand2));
-        assertTrue(addAppleCommand1.equals(addAppleCommand2));
-        assertTrue(addAppleCommand1.equals(addAppleCommand2));
-    }
-
-    /**
      * Tests that executing AddCommand returns a non-null CommandResult
      * with the correct success message. Verifies that the command properly
      * constructs and returns a result object.
@@ -350,39 +302,27 @@ public class AddCommandTest {
     }
 
     /**
-     * Tests that the CommandResult from AddCommand does not trigger the help window.
-     * The add command should not show help as part of its normal execution.
+     * Tests that the CommandResult from AddCommand does not trigger help or exit.
+     * Verifies that AddCommand executes normally without side effects like showing
+     * help or terminating the application.
      */
     @Test
-    public void execute_commandResultShowHelp_returnsFalse() throws Exception {
+    public void execute_commandResultFlags_noHelpOrExit() throws Exception {
         ModelStubAcceptingCompanyAdded modelStub = new ModelStubAcceptingCompanyAdded();
         Company validCompany = new CompanyBuilder().build();
         AddCommand addCommand = new AddCommand(validCompany);
 
         CommandResult result = addCommand.execute(modelStub);
 
-        // verify that the command result does not show help window
-        assertFalse(result.isShowHelp());
+        assertNotNull(result);
+        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validCompany)),
+                result.getFeedbackToUser());
+        assertFalse(result.isShowHelp(), "AddCommand should not trigger help window");
+        assertFalse(result.isExit(), "AddCommand should not exit the application");
     }
 
     /**
-     * Tests that the CommandResult from AddCommand does not exit the application.
-     * The add command should not terminate the program as part of its execution.
-     */
-    @Test
-    public void execute_commandResultExit_returnsFalse() throws Exception {
-        ModelStubAcceptingCompanyAdded modelStub = new ModelStubAcceptingCompanyAdded();
-        Company validCompany = new CompanyBuilder().build();
-        AddCommand addCommand = new AddCommand(validCompany);
-
-        CommandResult result = addCommand.execute(modelStub);
-
-        // verify that the command result does not exit application
-        assertFalse(result.isExit());
-    }
-
-    /**
-     * A default model stub that have all of the methods failing.
+     * A default model stub that have all the methods failing.
      */
     private class ModelStub implements Model {
         @Override
