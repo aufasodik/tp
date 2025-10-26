@@ -46,11 +46,11 @@ public class CompanyCard extends UiPart<Region> {
     @FXML
     private Label email;
     @FXML
+    private FlowPane status;
+    @FXML
     private FlowPane tags;
     @FXML
     private Label remark;
-    @FXML
-    private Label status;
     @FXML
     private VBox remarkContainer;
     @FXML
@@ -67,8 +67,14 @@ public class CompanyCard extends UiPart<Region> {
         phone.setText(DisplayUtil.displayPhone(company.getPhone().value));
         address.setText(company.getAddress().value);
         email.setText(DisplayUtil.displayEmail(company.getEmail().value));
-        status.setText("Status: " + company.getStatus().toUserInputString());
 
+        // Create status on its own line
+        String statusValue = company.getStatus().toUserInputString().toUpperCase();
+        Label statusLabel = new Label(statusValue);
+        statusLabel.getStyleClass().add("status-" + statusValue);
+        status.getChildren().add(statusLabel);
+
+        // Add regular tags on separate line
         company.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
