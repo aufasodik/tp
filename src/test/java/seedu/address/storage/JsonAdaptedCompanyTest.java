@@ -126,7 +126,7 @@ public class JsonAdaptedCompanyTest {
     public void toModelType_allNullOptionalFields_success() throws Exception {
         // Test with all nullable fields (phone, email, address) set to null
         JsonAdaptedCompany company = new JsonAdaptedCompany(VALID_NAME, null, null, null, VALID_TAGS,
-                VALID_REMARK, VALID_STATUS);
+                null, VALID_STATUS);
         assertEquals(null, company.toModelType().getPhone().value);
         assertEquals(null, company.toModelType().getEmail().value);
         assertEquals(null, company.toModelType().getAddress().value);

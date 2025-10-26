@@ -30,8 +30,8 @@ public class Phone {
     /**
      * Returns true if a given string is a valid phone number.
      */
-    public static boolean isValidPhone(String test) {
-        return test != null && test.matches(VALIDATION_REGEX);
+    public static boolean isValidPhone(String phone) {
+        return phone != null && phone.matches(VALIDATION_REGEX);
     }
 
     @Override

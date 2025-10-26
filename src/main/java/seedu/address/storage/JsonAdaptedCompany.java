@@ -65,7 +65,7 @@ class JsonAdaptedCompany {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
-        remark = source.getRemark().value;
+        remark = source.getRemark() != null ? source.getRemark().value : null;
         status = source.getStatus().toStorageValue();
     }
 
@@ -108,7 +108,7 @@ class JsonAdaptedCompany {
 
         final Set<Tag> modelTags = new HashSet<>(companyTags);
 
-        if (remark == null) {
+        if (remark != null && !Remark.isValidRemark(remark)) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Remark.class.getSimpleName()));
         }
 

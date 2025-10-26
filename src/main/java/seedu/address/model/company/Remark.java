@@ -18,7 +18,7 @@ public class Remark {
     /**
      * Constructs a {@code Remark}.
      *
-     * @param remark A valid remark, or null if no remark is provided.
+     * @param remark A valid remark if non-empty string is provided. Null if no remark or empty remark is provided.
      */
     public Remark(String remark) {
         // remark can take any value, be empty, or be null
