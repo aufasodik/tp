@@ -24,6 +24,7 @@ public class JsonAdaptedCompanyTest {
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
+    private static final String INVALID_REMARK = " ";
 
     private static final String VALID_NAME = BETA.getName().toString();
     private static final String VALID_PHONE = BETA.getPhone().toString();
@@ -115,21 +116,30 @@ public class JsonAdaptedCompanyTest {
     }
 
     @Test
-    public void toModelType_nullRemark_throwsIllegalValueException() {
+    public void toModelType_nullRemark_success() throws Exception {
+        // null remark is now allowed
         JsonAdaptedCompany company = new JsonAdaptedCompany(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
                 VALID_TAGS, null, VALID_STATUS);
+        assertEquals(null, company.toModelType().getRemark().value);
+    }
+
+    @Test
+    public void toModelType_invalidRemark_throwsIllegalValueException() {
+        JsonAdaptedCompany company = new JsonAdaptedCompany(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_TAGS, INVALID_REMARK, VALID_STATUS);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Remark.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, company::toModelType);
     }
 
     @Test
     public void toModelType_allNullOptionalFields_success() throws Exception {
-        // Test with all nullable fields (phone, email, address) set to null
+        // Test with all nullable fields (phone, email, address, remark) set to null
         JsonAdaptedCompany company = new JsonAdaptedCompany(VALID_NAME, null, null, null, VALID_TAGS,
                 null, VALID_STATUS);
         assertEquals(null, company.toModelType().getPhone().value);
         assertEquals(null, company.toModelType().getEmail().value);
         assertEquals(null, company.toModelType().getAddress().value);
+        assertEquals(null, company.toModelType().getRemark().value);
     }
 
     @Test
