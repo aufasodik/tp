@@ -22,6 +22,8 @@ public class CommandHistory {
      */
     public CommandHistory() {
         this.commandHistory = new ArrayList<>();
+        // historyPointer will be -1 only upon initialisation or reset() being called. -1 is a special state where
+        // user is not navigating through previous commands.
         this.historyPointer = -1;
         this.savedInput = "";
     }
