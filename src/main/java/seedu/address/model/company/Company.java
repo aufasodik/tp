@@ -1,6 +1,7 @@
 package seedu.address.model.company;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -29,14 +30,13 @@ public class Company {
     private final Status status;
 
     /**
-     * Name, tags and status must be present and not null.
-     * Phone, email, remark and address can take in null to represent an "empty" field.
+     * Constructs a {@code Company}.
+     * All fields must not be null. Empty fields such as phone, email, address and remark can be represented
+     * with Phone(null), Email(null), Address(null), and Remark(null).
      */
     public Company(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Remark remark,
                    Status status) {
-        requireNonNull(name);
-        requireNonNull(tags);
-        requireNonNull(status);
+        requireAllNonNull(name, phone, email, address, tags, remark, status);
         this.name = name;
         this.phone = phone;
         this.email = email;
