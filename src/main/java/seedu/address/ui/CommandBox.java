@@ -1,8 +1,5 @@
 package seedu.address.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -20,12 +17,9 @@ public class CommandBox extends UiPart<Region> {
 
     public static final String ERROR_STYLE_CLASS = "error";
     private static final String FXML = "CommandBox.fxml";
-    private static final int MAX_HISTORY_SIZE = 50;
 
     private final CommandExecutor commandExecutor;
-    private final List<String> commandHistory;
-    private int historyPointer;
-    private String currentInput;
+    private final CommandHistory commandHistory;
 
     @FXML
     private TextField commandTextField;
@@ -36,9 +30,7 @@ public class CommandBox extends UiPart<Region> {
     public CommandBox(CommandExecutor commandExecutor) {
         super(FXML);
         this.commandExecutor = commandExecutor;
-        this.commandHistory = new ArrayList<>();
-        this.historyPointer = -1;
-        this.currentInput = "";
+        this.commandHistory = new CommandHistory();
 
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
@@ -59,10 +51,8 @@ public class CommandBox extends UiPart<Region> {
 
         try {
             commandExecutor.execute(commandText);
-            addToHistory(commandText);
+            commandHistory.add(commandText);
             commandTextField.setText("");
-            historyPointer = -1;
-            currentInput = "";
         } catch (CommandException | ParseException e) {
             setStyleToIndicateCommandFailure();
         }
@@ -106,60 +96,20 @@ public class CommandBox extends UiPart<Region> {
      * If currently at the user's current input, saves it before navigating.
      */
     private void navigateToPreviousCommand() {
-        if (commandHistory.isEmpty()) {
-            return;
-        }
-
-        // Save current input if we're starting to navigate
-        if (historyPointer == -1) {
-            currentInput = commandTextField.getText();
-            historyPointer = commandHistory.size();
-        }
-
-        // Move to previous command if possible
-        if (historyPointer > 0) {
-            historyPointer--;
-            commandTextField.setText(commandHistory.get(historyPointer));
+        commandHistory.getPrevious(commandTextField.getText()).ifPresent(command -> {
+            commandTextField.setText(command);
             commandTextField.positionCaret(commandTextField.getText().length());
-        }
+        });
     }
 
     /**
      * Navigates to the next command in history, or returns to the current input.
      */
     private void navigateToNextCommand() {
-        if (historyPointer == -1) {
-            return; // Not navigating, nothing to do
-        }
-
-        historyPointer++;
-
-        if (historyPointer >= commandHistory.size()) {
-            // Restore the current input and exit navigation mode
-            commandTextField.setText(currentInput);
+        commandHistory.getNext().ifPresent(command -> {
+            commandTextField.setText(command);
             commandTextField.positionCaret(commandTextField.getText().length());
-            historyPointer = -1;
-            currentInput = "";
-        } else {
-            // Show next command from history
-            commandTextField.setText(commandHistory.get(historyPointer));
-            commandTextField.positionCaret(commandTextField.getText().length());
-        }
-    }
-
-    /**
-     * Adds a command to the command history.
-     * Maintains a maximum history size by removing oldest commands if necessary.
-     *
-     * @param command The command to add to history.
-     */
-    private void addToHistory(String command) {
-        commandHistory.add(command);
-
-        // Remove oldest command if history exceeds maximum size
-        if (commandHistory.size() > MAX_HISTORY_SIZE) {
-            commandHistory.remove(0);
-        }
+        });
     }
 
     /**
