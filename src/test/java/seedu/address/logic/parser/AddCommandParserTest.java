@@ -5,6 +5,7 @@ import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AIRBUS;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOEING;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AIRBUS;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOEING;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
@@ -39,6 +40,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.model.company.Address;
 import seedu.address.model.company.Company;
 import seedu.address.model.company.Email;
 import seedu.address.model.company.Name;
@@ -175,6 +177,12 @@ public class AddCommandParserTest {
                 NAME_DESC_BOEING + PHONE_DESC_BOEING + INVALID_EMAIL_DESC + ADDRESS_DESC_BOEING
                         + TAG_DESC_GOOD_PAY + TAG_DESC_DECENT_LOCATION + REMARK_DESC_BOEING,
                 Email.MESSAGE_CONSTRAINTS);
+
+        // invalid address
+        assertParseFailure(parser,
+                NAME_DESC_BOEING + PHONE_DESC_BOEING + EMAIL_DESC_BOEING + INVALID_ADDRESS_DESC
+                        + TAG_DESC_GOOD_PAY + TAG_DESC_DECENT_LOCATION + REMARK_DESC_BOEING,
+                Address.MESSAGE_CONSTRAINTS);
 
         // invalid tag
         assertParseFailure(parser,
