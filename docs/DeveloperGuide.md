@@ -380,37 +380,26 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Non-Functional Requirements
 
 #### Performance
-* The system shall respond to any page load, search, filter, or sort operation within 3 seconds for up to 100 applications per user.
-* Reminder notifications (application deadlines, OA deadlines, interviews) shall be delivered within 1 minute of the scheduled time.
-* A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+* The system shall respond to any command operation within 3 seconds when managing up to 100 internship applications.
+* A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the GUI.
+* The system shall launch within 3 seconds on standard hardware.
 
 #### Reliability & Availability
 * Should work on any _mainstream OS_ as long as it has Java '17' or above installed
-* The system shall have 99.5% uptime, ensuring users can access their data at all times.
-* Data consistency shall be maintained at all times across features (notes, reminders, rankings, deadlines).
+* The app shall operate offline with full feature availability.
+* Data consistency shall be maintained at all times across features (name, phone, email, address, tags, remarks, status).
 
 #### Security & Privacy
-* Only authenticated users can access their data; no cross-user data leakage shall occur.
-* The system shall comply with applicable data protection regulations (e.g., GDPR, PDPA).
+* User data must only be stored locally and accessible through the host OS file system — no external server transmission.
+* No unintended data exposure between multiple OS user accounts.
 
 #### Scalability & Capacity
-* The system shall support at least 1000 concurrent users without significant degradation of performance.
-* Database and infrastructure shall support growth in data volume, e.g., hundreds of applications per user.
-* Notification systems shall scale to handle a large number of users simultaneously.
-
-#### Interoperability
-* The system shall support import/export of application data in standard formats (CSV, JSON) for integration with other tools.
-
-#### Data & Backup
-* All user data shall be persisted reliably and backed up daily.
-* In the event of system failure, recovery shall be possible within 4 hours.
+* The system shall support at least 100 application entries without significant degradation of performance.
+* Find, filter and list operations shall scale linearly with data size up to this limit.
 
 #### Usability & Accessibility
-* The system shall be usable by first-time users without prior training.
-* The interface shall support keyboard shortcuts, CLI-first workflow, and screen reader compatibility. .
-
-#### Technical/Environment Constraints
-* Should work on any _mainstream OS_ as long as it has Java '17' or above installed
+* New users shall be able to complete core tasks (add, list, find) after < 10 minutes of onboarding using the User Guide.
+* The interface shall support CLI-first workflow, and screen reader compatibility.
 
 ### Glossary
 
