@@ -12,7 +12,8 @@ import seedu.address.model.tag.Tag;
 
 /**
  * Represents a Company in the address book.
- * Guarantees: details are present and not null, field values are validated, immutable.
+ * Guarantees: name, tags, remark, and status are not null; phone, email, and address can be null;
+ * field values are validated, immutable.
  */
 public class Company {
 
@@ -28,7 +29,9 @@ public class Company {
     private final Status status;
 
     /**
-     * Every field must be present and not null.
+     * Constructs a {@code Company}.
+     * All fields must not be null. Empty fields such as phone, email, address and remark can be represented
+     * with Phone(null), Email(null), Address(null), and Remark(null).
      */
     public Company(Name name, Phone phone, Email email, Address address, Set<Tag> tags, Remark remark,
                    Status status) {
