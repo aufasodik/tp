@@ -120,9 +120,9 @@ public class MetricsCalculatorTest {
                 .map(Status::toUserInputString)
                 .map(String::toUpperCase)
                 .collect(java.util.stream.Collectors.toList());
-        
+
         for (String statusUpper : allStatusesUppercase) {
-            assertEquals(1L, result.getStatusCount(statusUpper), 
+            assertEquals(1L, result.getStatusCount(statusUpper),
                 "Status " + statusUpper + " should have exactly 1 company");
         }
 
