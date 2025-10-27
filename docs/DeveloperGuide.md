@@ -380,7 +380,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Non-Functional Requirements
 
 #### Performance
-* The system shall respond to any command operation within 3 seconds for up to 100 applications per user.
+* The system shall respond to any command operation within 3 seconds when managing up to 100 internship applications.
 * A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the GUI.
 * The system shall launch within 3 seconds on standard hardware.
 
