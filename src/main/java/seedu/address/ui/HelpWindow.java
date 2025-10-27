@@ -70,6 +70,9 @@ public class HelpWindow extends UiPart<Stage> {
                                 clear
                                     Clear all companies from Cerebro (irreversible!).
 
+                                metrics
+                                    View application status metrics.
+
                                 help
                                     Display this help message.
 

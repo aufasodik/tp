@@ -1,0 +1,32 @@
+/* Metrics Window Styling */
+
+.metrics-content {
+    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-padding: 15;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.metrics-total {
+    -fx-font-family: "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-padding: 5 0 5 0;
+}
+
+.metrics-separator {
+    -fx-padding: 5 0 5 0;
+    -fx-border-color: #555555;
+}
+
+.metrics-no-data {
+    -fx-font-family: "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #888888;
+    -fx-padding: 10;
+}
+
+/* Window background */
+.root {
+    -fx-background-color: derive(#1d1d1d, 30%);
+}
