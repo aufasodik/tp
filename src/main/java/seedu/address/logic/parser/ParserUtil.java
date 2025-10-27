@@ -123,7 +123,7 @@ public class ParserUtil {
         }
         if (!Tag.isValidTagLength(trimmedTag)) {
             throw new ParseException(String.format(Tag.MESSAGE_LENGTH_EXCEEDED_FORMAT,
-                    Tag.MAX_TAG_LENGTH, trimmedTag, trimmedTag.length()));
+                    Tag.MAX_TAG_LENGTH, trimmedTag, Tag.MAX_TAG_LENGTH, trimmedTag.length()));
         }
         return new Tag(trimmedTag);
     }
