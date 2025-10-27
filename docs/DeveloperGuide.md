@@ -399,7 +399,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### Usability & Accessibility
 * New users shall be able to complete core tasks (add, list, find) after < 10 minutes of onboarding using the User Guide.
-* The interface shall support keyboard shortcuts, CLI-first workflow, and screen reader compatibility.
+* The interface shall support CLI-first workflow, and screen reader compatibility.
 
 ### Glossary
 
