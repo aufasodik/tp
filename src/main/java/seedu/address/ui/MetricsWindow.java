@@ -1,14 +1,12 @@
 package seedu.address.ui;
 
-import java.util.Map;
 import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.MetricsCalculator;
 import seedu.address.model.ReadOnlyAddressBook;
 
 /**
@@ -22,7 +20,8 @@ public class MetricsWindow extends UiPart<Stage> {
     @FXML
     private VBox statusMetrics;
 
-    private ReadOnlyAddressBook addressBook;
+    private final MetricsCalculator metricsCalculator;
+    private ReadOnlyAddressBook currentAddressBook;
 
     /**
      * Creates a new MetricsWindow.
@@ -31,6 +30,7 @@ public class MetricsWindow extends UiPart<Stage> {
      */
     public MetricsWindow(Stage root) {
         super(FXML, root);
+        this.metricsCalculator = new MetricsCalculator();
         configureWindow();
     }
 
@@ -52,75 +52,50 @@ public class MetricsWindow extends UiPart<Stage> {
         stage.setMaxHeight(500);
         stage.setWidth(500);
         stage.setHeight(400);
+
+        // Add event handlers to refresh data when window is restored or focused
+        stage.iconifiedProperty().addListener((observable, wasIconified, isIconified) -> {
+            if (!isIconified && currentAddressBook != null) {
+                // Window was restored from minimized state, refresh data
+                logger.fine("Metrics window restored from minimized state, refreshing data");
+                refreshMetrics();
+            }
+        });
+
+        stage.focusedProperty().addListener((observable, wasFocused, isFocused) -> {
+            if (isFocused && currentAddressBook != null) {
+                // Window gained focus, refresh data to ensure it's current
+                logger.fine("Metrics window gained focus, refreshing data");
+                refreshMetrics();
+            }
+        });
     }
 
     /**
-     * Sets the address book data for metrics calculation.
+     * Sets the address book data for metrics calculation and updates the display.
+     *
+     * @param addressBook The address book containing company data
      */
     public void setData(ReadOnlyAddressBook addressBook) {
         if (addressBook == null) {
             logger.warning("Attempted to set null address book data for metrics");
             return;
         }
-        this.addressBook = addressBook;
-        updateMetrics();
+
+        this.currentAddressBook = addressBook;
+        refreshMetrics();
     }
 
     /**
-     * Updates the metrics display with current status statistics.
+     * Refreshes the metrics display with the current address book data.
      */
-    private void updateMetrics() {
-        if (addressBook == null) {
+    private void refreshMetrics() {
+        if (currentAddressBook == null) {
             return;
         }
 
-        statusMetrics.getChildren().clear();
-
-        // Count companies by status
-        Map<String, Long> statusCounts = addressBook.getCompanyList().stream()
-                .collect(java.util.stream.Collectors.groupingBy(
-                        company -> company.getStatus().toUserInputString().toUpperCase(),
-                        java.util.stream.Collectors.counting()
-                ));
-
-        long totalCompanies = addressBook.getCompanyList().size();
-
-        if (totalCompanies == 0) {
-            Label noDataLabel = new Label("No companies found");
-            noDataLabel.getStyleClass().add("metrics-no-data");
-            statusMetrics.getChildren().add(noDataLabel);
-            return;
-        }
-
-        // Add total count
-        Label totalLabel = new Label(String.format("Total Companies: %d", totalCompanies));
-        totalLabel.getStyleClass().add("metrics-total");
-        statusMetrics.getChildren().add(totalLabel);
-
-        // Create a separator
-        Separator separator = new Separator();
-        separator.getStyleClass().add("metrics-separator");
-        statusMetrics.getChildren().add(separator);
-
-        // Define the order of statuses to display
-        String[] statusOrder = {
-            "TO-APPLY", "APPLIED", "OA", "TECH-INTERVIEW",
-            "HR-INTERVIEW", "IN-PROCESS", "REJECTED", "OFFERED", "ACCEPTED"
-        };
-
-        // Display metrics for each status in order
-        for (String status : statusOrder) {
-            long count = statusCounts.getOrDefault(status, 0L);
-            double percentage = (count * 100.0) / totalCompanies;
-
-            String displayText = String.format("%s:  %d (%.1f%%)",
-                    status, count, percentage);
-
-            Label statusLabel = new Label(displayText);
-            statusLabel.getStyleClass().addAll("metrics-status", "status-" + status.toLowerCase());
-            statusMetrics.getChildren().add(statusLabel);
-        }
-
+        MetricsCalculator.MetricsData metricsData = metricsCalculator.calculateMetrics(currentAddressBook);
+        metricsCalculator.renderMetrics(statusMetrics, metricsData);
     }
 
 
