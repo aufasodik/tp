@@ -2,6 +2,7 @@ package seedu.address.model.tag;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.model.tag.Tag.MAX_TAG_LENGTH;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ public class TagTest {
 
     @Test
     public void constructor_tagNameTooLong_throwsIllegalArgumentException() {
-        String longTagName = "a".repeat(31); // 31 characters, exceeds the 30 character limit
+        String longTagName = "a".repeat(MAX_TAG_LENGTH + 1); // exceeds the max character limit
         assertThrows(IllegalArgumentException.class, () -> new Tag(longTagName));
     }
 
@@ -49,16 +50,16 @@ public class TagTest {
         assertTrue(Tag.isValidTagName("123")); // numeric only
         assertTrue(Tag.isValidTagName("friend123")); // alphanumeric
         assertTrue(Tag.isValidTagName("multiple-words-with-number-123")); // multiple words with number
-        assertTrue(Tag.isValidTagName("a".repeat(30))); // exactly 30 characters (boundary test)
+        assertTrue(Tag.isValidTagName("a".repeat(MAX_TAG_LENGTH))); // exactly at max length (boundary test)
     }
 
     @Test
     public void isValidTagLength() {
         // invalid tag length
-        assertFalse(Tag.isValidTagLength("a".repeat(31))); // exceeds 30 character limit
+        assertFalse(Tag.isValidTagLength("a".repeat(MAX_TAG_LENGTH + 1))); // exceeds max character limit
 
         // valid tag names
-        assertTrue(Tag.isValidTagLength("a".repeat(30))); // exactly 30 characters (boundary test)
+        assertTrue(Tag.isValidTagLength("a".repeat(MAX_TAG_LENGTH))); // exactly at max length (boundary test)
     }
 
 }
