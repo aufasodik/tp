@@ -8,9 +8,8 @@
 }
 
 .metrics-total {
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
     -fx-font-size: 14px;
-    -fx-font-weight: bold;
     -fx-text-fill: white;
     -fx-padding: 5 0 5 0;
 }
@@ -21,7 +20,7 @@
 }
 
 .metrics-no-data {
-    -fx-font-family: "Segoe UI";
+    -fx-font-family: "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
     -fx-font-size: 14px;
     -fx-text-fill: #888888;
     -fx-padding: 10;

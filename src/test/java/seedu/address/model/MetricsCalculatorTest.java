@@ -100,11 +100,10 @@ public class MetricsCalculatorTest {
 
     @Test
     public void calculateMetrics_allStatusTypes_returnsCorrectMetrics() throws Exception {
-        // Test all possible status types
-        String[] allStatuses = {
-            "to-apply", "applied", "oa", "tech-interview",
-            "hr-interview", "in-process", "rejected", "offered", "accepted"
-        };
+        // Test all possible status types - dynamically get from Status enum
+        String[] allStatuses = Arrays.stream(Status.getAllStages())
+                .map(Status::toUserInputString)
+                .toArray(String[]::new);
 
         for (int i = 0; i < allStatuses.length; i++) {
             addressBook.addCompany(createCompany("Company" + i, allStatuses[i]));
@@ -112,24 +111,22 @@ public class MetricsCalculatorTest {
 
         MetricsCalculator.MetricsData result = metricsCalculator.calculateMetrics(addressBook);
 
-        assertEquals(9, result.getTotalCompanies());
+        int totalStatusTypes = Status.getAllStages().length;
+        assertEquals(totalStatusTypes, result.getTotalCompanies());
         assertTrue(result.hasData());
 
-        // Each status should have exactly 1 company (11.11% each)
-        assertEquals(1L, result.getStatusCount("TO-APPLY"));
-        assertEquals(1L, result.getStatusCount("APPLIED"));
-        assertEquals(1L, result.getStatusCount("OA"));
-        assertEquals(1L, result.getStatusCount("TECH-INTERVIEW"));
-        assertEquals(1L, result.getStatusCount("HR-INTERVIEW"));
-        assertEquals(1L, result.getStatusCount("IN-PROCESS"));
-        assertEquals(1L, result.getStatusCount("REJECTED"));
-        assertEquals(1L, result.getStatusCount("OFFERED"));
-        assertEquals(1L, result.getStatusCount("ACCEPTED"));
+        // Each status should have exactly 1 company
+        for (String statusUpper : Status.getAllStatusValuesUppercase()) {
+            assertEquals(1L, result.getStatusCount(statusUpper), 
+                "Status " + statusUpper + " should have exactly 1 company");
+        }
 
-        // Each should be approximately 11.11%
-        double expectedPercentage = 100.0 / 9;
-        assertEquals(expectedPercentage, result.getStatusPercentage("TO-APPLY"), 0.01);
-        assertEquals(expectedPercentage, result.getStatusPercentage("APPLIED"), 0.01);
+        // Each should have equal percentage
+        double expectedPercentage = 100.0 / totalStatusTypes;
+        for (String statusUpper : Status.getAllStatusValuesUppercase()) {
+            assertEquals(expectedPercentage, result.getStatusPercentage(statusUpper), 0.01,
+                "Status " + statusUpper + " should have " + expectedPercentage + "% of companies");
+        }
     }
 
     @Test

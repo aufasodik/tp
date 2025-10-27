@@ -58,7 +58,7 @@
 
 /* Metrics-specific status styling */
 .metrics-status {
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
     -fx-font-size: 13px;
     -fx-padding: 4 16 4 16;
     -fx-border-radius: 3;
