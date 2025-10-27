@@ -205,7 +205,7 @@ Use batch editing after deadlines: `edit 1-10 s/applied` updates all at once!
 
 ### Locating companies by name: `find`
 
-Finds companies by name keywords. Case-insensitive, full words only.
+Finds companies by name keywords. Case-insensitive, lists all companies that **contains** the keyword.
 
 **Format:** `find KEYWORD [MORE_KEYWORDS]`
 
@@ -213,16 +213,17 @@ Finds companies by name keywords. Case-insensitive, full words only.
 **Search Rules:**
 * **Case-insensitive** - `google` matches `Google`
 * **Keyword order flexible** - `Google Meta` = `Meta Google`
-* **Full words only** - `Goog` won't match `Google`
+* **Substrings allowed** - `Go` will show `Google`, and all other companies with 'go' in their name
 * **OR search** - `Google Meta` finds both `Google Inc` AND `Meta Platforms`
 </div>
 
 **Examples:**
 
-* `find Google` → `Google Inc`, `Google Singapore`
+* `find go` → `Google Inc`, `Google Singapore`, `Golden Logistics`
 * `find digital pacific` → `Digital Innovations Hub`, `Pacific Trading Co`
 
-![result for 'find alex david'](images/findDigitalPacificResult.png)
+**Result for 'find digital pacific: **
+![result for 'find digital pacific'](images/findDigitalPacificResult.png)
 
 ### Deleting a company : `delete`
 
