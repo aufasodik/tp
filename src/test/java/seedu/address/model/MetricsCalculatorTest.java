@@ -101,7 +101,7 @@ public class MetricsCalculatorTest {
     @Test
     public void calculateMetrics_allStatusTypes_returnsCorrectMetrics() throws Exception {
         // Test all possible status types - dynamically get from Status enum
-        String[] allStatuses = Arrays.stream(Status.getAllStages())
+        String[] allStatuses = Arrays.stream(Status.Stage.values())
                 .map(Status::toUserInputString)
                 .toArray(String[]::new);
 
@@ -111,19 +111,24 @@ public class MetricsCalculatorTest {
 
         MetricsCalculator.MetricsData result = metricsCalculator.calculateMetrics(addressBook);
 
-        int totalStatusTypes = Status.getAllStages().length;
+        int totalStatusTypes = Status.Stage.values().length;
         assertEquals(totalStatusTypes, result.getTotalCompanies());
         assertTrue(result.hasData());
 
         // Each status should have exactly 1 company
-        for (String statusUpper : Status.getAllStatusValuesUppercase()) {
+        List<String> allStatusesUppercase = Arrays.stream(Status.Stage.values())
+                .map(Status::toUserInputString)
+                .map(String::toUpperCase)
+                .collect(java.util.stream.Collectors.toList());
+        
+        for (String statusUpper : allStatusesUppercase) {
             assertEquals(1L, result.getStatusCount(statusUpper), 
                 "Status " + statusUpper + " should have exactly 1 company");
         }
 
         // Each should have equal percentage
         double expectedPercentage = 100.0 / totalStatusTypes;
-        for (String statusUpper : Status.getAllStatusValuesUppercase()) {
+        for (String statusUpper : allStatusesUppercase) {
             assertEquals(expectedPercentage, result.getStatusPercentage(statusUpper), 0.01,
                 "Status " + statusUpper + " should have " + expectedPercentage + "% of companies");
         }
