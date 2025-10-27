@@ -206,3 +206,4 @@ public class MetricsCalculatorTest {
                           java.util.Collections.singleton(new Tag("test")), remark, companyStatus);
     }
 }
+

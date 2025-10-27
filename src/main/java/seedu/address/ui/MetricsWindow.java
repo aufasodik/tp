@@ -64,7 +64,7 @@ public class MetricsWindow extends UiPart<Stage> {
 
         stage.focusedProperty().addListener((observable, wasFocused, isFocused) -> {
             if (isFocused && currentAddressBook != null) {
-                // Window gained focus, refresh data to ensure it's current
+                // Window gained focus, refresh data to ensure it's curren
                 logger.fine("Metrics window gained focus, refreshing data");
                 refreshMetrics();
             }
