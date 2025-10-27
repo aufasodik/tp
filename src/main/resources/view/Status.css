@@ -1,0 +1,67 @@
+/* Centralized Status Styling */
+/* This file contains all status-related CSS classes to avoid duplication */
+
+/* Status colors for both kebab-case and UPPER-CASE naming conventions */
+.status-to-apply, .status-TO-APPLY {
+    -fx-background-color: #F0F0F0;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.status-applied, .status-APPLIED {
+    -fx-background-color: #FFB366;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.status-oa, .status-OA {
+    -fx-background-color: #B085F5;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.status-tech-interview, .status-TECH-INTERVIEW {
+    -fx-background-color: #FFB3D9;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.status-hr-interview, .status-HR-INTERVIEW {
+    -fx-background-color: #66D9EF;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.status-in-process, .status-IN-PROCESS {
+    -fx-background-color: #FFF066;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.status-rejected, .status-REJECTED {
+    -fx-background-color: #FF8A80;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.status-offered, .status-OFFERED {
+    -fx-background-color: #A8E6CF;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+.status-accepted, .status-ACCEPTED {
+    -fx-background-color: #98FB98;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+/* Metrics-specific status styling */
+.metrics-status {
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 13px;
+    -fx-padding: 4 16 4 16;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-margin: 2 2 2 2;
+}
