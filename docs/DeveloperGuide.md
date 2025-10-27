@@ -386,7 +386,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 #### Reliability & Availability
 * Should work on any _mainstream OS_ as long as it has Java '17' or above installed
-* The system shall have 99.5% uptime, ensuring users can access their data at all times.
+* The app shall operate offline with full feature availability.
 * Data consistency shall be maintained at all times across features (name, phone, email, address, tags, remarks, status).
 
 #### Security & Privacy
@@ -400,9 +400,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 #### Usability & Accessibility
 * New users shall be able to complete core tasks (add, list, find) after < 10 minutes of onboarding using the User Guide.
 * The interface shall support keyboard shortcuts, CLI-first workflow, and screen reader compatibility.
-
-#### Technical/Environment Constraints
-* Should work on any _mainstream OS_ as long as it has Java '17' or above installed
 
 ### Glossary
 
