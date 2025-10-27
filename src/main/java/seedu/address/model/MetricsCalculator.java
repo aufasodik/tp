@@ -8,16 +8,17 @@ import java.util.stream.Collectors;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.VBox;
+import seedu.address.model.company.Status;
 
 /**
  * Calculates metrics and statistics for company data.
  */
 public class MetricsCalculator {
 
-    private static final List<String> DEFAULT_STATUS_ORDER = Arrays.asList(
-            "TO-APPLY", "APPLIED", "OA", "TECH-INTERVIEW",
-            "HR-INTERVIEW", "IN-PROCESS", "REJECTED", "OFFERED", "ACCEPTED"
-    );
+    private static final List<String> DEFAULT_STATUS_ORDER = Arrays.stream(Status.Stage.values())
+            .map(Status::toUserInputString)
+            .map(String::toUpperCase)
+            .collect(Collectors.toList());
 
     private final List<String> statusOrder;
 
