@@ -21,12 +21,15 @@ import seedu.address.logic.parser.exceptions.ParseIndicesException;
  */
 public class IndexParser {
     public static final String MESSAGE_INVALID_INDEX = "Index must be a positive integer: 1, 2, 3...";
-    public static final String MESSAGE_INVALID_INDICES = "Indices must be a comma-separated list of positive integers"
-            + " (1, 2, 3) or a range (1-3) or a combination of both (1, 2-4).";
+    public static final String MESSAGE_INVALID_INDICES = "Invalid indices. Please use only positive numbers or ranges (e.g. 1, 2, 5-8). "
+            + "The maximum allowed index is 999999999.";
     public static final String MESSAGE_DUPLICATE_INDICES = "Duplicate indices found: %1$s. "
             + "Each index should appear only once.";
     public static final String MESSAGE_INDEX_OUT_OF_RANGE = "Index(es) out of range: %1$s. "
             + "Valid range is 1 to %2$d.";
+    public static final String MESSAGE_INVALID_RANGE_ORDER =
+            "Invalid range: start index (%1$d) cannot be greater than end index (%2$d).";
+
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading
@@ -65,15 +68,15 @@ public class IndexParser {
         String[] indexStrings = trimmedIndices.split(",", -1);
         List<Index> indexList = new ArrayList<>();
         Set<Integer> seenIndices = new HashSet<>();
-        List<String> duplicates = new ArrayList<>();
+        List<Index> duplicates = new ArrayList<>();
         @FunctionalInterface
-        interface Function2<One, Two> {
-            public Two apply(One one, Two two);
+        interface Function1<One> {
+            public One apply(One one);
         }
 
-        Function2<Integer, String> addIndex = (Integer idx, String trimmedIndexString) -> {
+        Function1<Integer> addIndex = (Integer idx) -> {
             if (seenIndices.contains(idx)) {
-                duplicates.add(trimmedIndexString);
+                duplicates.add(Index.fromOneBased(idx));
             } else {
                 seenIndices.add(idx);
                 indexList.add(Index.fromOneBased(idx));
@@ -91,7 +94,7 @@ public class IndexParser {
                 Range range = parseRangeToken(trimmedIndexString);
                 for (int i = range.start; i <= range.end; i++) {
                     int oneBasedIndex = i + 1;
-                    addIndex.apply(oneBasedIndex, trimmedIndexString);
+                    addIndex.apply(oneBasedIndex);
                 }
             } else {
                 if (trimmedIndexString.contains(" ")) {
@@ -104,7 +107,7 @@ public class IndexParser {
                     throw new ParseIndicesException(MESSAGE_INVALID_INDICES);
                 }
                 int oneBasedIndex = index.getOneBased();
-                addIndex.apply(oneBasedIndex, trimmedIndexString);
+                addIndex.apply(oneBasedIndex);
             }
 
         }
@@ -112,7 +115,10 @@ public class IndexParser {
         // Only duplicate checking gets the specific exception
         if (!duplicates.isEmpty()) {
             throw new ParseIndicesException(String.format(MESSAGE_DUPLICATE_INDICES,
-                    String.join(", ", duplicates)));
+                    duplicates.stream()
+                            .sorted((a, b) -> Integer.compare(a.getOneBased(), b.getOneBased()))
+                            .map(index -> String.valueOf(index.getOneBased()))
+                            .collect(java.util.stream.Collectors.joining(", "))));
         }
 
         return indexList;
@@ -138,7 +144,7 @@ public class IndexParser {
 
         // disallow "4-2"
         if (end < start) {
-            throw new ParseIndicesException(MESSAGE_INVALID_INDICES);
+            throw new ParseIndicesException(String.format(IndexParser.MESSAGE_INVALID_RANGE_ORDER, start + 1, end + 1));
         }
         return new Range(start, end);
     }
