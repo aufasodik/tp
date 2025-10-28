@@ -80,7 +80,12 @@ public class CompanyCard extends UiPart<Region> {
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
 
         fullRemarkText = company.getRemark().value;
-        remark.setText(fullRemarkText);
+        if (fullRemarkText == null) {
+            remark.setVisible(false); // Hides remark if empty
+            remark.setManaged(false); // Truncates company card to not show a blank line
+        } else {
+            remark.setText("Remark: " + fullRemarkText);
+        }
 
         setupExpandableRemark();
     }
