@@ -433,26 +433,26 @@
 }
 
 /* Apply base colors to company list cards */
-#status .status-TO-APPLY { /* Inherits from .status-color-TO-APPLY via Java */ }
-#status .status-APPLIED { /* Inherits from .status-color-APPLIED via Java */ }
-#status .status-OA { /* Inherits from .status-color-OA via Java */ }
-#status .status-TECH-INTERVIEW { /* Inherits from .status-color-TECH-INTERVIEW via Java */ }
-#status .status-HR-INTERVIEW { /* Inherits from .status-color-HR-INTERVIEW via Java */ }
-#status .status-IN-PROCESS { /* Inherits from .status-color-IN-PROCESS via Java */ }
-#status .status-REJECTED { /* Inherits from .status-color-REJECTED via Java */ }
-#status .status-OFFERED { /* Inherits from .status-color-OFFERED via Java */ }
-#status .status-ACCEPTED { /* Inherits from .status-color-ACCEPTED via Java */ }
+#status .status-TO-APPLY { /* Specific overrides if needed */ }
+#status .status-APPLIED { /* Specific overrides if needed */ }
+#status .status-OA { /* Specific overrides if needed */ }
+#status .status-TECH-INTERVIEW { /* Specific overrides if needed */ }
+#status .status-HR-INTERVIEW { /* Specific overrides if needed */ }
+#status .status-IN-PROCESS { /* Specific overrides if needed */ }
+#status .status-REJECTED { /* Specific overrides if needed */ }
+#status .status-OFFERED { /* Specific overrides if needed */ }
+#status .status-ACCEPTED { /* Specific overrides if needed */ }
 
 /* Apply base colors to metrics window */
-.metrics-status.status-TO-APPLY { /* Inherits from .status-color-TO-APPLY via Java */ }
-.metrics-status.status-APPLIED { /* Inherits from .status-color-APPLIED via Java */ }
-.metrics-status.status-OA { /* Inherits from .status-color-OA via Java */ }
-.metrics-status.status-TECH-INTERVIEW { /* Inherits from .status-color-TECH-INTERVIEW via Java */ }
-.metrics-status.status-HR-INTERVIEW { /* Inherits from .status-color-HR-INTERVIEW via Java */ }
-.metrics-status.status-IN-PROCESS { /* Inherits from .status-color-IN-PROCESS via Java */ }
-.metrics-status.status-REJECTED { /* Inherits from .status-color-REJECTED via Java */ }
-.metrics-status.status-OFFERED { /* Inherits from .status-color-OFFERED via Java */ }
-.metrics-status.status-ACCEPTED { /* Inherits from .status-color-ACCEPTED via Java */ }
+.metrics-status.status-TO-APPLY { /* Specific overrides if needed */ }
+.metrics-status.status-APPLIED { /* Specific overrides if needed */ }
+.metrics-status.status-OA { /* Specific overrides if needed */ }
+.metrics-status.status-TECH-INTERVIEW { /* Specific overrides if needed */ }
+.metrics-status.status-HR-INTERVIEW { /* Specific overrides if needed */ }
+.metrics-status.status-IN-PROCESS { /* Specific overrides if needed */ }
+.metrics-status.status-REJECTED { /* Specific overrides if needed */ }
+.metrics-status.status-OFFERED { /* Specific overrides if needed */ }
+.metrics-status.status-ACCEPTED { /* Specific overrides if needed */ }
 
 /* Metrics-specific additional styling */
 .metrics-status {
