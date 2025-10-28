@@ -2,13 +2,20 @@ package seedu.address.ui;
 
 import java.util.logging.Logger;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import seedu.address.commons.core.LogsCenter;
 
 /**
@@ -102,6 +109,8 @@ public class HelpWindow extends UiPart<Stage> {
         super(FXML, root);
         helpMessage.setText(HELP_MESSAGE);
         commandOverview.setText(COMMAND_OVERVIEW);
+
+        installCloseAccelerators();
     }
 
     /**
@@ -133,6 +142,12 @@ public class HelpWindow extends UiPart<Stage> {
         logger.fine("Showing help page about the application.");
         getRoot().show();
         getRoot().centerOnScreen();
+
+        Platform.runLater(() -> {
+            if (getRoot().getScene() != null && getRoot().getScene().getRoot() != null) {
+                getRoot().getScene().getRoot().requestFocus();
+            }
+        });
     }
 
     /**
@@ -165,5 +180,41 @@ public class HelpWindow extends UiPart<Stage> {
         final ClipboardContent url = new ClipboardContent();
         url.putString(USERGUIDE_URL);
         clipboard.setContent(url);
+    }
+
+    private void installCloseAccelerators() {
+        Stage stage = getRoot();
+        Runnable close = this::hide;
+
+        // If the Scene hasn't been attached yet, defer until shown.
+        if (stage.getScene() == null) {
+            stage.addEventHandler(WindowEvent.WINDOW_SHOWN, e -> installCloseAccelerators());
+            return;
+        }
+
+        Scene scene = stage.getScene();
+
+        // Platform-aware shortcuts (Cmd on macOS, Ctrl elsewhere)
+        scene.getAccelerators().put(
+                new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN), close);
+
+        // Escape
+        scene.getAccelerators().put(
+                new KeyCodeCombination(KeyCode.ESCAPE), close);
+
+        // Windows/Linux system close
+        scene.getAccelerators().put(
+                new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN), close);
+
+        // Fallback: if a focused control consumes key events (e.g., TextArea), catch them here.
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            boolean isShortcutW = e.getCode() == KeyCode.W && e.isShortcutDown();
+            boolean isEsc = e.getCode() == KeyCode.ESCAPE;
+            boolean isAltF4 = e.getCode() == KeyCode.F4 && e.isAltDown();
+            if (isShortcutW || isEsc || isAltF4) {
+                e.consume();
+                close.run();
+            }
+        });
     }
 }
