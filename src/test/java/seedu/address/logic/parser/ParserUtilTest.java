@@ -313,4 +313,13 @@ public class ParserUtilTest {
 
         assertEquals(expectedTagSet, actualTagSet);
     }
+
+    @Test
+    public void parseRemark_invalidRemark_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseRemark(" ")); // white space
+        assertThrows(ParseException.class, () -> ParserUtil.parseRemark("")); // empty
+        // Edit can still clear remarks by using white space or empty, as it bypasses isValidRemark check as a special
+        // case by creating a Remark(null) object. However, "add n/co r/ " and "add n/co r/" will not be allowed
+        // as it makes no sense to specify remark upon creation, but not add any remark.
+    }
 }
