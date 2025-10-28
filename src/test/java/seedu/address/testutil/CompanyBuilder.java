@@ -19,7 +19,6 @@ import seedu.address.model.util.SampleDataUtil;
 public class CompanyBuilder {
 
     public static final String DEFAULT_NAME = "Test Company";
-    public static final String DEFAULT_REMARK = "No remark provided";
     public static final String DEFAULT_STATUS = "to-apply";
 
     private Name name;
@@ -40,7 +39,7 @@ public class CompanyBuilder {
         email = new Email(null);
         address = new Address(null);
         tags = new HashSet<>();
-        remark = new Remark(DEFAULT_REMARK);
+        remark = new Remark(null);
         status = new Status(DEFAULT_STATUS);
     }
 
