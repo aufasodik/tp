@@ -21,7 +21,8 @@ import seedu.address.logic.parser.exceptions.ParseIndicesException;
  */
 public class IndexParser {
     public static final String MESSAGE_INVALID_INDEX = "Index must be a positive integer: 1, 2, 3...";
-    public static final String MESSAGE_INVALID_INDICES = "Invalid indices. Please use only positive numbers or ranges (e.g. 1, 2, 5-8). "
+    public static final String MESSAGE_INVALID_INDICES = "Invalid indices. Please use only positive numbers or ranges "
+            + "(e.g. 1, 2, 5-8) without trailing commas. "
             + "The maximum allowed index is 999999999.";
     public static final String MESSAGE_DUPLICATE_INDICES = "Duplicate indices found: %1$s. "
             + "Each index should appear only once.";

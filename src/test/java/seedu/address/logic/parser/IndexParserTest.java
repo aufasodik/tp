@@ -1,10 +1,10 @@
 package seedu.address.logic.parser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.logic.parser.IndexParser.MESSAGE_DUPLICATE_INDICES;
 import static seedu.address.logic.parser.IndexParser.MESSAGE_INVALID_INDICES;
 import static seedu.address.logic.parser.IndexParser.MESSAGE_INVALID_RANGE_ORDER;
 import static seedu.address.testutil.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
@@ -78,13 +78,13 @@ public class IndexParserTest {
     // ================================================================
 
     @Test
-    public void parseIndices_duplicate_simple_throwsParseIndicesException() {
+    public void parseIndices_duplicate_throwsParseIndicesException() {
         assertThrows(ParseIndicesException.class, String.format(MESSAGE_DUPLICATE_INDICES, "1"), () ->
                 IndexParser.parseIndices("1,2,1"));
     }
 
     @Test
-    public void parseIndices_multipleDuplicates_unsortedInput_reportsAscendingOrder() {
+    public void parseIndices_multipleDuplicates_reportsAscendingOrder() {
         // duplicates: 1, 3
         assertThrows(ParseIndicesException.class, String.format(MESSAGE_DUPLICATE_INDICES, "1, 3"), () ->
                 IndexParser.parseIndices("3,1,2,3,1"));
