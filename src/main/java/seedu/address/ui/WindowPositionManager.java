@@ -95,7 +95,7 @@ public class WindowPositionManager {
             Point centeredPosition = calculateCenterPosition(width, height);
             return new PositionResult(centeredPosition, true);
         } else if (safePosition == null) {
-            // No saved position, center by default
+            // No safe position, center by default
             Point centeredPosition = calculateCenterPosition(width, height);
             return new PositionResult(centeredPosition, true);
         }

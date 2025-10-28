@@ -12,8 +12,8 @@ public class ScreenBoundsValidator {
 
     private static final int MINIMUM_VISIBLE_WIDTH = 50;
     private static final int MINIMUM_VISIBLE_HEIGHT = 50;
-    private static final double DEFAULT_SAFE_WIDTH = 1024;
-    private static final double DEFAULT_SAFE_HEIGHT = 768;
+    private static final double DEFAULT_SAFE_WIDTH = 1024; // smallest common desktop resolution
+    private static final double DEFAULT_SAFE_HEIGHT = 768; // smallest common desktop resolution
 
     /**
      * Checks if the given window position is visible on any available screen.
@@ -50,18 +50,13 @@ public class ScreenBoundsValidator {
      * @param coordinates The window position to validate.
      * @param width The window width.
      * @param height The window height.
-     * @return The original coordinates if valid, or null to use default positioning.
+     * @return The original coordinates if valid, or null to indicate there is no safe position.
      */
     public static Point getSafePosition(Point coordinates, double width, double height) {
-        if (coordinates == null) {
-            return null; // Already safe - will use default positioning
-        }
-
         if (isPositionVisible(coordinates, width, height)) {
-            return coordinates; // Position is valid, return unchanged
+            return coordinates; // Position is valid, return the same position that is 'safe'
         }
-
-        return null; // Invalid position - return null to trigger default positioning
+        return null; // No safe position found
     }
 
     /**
@@ -101,20 +96,17 @@ public class ScreenBoundsValidator {
         Screen primaryScreen = Screen.getPrimary();
         Rectangle2D primaryBounds = primaryScreen.getVisualBounds();
 
-        double safeWidth = Math.min(width, primaryBounds.getWidth() * 0.9); // 90% of screen width
-        double safeHeight = Math.min(height, primaryBounds.getHeight() * 0.9); // 90% of screen height
-
-        // Ensure minimum safe defaults
-        safeWidth = Math.max(safeWidth, DEFAULT_SAFE_WIDTH);
-        safeHeight = Math.max(safeHeight, DEFAULT_SAFE_HEIGHT);
+        // 90% of screen width and height to ensure you can see the whole app
+        double safeWidth = primaryBounds.getWidth() * 0.9;
+        double safeHeight = primaryBounds.getHeight() * 0.9;
 
         // Final check - if still too large, use defaults
-        if (safeWidth > primaryBounds.getWidth() || safeHeight > primaryBounds.getHeight()) {
-            safeWidth = DEFAULT_SAFE_WIDTH;
-            safeHeight = DEFAULT_SAFE_HEIGHT;
+        if (areDimensionsValid(safeWidth, safeHeight)) {
+            return new double[]{safeWidth, safeHeight};
         }
 
-        return new double[]{safeWidth, safeHeight};
+        // Use default if safeWidth and safeHeight somehow fails (SHOULD NEVER REACH HERE)
+        return new double[]{DEFAULT_SAFE_WIDTH, DEFAULT_SAFE_HEIGHT};
     }
 
     /**
