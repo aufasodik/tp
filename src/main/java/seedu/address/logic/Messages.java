@@ -37,21 +37,35 @@ public class Messages {
      */
     public static String format(Company company) {
         final StringBuilder builder = new StringBuilder();
+        final StringBuilder tagBuilder = new StringBuilder();
 
         // Format phone with user-friendly placeholder
         String phoneDisplay = company.getPhone().value == null
-                ? "No phone provided"
+                ? "None"
                 : company.getPhone().value;
 
         // Format email with user-friendly placeholder
         String emailDisplay = company.getEmail().value == null
-                ? "No email provided"
+                ? "None"
                 : company.getEmail().value;
 
         // Format address with user-friendly placeholder
         String addressDisplay = company.getAddress().value == null
-                ? "No address provided"
+                ? "None"
                 : company.getAddress().value;
+
+        // Format tags with user-friendly placeholder
+        if (company.getTags().isEmpty()) {
+            tagBuilder.append("None");
+        } else {
+            company.getTags().forEach(tagBuilder::append);
+        }
+        String tagDisplay = tagBuilder.toString();
+
+        // Format remarks with user-friendly placeholder
+        String remarkDisplay = company.getRemark().value == null
+                ? "None"
+                : company.getRemark().value;
 
         builder.append(company.getName())
                 .append("; Phone: ")
@@ -62,8 +76,10 @@ public class Messages {
                 .append(addressDisplay)
                 .append("; Status: ")
                 .append(company.getStatus())
-                .append("; Tags: ");
-        company.getTags().forEach(builder::append);
+                .append("; Tags: ")
+                .append(tagDisplay)
+                .append("; Remarks: ")
+                .append(remarkDisplay);
         return builder.toString();
     }
 }
