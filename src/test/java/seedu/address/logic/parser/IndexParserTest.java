@@ -70,6 +70,7 @@ public class IndexParserTest {
         List<Index> indices = IndexParser.parseIndices("1 - 3");
         assertEquals(List.of(
                 Index.fromOneBased(1),
+                Index.fromOneBased(2),
                 Index.fromOneBased(3)), indices);
     }
 
