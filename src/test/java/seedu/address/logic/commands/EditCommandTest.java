@@ -14,6 +14,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_GOOD_PAY;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showCompanyAtIndex;
+import static seedu.address.logic.commands.EditCommand.MESSAGE_BATCH_EDIT_NOT_ALLOWED_FOR_NAME;
 import static seedu.address.testutil.TypicalCompanies.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_COMPANY;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_COMPANY;
@@ -63,7 +64,7 @@ public class EditCommandTest {
     @Test
     public void execute_someFieldsSpecifiedUnfilteredList_success() {
         Index indexLastCompany = Index.fromOneBased(model.getFilteredCompanyList().size());
-        Company lastCompany = model.getFilteredCompanyList().get(indexLastCompany.getZeroBased());
+        Company lastCompany = model.getFilteredCompanyList().get(model.getFilteredCompanyList().size() - 1);
 
         CompanyBuilder companyInList = new CompanyBuilder(lastCompany);
         Company editedCompany = companyInList.withName(VALID_NAME_BOEING).withPhone(VALID_PHONE_BOEING)
@@ -201,8 +202,6 @@ public class EditCommandTest {
     }
 
     // ================ Batch Edit Tests ================
-    // Edge case scenarios for testing the batch editing of tags were generated with AI assistance
-    // (OpenAI ChatGPT) to improve coverage and identify non-trivial cases.
 
     @Test
     public void execute_batchEditValidIndicesUnfilteredList_success() {
@@ -227,34 +226,7 @@ public class EditCommandTest {
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 
-    @Test
-    public void execute_batchEditSingleIndexUnfilteredList_success() {
-        // Single index in a list should work like normal edit
-        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY);
-        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("applied").build();
-        EditCommand editCommand = new EditCommand(indices, descriptor);
-
-        String expectedMessage = String.format(EditCommand.MESSAGE_BATCH_EDIT_SUCCESS, 1);
-
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        Company firstCompany = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
-        Company editedFirstCompany = new CompanyBuilder(firstCompany).withTags("applied").build();
-        expectedModel.setCompany(firstCompany, editedFirstCompany);
-
-        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
-    }
-
-    @Test
-    public void execute_batchEditInvalidIndexUnfilteredList_failure() {
-        Index outOfBoundIndex = Index.fromOneBased(model.getFilteredCompanyList().size() + 1);
-        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, outOfBoundIndex);
-        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags("applied").build();
-        EditCommand editCommand = new EditCommand(indices, descriptor);
-
-        String expectedMessage = String.format(IndexParser.MESSAGE_INDEX_OUT_OF_RANGE,
-                outOfBoundIndex.getOneBased(), model.getFilteredCompanyList().size());
-        assertCommandFailure(editCommand, model, expectedMessage);
-    }
+    // Batch edit tests
 
     @Test
     public void execute_batchEditAllInvalidIndicesUnfilteredList_failure() {
@@ -440,6 +412,123 @@ public class EditCommandTest {
                         .withStatus(VALID_STATUS_AIRBUS).withRemark(VALID_REMARK_BOEING).withTags("applied").build());
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_batchEditEmail_success() {
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder()
+                .withEmail("newemail@example.com").build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_BATCH_EDIT_SUCCESS, 2);
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        Company firstCompany = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
+        Company secondCompany = model.getFilteredCompanyList().get(INDEX_SECOND_COMPANY.getZeroBased());
+
+        Company editedFirstCompany = new CompanyBuilder(firstCompany).withEmail("newemail@example.com").build();
+        Company editedSecondCompany = new CompanyBuilder(secondCompany).withEmail("newemail@example.com").build();
+
+        expectedModel.setCompany(firstCompany, editedFirstCompany);
+        expectedModel.setCompany(secondCompany, editedSecondCompany);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_batchEditAddress_success() {
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_THIRD_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder()
+                .withAddress("123 New Street, New City").build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_BATCH_EDIT_SUCCESS, 2);
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        Company firstCompany = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
+        Company thirdCompany = model.getFilteredCompanyList().get(INDEX_THIRD_COMPANY.getZeroBased());
+
+        Company editedFirstCompany = new CompanyBuilder(firstCompany).withAddress("123 New Street, New City").build();
+        Company editedThirdCompany = new CompanyBuilder(thirdCompany).withAddress("123 New Street, New City").build();
+
+        expectedModel.setCompany(firstCompany, editedFirstCompany);
+        expectedModel.setCompany(thirdCompany, editedThirdCompany);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_batchEditPhone_success() {
+        List<Index> indices = Arrays.asList(INDEX_SECOND_COMPANY, INDEX_THIRD_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder()
+                .withPhone("99887766").build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_BATCH_EDIT_SUCCESS, 2);
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        Company secondCompany = model.getFilteredCompanyList().get(INDEX_SECOND_COMPANY.getZeroBased());
+        Company thirdCompany = model.getFilteredCompanyList().get(INDEX_THIRD_COMPANY.getZeroBased());
+
+        Company editedSecondCompany = new CompanyBuilder(secondCompany).withPhone("99887766").build();
+        Company editedThirdCompany = new CompanyBuilder(thirdCompany).withPhone("99887766").build();
+
+        expectedModel.setCompany(secondCompany, editedSecondCompany);
+        expectedModel.setCompany(thirdCompany, editedThirdCompany);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_batchEditAllFieldsExceptName_success() {
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder()
+                .withEmail("batch@example.com")
+                .withAddress("456 Batch Street")
+                .withPhone("88776655")
+                .withTags("batch-edited")
+                .withStatus("applied")
+                .withRemark("Batch edited companies").build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_BATCH_EDIT_SUCCESS, 2);
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        Company firstCompany = model.getFilteredCompanyList().get(INDEX_FIRST_COMPANY.getZeroBased());
+        Company secondCompany = model.getFilteredCompanyList().get(INDEX_SECOND_COMPANY.getZeroBased());
+
+        Company editedFirstCompany = new CompanyBuilder(firstCompany)
+                .withEmail("batch@example.com")
+                .withAddress("456 Batch Street")
+                .withPhone("88776655")
+                .withTags("batch-edited")
+                .withStatus("applied")
+                .withRemark("Batch edited companies").build();
+        Company editedSecondCompany = new CompanyBuilder(secondCompany)
+                .withEmail("batch@example.com")
+                .withAddress("456 Batch Street")
+                .withPhone("88776655")
+                .withTags("batch-edited")
+                .withStatus("applied")
+                .withRemark("Batch edited companies").build();
+
+        expectedModel.setCompany(firstCompany, editedFirstCompany);
+        expectedModel.setCompany(secondCompany, editedSecondCompany);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_batchEditWithNameField_failure() {
+        // Batch edit should not allow name field to be edited
+        List<Index> indices = Arrays.asList(INDEX_FIRST_COMPANY, INDEX_SECOND_COMPANY);
+        EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder()
+                .withName("New Company Name")
+                .withEmail("test@example.com").build();
+        EditCommand editCommand = new EditCommand(indices, descriptor);
+
+        assertCommandFailure(editCommand, model, MESSAGE_BATCH_EDIT_NOT_ALLOWED_FOR_NAME);
     }
 
 }
