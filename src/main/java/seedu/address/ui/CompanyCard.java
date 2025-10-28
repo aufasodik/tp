@@ -71,7 +71,7 @@ public class CompanyCard extends UiPart<Region> {
         // Create status on its own line
         String statusValue = company.getStatus().toUserInputString().toUpperCase();
         Label statusLabel = new Label(statusValue);
-        statusLabel.getStyleClass().add("status-" + statusValue);
+        statusLabel.getStyleClass().addAll("status-" + statusValue, "status-color-" + statusValue);
         status.getChildren().add(statusLabel);
 
         // Add regular tags on separate line

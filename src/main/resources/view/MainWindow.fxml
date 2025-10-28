@@ -22,7 +22,6 @@
       <stylesheets>
         <URL value="@DarkTheme.css" />
         <URL value="@Extensions.css" />
-        <URL value="@Status.css" />
       </stylesheets>
 
       <VBox>

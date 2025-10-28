@@ -126,20 +126,6 @@
     -fx-text-fill: #010504;
 }
 
-#name {
-    -fx-font-family: "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-}
-
-#id {
-    -fx-font-family: "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-}
-
 .cell_small_label {
     -fx-font-family: "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
     -fx-font-size: 13px;
@@ -367,23 +353,27 @@
     -fx-background-radius: 0;
 }
 
-#status {
+#status .label {
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-padding: 1 3 1 3;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-font-size: 11;
     -fx-hgap: 7;
     -fx-vgap: 3;
 }
 
-#tags {
-    -fx-hgap: 7;
-    -fx-vgap: 3;
-}
 
-#status .label, #tags .label {
+#tags .label {
     -fx-text-fill: white;
     -fx-background-color: #3e7b91;
     -fx-padding: 1 3 1 3;
     -fx-border-radius: 2;
     -fx-background-radius: 2;
     -fx-font-size: 11;
+    -fx-hgap: 7;
+    -fx-vgap: 3;
 }
 
 .see-more-button {
@@ -402,8 +392,76 @@
     -fx-underline: true;
 }
 
+/* ========== STATUS COLORS ========== */
+/* Centralized status styling - single source of truth for all status colors */
 
+/* Base status color definitions - SINGLE SOURCE OF TRUTH */
+.status-color-TO-APPLY {
+    -fx-background-color: #F0F0F0;
+}
 
+.status-color-APPLIED {
+    -fx-background-color: #FFB366;
+}
 
+.status-color-OA {
+    -fx-background-color: #B085F5;
+}
 
+.status-color-TECH-INTERVIEW {
+    -fx-background-color: #FFB3D9;
+}
+
+.status-color-HR-INTERVIEW {
+    -fx-background-color: #66D9EF;
+}
+
+.status-color-IN-PROCESS {
+    -fx-background-color: #FFF066;
+}
+
+.status-color-REJECTED {
+    -fx-background-color: #FF8A80;
+}
+
+.status-color-OFFERED {
+    -fx-background-color: #A8E6CF;
+}
+
+.status-color-ACCEPTED {
+    -fx-background-color: #98FB98;
+}
+
+/* Apply base colors to company list cards */
+#status .status-TO-APPLY { /* Inherits from .status-color-TO-APPLY via Java */ }
+#status .status-APPLIED { /* Inherits from .status-color-APPLIED via Java */ }
+#status .status-OA { /* Inherits from .status-color-OA via Java */ }
+#status .status-TECH-INTERVIEW { /* Inherits from .status-color-TECH-INTERVIEW via Java */ }
+#status .status-HR-INTERVIEW { /* Inherits from .status-color-HR-INTERVIEW via Java */ }
+#status .status-IN-PROCESS { /* Inherits from .status-color-IN-PROCESS via Java */ }
+#status .status-REJECTED { /* Inherits from .status-color-REJECTED via Java */ }
+#status .status-OFFERED { /* Inherits from .status-color-OFFERED via Java */ }
+#status .status-ACCEPTED { /* Inherits from .status-color-ACCEPTED via Java */ }
+
+/* Apply base colors to metrics window */
+.metrics-status.status-TO-APPLY { /* Inherits from .status-color-TO-APPLY via Java */ }
+.metrics-status.status-APPLIED { /* Inherits from .status-color-APPLIED via Java */ }
+.metrics-status.status-OA { /* Inherits from .status-color-OA via Java */ }
+.metrics-status.status-TECH-INTERVIEW { /* Inherits from .status-color-TECH-INTERVIEW via Java */ }
+.metrics-status.status-HR-INTERVIEW { /* Inherits from .status-color-HR-INTERVIEW via Java */ }
+.metrics-status.status-IN-PROCESS { /* Inherits from .status-color-IN-PROCESS via Java */ }
+.metrics-status.status-REJECTED { /* Inherits from .status-color-REJECTED via Java */ }
+.metrics-status.status-OFFERED { /* Inherits from .status-color-OFFERED via Java */ }
+.metrics-status.status-ACCEPTED { /* Inherits from .status-color-ACCEPTED via Java */ }
+
+/* Metrics-specific additional styling */
+.metrics-status {
+    -fx-font-family: "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
+    -fx-font-size: 13px;
+    -fx-padding: 4 16 4 16;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-margin: 2 2 2 2;
+    -fx-text-fill: black;
+}
 
