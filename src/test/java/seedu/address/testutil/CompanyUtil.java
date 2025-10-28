@@ -45,7 +45,9 @@ public class CompanyUtil {
         company.getTags().stream().forEach(
             s -> sb.append(PREFIX_TAG + s.tagName + " ")
         );
-        sb.append(PREFIX_REMARK + company.getRemark().value + " ");
+        if (company.getRemark().value != null) {
+            sb.append(PREFIX_REMARK + company.getRemark().value + " ");
+        }
         sb.append(PREFIX_STATUS + company.getStatus().toUserInputString() + " ");
         return sb.toString();
     }
@@ -77,7 +79,13 @@ public class CompanyUtil {
                 sb.append(PREFIX_ADDRESS).append(" ");
             }
         });
-        descriptor.getRemark().ifPresent(remark -> sb.append(PREFIX_REMARK).append(remark.value).append(" "));
+        descriptor.getRemark().ifPresent(remark -> {
+            if (remark.value != null) {
+                sb.append(PREFIX_REMARK).append(remark.value).append(" ");
+            } else {
+                sb.append(PREFIX_REMARK).append(" ");
+            }
+        });
         descriptor.getStatus().ifPresent(status ->
                 sb.append(PREFIX_STATUS).append(status.toUserInputString()).append(" "));
         if (descriptor.getTags().isPresent()) {
