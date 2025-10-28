@@ -15,8 +15,8 @@
   <scene>
     <Scene>
       <stylesheets>
+        <URL value="@DarkTheme.css" />
         <URL value="@MetricsWindow.css" />
-        <URL value="@Status.css" />
       </stylesheets>
 
       <VBox alignment="CENTER" fx:id="metricsContainer" spacing="10">
