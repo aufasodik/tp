@@ -74,7 +74,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         if (argMultimap.getValue(PREFIX_REMARK).isPresent()) {
             remark = ParserUtil.parseRemark(argMultimap.getValue(PREFIX_REMARK).get());
         } else {
-            remark = new Remark("No remark provided");
+            remark = new Remark(null);
         }
 
         Status status;
