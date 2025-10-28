@@ -52,16 +52,21 @@ public class EditCommand extends Command {
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example (single edit): " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
-            + PREFIX_EMAIL + "johndoe@example.com\n"
-            + "Example (batch edit - for tags, status, remarks only): " + COMMAND_WORD + " 1,2,3 OR "
-            + COMMAND_WORD + " 1-3 OR " + COMMAND_WORD + " 1,3-6\n";
+            + PREFIX_EMAIL + "googlehr@gmail.com "
+            + PREFIX_STATUS + "applied\n"
+            + "Example (batch edit - allowed for all fields except Name): " + COMMAND_WORD + " 1,2,4-8 "
+            + PREFIX_PHONE + "91234567 "
+            + PREFIX_EMAIL + "googlehr@gmail.com "
+            + PREFIX_ADDRESS + "70 Pasir Panjang Rd, #03-71 Mapletree Business City II, Singapore 117371 "
+            + PREFIX_STATUS + "applied "
+            + PREFIX_TAG + "FAANG";
 
     public static final String MESSAGE_EDIT_COMPANY_SUCCESS = "Edited Company: %1$s";
     public static final String MESSAGE_BATCH_EDIT_SUCCESS = "Edited %1$d companies successfully";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_COMPANY = "This company already exists in the address book.";
-    public static final String MESSAGE_BATCH_EDIT_FOR_TAGS_REMARK_ONLY =
-            "Batch editing is only allowed for tags, remarks and status.";
+    public static final String MESSAGE_BATCH_EDIT_NOT_ALLOWED_FOR_NAME =
+            "Batch editing is not allowed for Name.";
 
     private final Index index;
     private final List<Index> indices;
@@ -154,8 +159,8 @@ public class EditCommand extends Command {
         // Validate that editing won't create duplicate companies
         validateNoDuplicateCompanies(model, lastShownList);
 
-        // Validate that editing in batch is only allowed for tags and remarks
-        validateIsTagsAndRemarksOnly();
+        // Validate that editing in batch is allowed for all fields except name
+        validateIsNotName();
 
         // All validations passed - perform batch edit
         for (Index index : indices) {
@@ -206,9 +211,9 @@ public class EditCommand extends Command {
      *
      * @throws CommandException if a batch edit edits name, phone, email, address
      */
-    private void validateIsTagsAndRemarksOnly() throws CommandException {
-        if (!editCompanyDescriptor.isTagsAndRemarksOnly()) {
-            throw new CommandException(MESSAGE_BATCH_EDIT_FOR_TAGS_REMARK_ONLY);
+    private void validateIsNotName() throws CommandException {
+        if (!editCompanyDescriptor.isNotName()) {
+            throw new CommandException(MESSAGE_BATCH_EDIT_NOT_ALLOWED_FOR_NAME);
         }
     }
 
@@ -296,8 +301,8 @@ public class EditCommand extends Command {
         /**
          * Returns true if name, phone, email and address are not edited.
          */
-        public boolean isTagsAndRemarksOnly() {
-            return !CollectionUtil.isAnyNonNull(name, phone, email, address);
+        public boolean isNotName() {
+            return !CollectionUtil.isAnyNonNull(name);
         }
 
         public void setName(Name name) {
