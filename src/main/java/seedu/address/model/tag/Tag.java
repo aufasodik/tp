@@ -13,7 +13,7 @@ public class Tag {
             "Tag names should be alphanumeric and may contain hyphens to separate words. No whitespaces allowed.";
     public static final int MAX_TAG_LENGTH = 30;
     public static final String MESSAGE_LENGTH_EXCEEDED_FORMAT =
-            "Tag names must not exceed %d characters.\n"
+            "Tag names must not exceed %d characters.%n"
                     + "Tag '%s' exceeds %d character limit. (%d characters)";
     public static final String VALIDATION_REGEX = "[\\p{Alnum}]+(-[\\p{Alnum}]+)*";
 
