@@ -57,43 +57,6 @@ When Cerebro launches, you'll see a clean interface with sample data:
 
 ### CLI Tutorial
 
-**Command Structure:** `COMMAND [INDEX] [PARAMETERS]` with prefixes like `n/NAME`, `s/STATUS`, `t/TAG`
-
-**Essential Commands:**
-
-```bash
-list                         # View all companies
-add n/Google Inc             # Add company (minimal)
-add n/Meta s/applied t/tech  # Add with details
-remark 1 r/Closed down.      # Update status
-status 1 s/tech-interview    # Update status
-find Google Meta             # Search companies
-edit 1,3,5 s/rejected        # Batch update (no spaces in indices)
-delete 3                     # Remove company
-```
-
-<div markdown="span" class="alert alert-danger">:exclamation: **Warning:**
-Delete operations are permanent! No undo available.
-</div>
-
-**Typical Workflow:**
-
-1. **Research:** `add n/CompanyName` (quick entry)
-2. **Apply:** `edit 1 s/applied r/Applied via website`
-3. **Interview:** `status 1 s/tech-interview`
-4. **Organize:** `find KEYWORD` to filter, `list` to see all
-
-**Power Tips:**
-
-- **Batch edit/delete:** `delete 1,2,5-7` (indices 1, 2, 5, 6, 7)
-- **Flexible input:** Parameters work in any order
-
-Ready for the complete command reference? Jump to [Features](#features).
-
----
-
-## Features
-
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Notes about the command format:**<br>
@@ -112,32 +75,49 @@ Ready for the complete command reference? Jump to [Features](#features).
 
 </div>
 
+**Command Structure:** `COMMAND [INDEX] [PARAMETERS]` with prefixes like `n/NAME`, `s/STATUS`, `t/TAG`
+
+<div markdown="span" class="alert alert-danger">:exclamation: **Warning:**
+All operations are permanent! No undo available.
+</div>
+
+**Typical Workflow:**
+
+1. **Research:** `add n/CompanyName` (quick entry)
+2. **Add details:** `edit 1 e/contact_email@example.com a/Sample Address #00-00`
+3. **Apply:** `edit 1 s/applied r/Applied via website`
+4. **View info** `find CompanyName`
+5. **Interview:** `edit 1 s/tech-interview`
+6. **Overview:** `filter s/KEYWORD` to filter by status, `list` to see all
+
+**Power Tips:**
+
+- **Batch edit/delete:** `delete 1,2,5-7` (indices 1, 2, 5, 6, 7)
+- **Flexible input:** Parameters work in any order
+
+---
+
+## Features
+
 ### Viewing help : `help`
 
 Shows a message explaining how to access the help page.
 
-![help message](images/helpMessage.png)
-
-Format: `help`
+<img src="images/helpMessage.png" alt="help message" width="550"/>
 
 ### Adding a company: `add`
 
-Adds a company to Cerebro. Only company name required - other fields optional.
+Adds a company to Cerebro.
 
 **Format:** `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]...`
 
 <div markdown="block" class="alert alert-success">
-**Quick Facts:**
+**Usage:**
 * **Required:** Company name only
 * **Optional:** All other fields (auto-filled with placeholders if empty)
 * **Default status:** `to-apply`
 * **Tags:** Multiple allowed
-</div>
-
-**Valid STATUS values:** `to-apply`, `applied`, `oa`, `tech-interview`, `hr-interview`, `in-process`, `offered`, `accepted`, `rejected`
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Start with just the company name for quick entry when you're researching companies, then update details later with the `edit` command!
+* **Valid STATUS values:** `to-apply`, `applied`, `oa`, `tech-interview`, `hr-interview`, `in-process`, `offered`, `accepted`, `rejected`
 </div>
 
 Examples:
@@ -146,11 +126,13 @@ Examples:
 * `add n/Meta e/careers@meta.com s/applied` - Adds name, email, and status only
 * `add n/ByteDance p/12345678 e/recruit@bytedance.com a/Singapore Science Park r/Fast-growing s/tech-interview t/tech t/remote-friendly` - Adds complete entry with all details
 
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Start with just the company name for quick entry when you're researching companies, then update details later with the `edit` command!
+</div>
+
 ### Listing all companies : `list`
 
 Shows a list of all companies in Cerebro.
-
-Format: `list`
 
 * Displays all companies with their details
 * Resets any active filters from previous `find` commands
@@ -164,7 +146,7 @@ Edits an existing company in Cerebro. Supports single edit and batch edit.
 
 **Examples:**
 
-**Single:** `edit 1 p/91234567 e/careers@google.com` (any fields allowed)
+**Single:** `edit 1 p/91234567 e/careers@google.com`
 ```
 Edited Company 1: Phone: 91234567; Email: careers@google.com; ...
 ```
@@ -193,7 +175,7 @@ Edited Company 3 - All tags cleared
 
 **Batch edit in action:** `edit 1,3,5 s/rejected`
 
-![Batch edit in action](images/BatchEditResult.png)
+<img src="images/BatchEditResult.png" alt="Batch edit" width="400"/>
 
 <div markdown="block" class="alert alert-danger">
 **:exclamation: Important - Index Reference:**<br>
@@ -203,8 +185,6 @@ Indices refer to the numbers shown in the **current displayed list**. After usin
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Use batch editing after deadlines: `edit 1-10 s/applied` updates all at once!
 </div>
-
-**Valid STATUS values:** `to-apply`, `applied`, `oa`, `tech-interview`, `hr-interview`, `in-process`, `offered`, `accepted`, `rejected`
 
 ### Locating companies by name: `find`
 
