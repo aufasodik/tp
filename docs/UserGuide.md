@@ -318,8 +318,8 @@ Furthermore, certain edits can cause Cerebro to behave in unexpected ways (e.g.,
 **Q**: Can I edit the JSON file directly?<br>
 **A**: Yes, advanced users can edit `addressbook.json` directly. **Always backup first** - invalid format will cause Cerebro to discard all data.
 
-**Q**: What's the difference between `status` and `edit` commands?<br>
-**A**: `status` updates only the status field quickly. `edit` updates status plus other fields in one command. Use whichever is more convenient.
+**Q**: How do I regenerate the dummy data?<br>
+**A**: Delete the `/data` folder, then run the app again. **Make sure to backup any important information first!**
 
 --------------------------------------------------------------------------------------------------------------------
 
