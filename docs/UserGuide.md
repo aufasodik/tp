@@ -290,6 +290,11 @@ If your changes to the data file make its format invalid, Cerebro will discard a
 Furthermore, certain edits can cause Cerebro to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
+### Upcoming Features
+- Archiving & backing up data files
+- Undo changes
+- Reminders for upcoming deadline
+
 ---
 
 ## FAQ
@@ -312,7 +317,7 @@ Furthermore, certain edits can cause Cerebro to behave in unexpected ways (e.g.,
 **Q**: What's the difference between `status` and `edit` commands?<br>
 **A**: `status` updates only the status field quickly. `edit` updates status plus other fields in one command. Use whichever is more convenient.
 
----
+--------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
 

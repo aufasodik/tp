@@ -122,7 +122,9 @@ public class MetricsCalculator {
             String displayText = String.format("%s:  %d (%.1f%%)", status, count, percentage);
 
             Label statusLabel = new Label(displayText);
-            statusLabel.getStyleClass().addAll("metrics-status", "status-" + status.toLowerCase());
+            String statusUpperCase = status.toUpperCase().replace('_', '-');
+            statusLabel.getStyleClass().addAll("metrics-status",
+                    "status-" + statusUpperCase, "status-color-" + statusUpperCase);
             container.getChildren().add(statusLabel);
         }
     }
