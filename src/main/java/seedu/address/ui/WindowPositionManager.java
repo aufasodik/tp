@@ -63,43 +63,49 @@ public class WindowPositionManager {
      * @return A DimensionResult containing the validated dimensions and whether correction was needed.
      */
     private static DimensionResult validateAndCorrectDimensions(GuiSettings guiSettings) {
-        double width = guiSettings.getWindowWidth();
-        double height = guiSettings.getWindowHeight();
+        double appWidth = guiSettings.getWindowWidth();
+        double appHeight = guiSettings.getWindowHeight();
 
-        double[] safeDimensions = ScreenBoundsValidator.getSafeDimensions(width, height);
+        double[] safeDimensions = ScreenBoundsValidator.getSafeDimensions(appWidth, appHeight);
 
-        if (safeDimensions[0] != width || safeDimensions[1] != height) {
-            logger.warning("Window dimensions (" + width + "x" + height
-                    + ") are too large for available screens. Resizing to ("
+        if (safeDimensions[0] != appWidth || safeDimensions[1] != appHeight) {
+            // If dimensions have been changed
+            logger.warning("Window dimensions (" + appWidth + "x" + appHeight
+                    + ") are invalid. Resizing to ("
                     + safeDimensions[0] + "x" + safeDimensions[1] + ")");
             return new DimensionResult(safeDimensions[0], safeDimensions[1], true);
         }
 
-        return new DimensionResult(width, height, false);
+        return new DimensionResult(appWidth, appHeight, false);
     }
 
     /**
      * Validates window position and corrects it if necessary.
      *
-     * @param position The window position to validate.
+     * @param position The window position to validate. May be null.
      * @param width The window width.
      * @param height The window height.
      * @return A PositionResult containing the validated position and whether correction was needed.
      */
     private static PositionResult validateAndCorrectPosition(Point position, double width, double height) {
-        Point safePosition = ScreenBoundsValidator.getSafePosition(position, width, height);
-
-        if (safePosition == null && position != null) {
-            logger.warning("Window position (" + position.getX() + ", " + position.getY()
-                    + ") is off-screen. Centering window on primary screen.");
-            Point centeredPosition = calculateCenterPosition(width, height);
-            return new PositionResult(centeredPosition, true);
-        } else if (safePosition == null) {
-            // No safe position, center by default
+        // No position given - calculate centered position immediately
+        if (position == null) {
             Point centeredPosition = calculateCenterPosition(width, height);
             return new PositionResult(centeredPosition, true);
         }
 
+        // Position is not null, validate if it's visible on screen
+        Point safePosition = ScreenBoundsValidator.getSafePosition(position, width, height);
+
+        if (safePosition == null) {
+            // Position is off-screen, center window on primary screen
+            logger.warning("Window position (" + position.getX() + ", " + position.getY()
+                    + ") is off-screen. Centering window on primary screen.");
+            Point centeredPosition = calculateCenterPosition(width, height);
+            return new PositionResult(centeredPosition, true);
+        }
+
+        // Position is valid and visible, use as-is
         return new PositionResult(safePosition, false);
     }
 
