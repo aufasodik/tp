@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
@@ -100,6 +101,11 @@ public class DeleteCommand extends Command {
         }
         DeleteCommand otherDeleteCommand = (DeleteCommand) other;
         return this.targetIndices.equals(otherDeleteCommand.targetIndices);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(targetIndices);
     }
 
     @Override

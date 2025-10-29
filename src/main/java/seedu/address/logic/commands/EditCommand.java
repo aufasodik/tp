@@ -249,6 +249,11 @@ public class EditCommand extends Command {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(index, indices, editCompanyDescriptor);
+    }
+
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("index", index)
@@ -396,6 +401,11 @@ public class EditCommand extends Command {
                     && Objects.equals(tags, otherEditCompanyDescriptor.tags)
                     && Objects.equals(remark, otherEditCompanyDescriptor.remark)
                     && Objects.equals(status, otherEditCompanyDescriptor.status);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, phone, email, address, tags, remark, status);
         }
 
         @Override

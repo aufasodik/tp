@@ -1,6 +1,7 @@
 package seedu.address.model.company;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -36,6 +37,11 @@ public class NameContainsKeywordsPredicate implements Predicate<Company> {
 
         NameContainsKeywordsPredicate otherNameContainsKeywordsPredicate = (NameContainsKeywordsPredicate) other;
         return keywords.equals(otherNameContainsKeywordsPredicate.keywords);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(keywords); // List hash is content-based
     }
 
     @Override
