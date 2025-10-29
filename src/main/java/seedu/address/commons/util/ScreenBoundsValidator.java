@@ -14,6 +14,7 @@ public class ScreenBoundsValidator {
     private static final int MINIMUM_VISIBLE_HEIGHT = 50;
     private static final double DEFAULT_SAFE_WIDTH = 1024; // smallest common desktop resolution
     private static final double DEFAULT_SAFE_HEIGHT = 768; // smallest common desktop resolution
+    private static final double SAFE_PERCENTAGE = 0.9; // 90% to ensure fit + maximise visibility
 
     /**
      * Checks if the given window position is visible on any available screen.
@@ -97,8 +98,8 @@ public class ScreenBoundsValidator {
         Rectangle2D primaryBounds = primaryScreen.getVisualBounds();
 
         // 90% of screen width and height to ensure you can see the whole app
-        double safeWidth = primaryBounds.getWidth() * 0.9;
-        double safeHeight = primaryBounds.getHeight() * 0.9;
+        double safeWidth = primaryBounds.getWidth() * SAFE_PERCENTAGE;
+        double safeHeight = primaryBounds.getHeight() * SAFE_PERCENTAGE;
 
         // Final check - if still too large, use defaults
         if (areDimensionsValid(safeWidth, safeHeight)) {
