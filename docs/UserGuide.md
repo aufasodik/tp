@@ -99,8 +99,16 @@ All operations are permanent! No undo available.
 
 ## Company Fields
 * **Name:** name of the company
+  * Names should only contain alphanumeric characters and spaces, and it should not be blank.
 * **Phone:** contact number of company contact
+  * Phone numbers must have at least 3 digits, may start with `+`, and may contain single spaces between digits (e.g., '98765432', '+65 9123 4567').
 * **Email:** email address of company contact
+  * Emails should be of the format local-part@domain and adhere to the following constraints:
+    1. The local-part should only contain alphanumeric characters and these special characters: `+_.-`. The local-part may not start or end with any special characters.
+    2. This is followed by a `@` and then a domain name. The domain name is made up of domain labels separated by periods. The domain name must:
+        - end with a domain label at least 2 characters long
+        - have each domain label start and end with alphanumeric characters
+        - have each domain label consist of alphanumeric characters, separated only by hyphens, if any.
 * **Address:** address of company office
 * **Status:** status of interview
   * Valid **Status** values:
