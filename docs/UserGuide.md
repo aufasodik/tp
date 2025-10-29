@@ -253,6 +253,10 @@ Deletes one or more companies from Cerebro. Supports single deletion, batch dele
 * Duplicate indices are ignored (first occurrence kept)
 * All specified companies are deleted in a single operation
 
+<div markdown="span" class="alert alert-danger">:exclamation: **Caution:**
+This action cannot be undone! Company data will be permanently deleted.
+</div>
+
 Examples:
 
 * `delete 2` - Deletes the 2nd company
@@ -267,7 +271,7 @@ Clears all companies from Cerebro.
 
 Format: `clear`
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+<div markdown="span" class="alert alert-danger">:exclamation: **Caution:**
 This action cannot be undone! All company data will be permanently deleted.
 </div>
 
