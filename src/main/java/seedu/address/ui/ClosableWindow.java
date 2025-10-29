@@ -13,29 +13,6 @@ import javafx.stage.WindowEvent;
  * Copies the accelerator logic (SHORTCUT+W, ESC, ALT+F4) and a key-event fallback.
  */
 public abstract class ClosableWindow extends UiPart<Stage> {
-
-    protected ClosableWindow(String fxml, Stage root) {
-        super(fxml, root);
-        installCloseAccelerators();
-    }
-
-    /**
-     * Default close behavior is to hide the Stage. Subclasses can override if needed.
-     */
-    protected void onCloseShortcut() {
-        getRoot().hide();
-    }
-
-    /* ====== per-window toggles (override in subclasses) ====== */
-    // Cmd/Ctrl + W
-    protected boolean enableShortcutWClose() { return true; }
-
-    // Esc
-    protected boolean enableEscClose() { return true; }
-
-    // Alt + F4
-    protected boolean enableAltF4Close() { return true; }
-
     private Scene boundScene = null;
 
     private final KeyCodeCombination comboShortcutW =
@@ -50,7 +27,7 @@ public abstract class ClosableWindow extends UiPart<Stage> {
     private final EventHandler<KeyEvent> fallbackFilter = e -> {
         boolean isShortcutW = enableShortcutWClose()
                 && e.getCode() == KeyCode.W && e.isShortcutDown();
-        boolean isEsc   = enableEscClose()
+        boolean isEsc = enableEscClose()
                 && e.getCode() == KeyCode.ESCAPE;
         boolean isAltF4 = enableAltF4Close()
                 && e.getCode() == KeyCode.F4 && e.isAltDown();
@@ -60,6 +37,35 @@ public abstract class ClosableWindow extends UiPart<Stage> {
             closeAction.run();
         }
     };
+
+    protected ClosableWindow(String fxml, Stage root) {
+        super(fxml, root);
+        installCloseAccelerators();
+    }
+
+    /**
+     * Default close behavior is to hide the Stage. Subclasses can override if needed.
+     */
+    protected void onCloseShortcut() {
+        getRoot().hide();
+    }
+
+    /* ====== per-window toggles (override in subclasses) ====== */
+
+    // Cmd/Ctrl + W
+    protected boolean enableShortcutWClose() {
+        return true;
+    }
+
+    // Esc
+    protected boolean enableEscClose() {
+        return true;
+    }
+
+    // Alt + F4
+    protected boolean enableAltF4Close() {
+        return true;
+    }
 
     /**
      * Installs platform-aware accelerators and a fallback key filter.
@@ -87,7 +93,9 @@ public abstract class ClosableWindow extends UiPart<Stage> {
 
     /** Attach accelerators to a Scene (idempotent per Scene). */
     private void attachTo(Scene scene) {
-        if (scene == null || scene == boundScene) return;
+        if (scene == null || scene == boundScene) {
+            return;
+        }
 
         // Install accelerators
         if (enableShortcutWClose()) {
@@ -108,7 +116,9 @@ public abstract class ClosableWindow extends UiPart<Stage> {
 
     /** Detach accelerators from a Scene if we had attached before. */
     private void detachFrom(Scene scene) {
-        if (scene == null || scene != boundScene) return;
+        if (scene == null || scene != boundScene) {
+            return;
+        }
 
         // Remove accelerators we added (need the same KeyCodeCombination keys)
         if (enableShortcutWClose()) {
