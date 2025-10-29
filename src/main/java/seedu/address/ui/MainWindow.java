@@ -236,4 +236,18 @@ public class MainWindow extends ClosableWindow {
             throw e;
         }
     }
+
+    @Override
+    protected boolean enableEscClose() {
+        // Disable ESC close for the primary window.
+        return false;
+    }
+
+    @Override
+    protected void onCloseShortcut() {
+        // Behave like clicking the window close button:
+        getRoot().fireEvent(
+                new javafx.stage.WindowEvent(getRoot(), javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST)
+        );
+    }
 }
