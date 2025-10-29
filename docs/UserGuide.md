@@ -133,6 +133,10 @@ Shows a message explaining how to access the help page.
 
 <img src="images/helpMessage.png" alt="help message" width="550"/>
 
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+You can close the help window with the `ESC` key, `Ctrl/Cmd` + `W` or `alt` + `f4`
+</div>
+
 ### Listing all companies : `list`
 
 Shows a list of all companies in Cerebro.
@@ -182,6 +186,9 @@ Displays metrics for the distribution of internship application status for compa
 
 <img src="images/MetricsResult.png" alt="result for `metrics`" width="450"/>
 
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+You can close the metrics window with the `ESC` key, `Ctrl/Cmd` + `W` or `alt` + `f4`
+</div>
 
 ### Adding a company: `add`
 
@@ -349,7 +356,6 @@ Action | Format | Examples
 **[List](#listing-all-companies--list)** | `list` | `list`
 **[Filter](#filtering-companies-by-status-filter)** | `filter s/STATUS` | `filter s/accepted`
 **[Find](#locating-companies-by-name-find)** | `find KEYWORD [MORE_KEYWORDS]` | `find Google Meta`
-**[Metrics](#viewing-companies-metrics-metrics)** | `metrics` | `metrics`
 
 ### Action Commands
 
@@ -369,4 +375,5 @@ Action | Format | Examples
 Action | Format | Examples
 --------|--------|----------
 **[Help](#viewing-help--help)** | `help` | `help`
+**[Metrics](#viewing-companies-metrics-metrics)** | `metrics` | `metrics`
 **[Exit](#exiting-the-program--exit)** | `exit` | `exit`
