@@ -174,6 +174,15 @@ Finds companies by name keywords. Case-insensitive, lists all companies that **c
 
 ![result for 'find digital pacific'](images/findDigitalPacificResult.png)
 
+### Viewing companies metrics: `metrics`
+
+Displays metrics for the distribution of internship application status for companies on record.
+
+**Result for `metrics`:**
+
+<img src="images/MetricsResult.png" alt="result for `metrics`" width="450"/>
+
+
 ### Adding a company: `add`
 
 Adds a company to Cerebro.
@@ -340,6 +349,7 @@ Action | Format | Examples
 **[List](#listing-all-companies--list)** | `list` | `list`
 **[Filter](#filtering-companies-by-status-filter)** | `filter s/STATUS` | `filter s/accepted`
 **[Find](#locating-companies-by-name-find)** | `find KEYWORD [MORE_KEYWORDS]` | `find Google Meta`
+**[Metrics](#viewing-companies-metrics-metrics)** | `metrics` | `metrics`
 
 ### Action Commands
 
