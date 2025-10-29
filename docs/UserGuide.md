@@ -261,57 +261,6 @@ Examples:
 * `list` followed by `delete 2` - Deletes the 2nd company in the full list
 * `find Google` followed by `delete 1` - Deletes the 1st company in the filtered results
 
-### Updating application status: `status`
-
-Updates the application status of a company to track your internship application progress.
-
-Format: `status INDEX s/STATUS`
-
-* Updates the status of the company at the specified `INDEX`
-* The index refers to the index number shown in the displayed company list
-* The index **must be a positive integer** 1, 2, 3, …
-* Status is **case-insensitive** (e.g., `APPLIED` and `applied` both work)
-
-**Valid STATUS values:**
-
-* `to-apply` - Not yet applied (default for new entries)
-* `applied` - Application submitted
-* `oa` - Online Assessment stage
-* `tech-interview` - Technical interview scheduled/in progress
-* `hr-interview` - HR/behavioral interview
-* `in-process` - General process stage
-* `offered` - Internship offer received
-* `accepted` - Offer accepted
-* `rejected` - Application rejected
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Use status to track your application pipeline! You can also use the `edit` command to update status along with other fields.
-</div>
-
-Examples:
-
-* `status 1 s/tech-interview` - Updates the 1st company's status to "tech-interview"
-* `status 3 s/rejected` - Updates the 3rd company's status to "rejected"
-* `status 5 s/offered` - Updates the 5th company's status to "offered"
-
-### Adding or editing remarks: `remark`
-
-Adds, edits, or deletes remarks for a company. Remarks are useful for adding notes about the company or your application.
-
-Format: `remark INDEX r/[REMARK]`
-
-* Adds or updates the remark for the company at the specified `INDEX`
-* The index refers to the index number shown in the displayed company list
-* The index **must be a positive integer** 1, 2, 3, …
-* To **delete a remark**, use `remark INDEX r/` (leave the remark field empty)
-* Existing remark will be overwritten with the new remark
-
-Examples:
-
-* `remark 1 r/Great company culture, flexible hours` - Adds/updates remark for the 1st company
-* `remark 2 r/Referral from John Doe` - Adds/updates remark for the 2nd company
-* `remark 3 r/` - Deletes the remark for the 3rd company
-
 ### Clearing all entries : `clear`
 
 Clears all companies from Cerebro.
