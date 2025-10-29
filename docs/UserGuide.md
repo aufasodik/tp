@@ -19,7 +19,7 @@ title: User Guide
 
 * **[Table of Contents](#table-of-contents)** - Full table of contents
 * **[Quick Start](#quick-start)** - Installation and first commands
-* **[Features](#features)** - Complete command reference
+* **[Commands](#Commands)** - Complete command reference
 * **[FAQ](#faq)** - Common questions and troubleshooting
 * **[Command Summary](#command-summary)** - Quick reference table
 
@@ -97,7 +97,17 @@ All operations are permanent! No undo available.
 
 ---
 
-## Features
+## Company Fields
+* **Name:** name of the company
+* **Phone:** contact number of company contact
+* **Email:** email address of company contact
+* **Address:** address of company office
+* **Status:** status of interview
+  * Valid **Status** values: `to-apply`, `applied`, `oa`, `tech-interview`, `hr-interview`, `in-process`, `offered`, `accepted`, `rejected`
+* **Tag:** distinguishing information. Must be hyphenated and within 30 characters.
+* **Remark:** additional information
+
+## Commands
 
 ### Viewing help : `help`
 
@@ -117,7 +127,6 @@ Adds a company to Cerebro.
 * **Optional:** All other fields (auto-filled with placeholders if empty)
 * **Default status:** `to-apply`
 * **Tags:** Multiple allowed
-* **Valid STATUS values:** `to-apply`, `applied`, `oa`, `tech-interview`, `hr-interview`, `in-process`, `offered`, `accepted`, `rejected`
 </div>
 
 Examples:
@@ -205,8 +214,19 @@ Finds companies by name keywords. Case-insensitive, lists all companies that **c
 * `find go` → `Google Inc`, `Google Singapore`, `Golden Logistics`
 * `find digital pacific` → `Digital Innovations Hub`, `Pacific Trading Co`
 
-**Result for 'find digital pacific: **
+**Result for `find digital pacific`:**
+
 ![result for 'find digital pacific'](images/findDigitalPacificResult.png)
+
+### Filtering companies by status: `filter`
+
+Finds companies by status values. Case-insensitive, lists all companies that **matches** the status.
+
+**Format:** `filter s/STATUS`
+
+**Result for `filter`:**
+
+<img src="images/FilterAcceptedResult.png" alt="result for 'filter accepted" width="450"/>
 
 ### Deleting a company : `delete`
 
@@ -354,6 +374,7 @@ Action | Format | Examples
 **Edit (Single)** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `edit 2 n/Meta Platforms s/offered`
 **Edit (Comma-Separated)** | `edit INDEX,INDEX,INDEX [fields]` | `edit 1,3,5 s/rejected`
 **Edit (Range)** | `edit START-END [fields]` | `edit 2-4 s/applied t/tech`
+**Filter** | `filter s/STATUS` | `filter s/accepted`
 **Find** | `find KEYWORD [MORE_KEYWORDS]` | `find Google Meta`
 **Delete (Single)** | `delete INDEX` | `delete 3`
 **Delete (Comma-Separated)** | `delete INDEX [MORE_INDICES]` | `delete 1 3 5`
@@ -363,7 +384,3 @@ Action | Format | Examples
 **Clear** | `clear` | `clear`
 **Help** | `help` | `help`
 **Exit** | `exit` | `exit`
-
-### Valid Status Values
-
-`to-apply`, `applied`, `oa`, `tech-interview`, `hr-interview`, `in-process`, `offered`, `accepted`, `rejected`
