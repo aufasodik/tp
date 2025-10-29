@@ -103,8 +103,18 @@ All operations are permanent! No undo available.
 * **Email:** email address of company contact
 * **Address:** address of company office
 * **Status:** status of interview
-  * Valid **Status** values: `to-apply`, `applied`, `oa`, `tech-interview`, `hr-interview`, `in-process`, `offered`, `accepted`, `rejected`
-* **Tag:** distinguishing information. Must be hyphenated and within 30 characters.
+  * Valid **Status** values:
+    * `to-apply` - Not yet applied (default for new entries)
+    * `applied` - Application submitted
+    * `oa` - Online Assessment stage
+    * `tech-interview` - Technical interview scheduled/in progress
+    * `hr-interview` - HR/behavioral interview
+    * `in-process` - General process stage
+    * `offered` - Internship offer received
+    * `accepted` - Offer accepted
+    * `rejected` - Application rejected
+* **Tag:** distinguishing information.
+  * Must be hyphenated and within 30 characters.
 * **Remark:** additional information
 
 ## Commands
@@ -367,20 +377,30 @@ _Details coming soon ..._
 
 ## Command summary
 
+### Viewing Commands
+
+Action | Format | Examples
+--------|--------|----------
+**List** | `list` | `list`
+**Filter** | `filter s/STATUS` | `filter s/accepted`
+**Find** | `find KEYWORD [MORE_KEYWORDS]` | `find Google Meta`
+
+### Action Commands
+
 Action | Format | Examples
 --------|--------|----------
 **Add** | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `add n/Google Inc`<br>`add n/Meta p/65432100 e/careers@meta.com`<br>`add n/Apple r/Great benefits s/applied`
-**List** | `list` | `list`
 **Edit (Single)** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `edit 2 n/Meta Platforms s/offered`
 **Edit (Comma-Separated)** | `edit INDEX,INDEX,INDEX [fields]` | `edit 1,3,5 s/rejected`
 **Edit (Range)** | `edit START-END [fields]` | `edit 2-4 s/applied t/tech`
-**Filter** | `filter s/STATUS` | `filter s/accepted`
-**Find** | `find KEYWORD [MORE_KEYWORDS]` | `find Google Meta`
 **Delete (Single)** | `delete INDEX` | `delete 3`
 **Delete (Comma-Separated)** | `delete INDEX [MORE_INDICES]` | `delete 1 3 5`
 **Delete (Range)** | `delete START-END` | `delete 2-4`
-**Status** | `status INDEX s/STATUS` | `status 1 s/tech-interview`
-**Remark** | `remark INDEX r/[REMARK]` | `remark 1 r/Great company culture`
 **Clear** | `clear` | `clear`
+
+### Other Commands
+
+Action | Format | Examples
+--------|--------|----------
 **Help** | `help` | `help`
 **Exit** | `exit` | `exit`
