@@ -125,6 +125,47 @@ Shows a message explaining how to access the help page.
 
 <img src="images/helpMessage.png" alt="help message" width="550"/>
 
+### Listing all companies : `list`
+
+Shows a list of all companies in Cerebro.
+
+* Displays all companies with their details
+* Resets any active filters from previous `find` commands
+* Shows companies with their current index numbers
+
+### Filtering companies by status: `filter`
+
+Finds companies by status values. Case-insensitive, lists all companies that **matches** the status.
+
+**Format:** `filter s/STATUS`
+
+**Result for `filter`:**
+
+<img src="images/FilterAcceptedResult.png" alt="result for 'filter accepted" width="450"/>
+
+### Locating companies by name: `find`
+
+Finds companies by name keywords. Case-insensitive, lists all companies that **contains** the keyword.
+
+**Format:** `find KEYWORD [MORE_KEYWORDS]`
+
+<div markdown="block" class="alert alert-success">
+**Search Rules:**
+* **Case-insensitive** - `google` matches `Google`
+* **Keyword order flexible** - `Google Meta` = `Meta Google`
+* **Substrings allowed** - `Go` will show `Google`, and all other companies with 'go' in their name
+* **OR search** - `Google Meta` finds both `Google Inc` AND `Meta Platforms`
+</div>
+
+**Examples:**
+
+* `find go` → `Google Inc`, `Google Singapore`, `Golden Logistics`
+* `find digital pacific` → `Digital Innovations Hub`, `Pacific Trading Co`
+
+**Result for `find digital pacific`:**
+
+![result for 'find digital pacific'](images/findDigitalPacificResult.png)
+
 ### Adding a company: `add`
 
 Adds a company to Cerebro.
@@ -148,14 +189,6 @@ Examples:
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Start with just the company name for quick entry when you're researching companies, then update details later with the `edit` command!
 </div>
-
-### Listing all companies : `list`
-
-Shows a list of all companies in Cerebro.
-
-* Displays all companies with their details
-* Resets any active filters from previous `find` commands
-* Shows companies with their current index numbers
 
 ### Editing a company : `edit`
 
@@ -204,39 +237,6 @@ Indices refer to the numbers shown in the **current displayed list**. After usin
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Use batch editing after deadlines: `edit 1-10 s/applied` updates all at once!
 </div>
-
-### Locating companies by name: `find`
-
-Finds companies by name keywords. Case-insensitive, lists all companies that **contains** the keyword.
-
-**Format:** `find KEYWORD [MORE_KEYWORDS]`
-
-<div markdown="block" class="alert alert-success">
-**Search Rules:**
-* **Case-insensitive** - `google` matches `Google`
-* **Keyword order flexible** - `Google Meta` = `Meta Google`
-* **Substrings allowed** - `Go` will show `Google`, and all other companies with 'go' in their name
-* **OR search** - `Google Meta` finds both `Google Inc` AND `Meta Platforms`
-</div>
-
-**Examples:**
-
-* `find go` → `Google Inc`, `Google Singapore`, `Golden Logistics`
-* `find digital pacific` → `Digital Innovations Hub`, `Pacific Trading Co`
-
-**Result for `find digital pacific`:**
-
-![result for 'find digital pacific'](images/findDigitalPacificResult.png)
-
-### Filtering companies by status: `filter`
-
-Finds companies by status values. Case-insensitive, lists all companies that **matches** the status.
-
-**Format:** `filter s/STATUS`
-
-**Result for `filter`:**
-
-<img src="images/FilterAcceptedResult.png" alt="result for 'filter accepted" width="450"/>
 
 ### Deleting a company : `delete`
 
@@ -317,12 +317,6 @@ _Details coming soon ..._
 **A**: `status` updates only the status field quickly. `edit` updates status plus other fields in one command. Use whichever is more convenient.
 
 ---
-
-## Known issues
-
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-
---------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
 
