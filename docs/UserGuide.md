@@ -320,26 +320,26 @@ Furthermore, certain edits can cause Cerebro to behave in unexpected ways (e.g.,
 
 Action | Format | Examples
 --------|--------|----------
-**List** | `list` | `list`
-**Filter** | `filter s/STATUS` | `filter s/accepted`
-**Find** | `find KEYWORD [MORE_KEYWORDS]` | `find Google Meta`
+**[List](#listing-all-companies--list)** | `list` | `list`
+**[Filter](#filtering-companies-by-status-filter)** | `filter s/STATUS` | `filter s/accepted`
+**[Find](#locating-companies-by-name-find)** | `find KEYWORD [MORE_KEYWORDS]` | `find Google Meta`
 
 ### Action Commands
 
 Action | Format | Examples
 --------|--------|----------
-**Add** | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `add n/Google Inc`<br>`add n/Meta p/65432100 e/careers@meta.com`<br>`add n/Apple r/Great benefits s/applied`
-**Edit (Single)** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `edit 2 n/Meta Platforms s/offered`
-**Edit (Comma-Separated)** | `edit INDEX,INDEX,INDEX [fields]` | `edit 1,3,5 s/rejected`
-**Edit (Range)** | `edit START-END [fields]` | `edit 2-4 s/applied t/tech`
-**Delete (Single)** | `delete INDEX` | `delete 3`
-**Delete (Comma-Separated)** | `delete INDEX [MORE_INDICES]` | `delete 1 3 5`
-**Delete (Range)** | `delete START-END` | `delete 2-4`
-**Clear** | `clear` | `clear`
+**[Add](#adding-a-company-add)** | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `add n/Google Inc`<br>`add n/Meta p/65432100 e/careers@meta.com`<br>`add n/Apple r/Great benefits s/applied`
+**[Edit (Single)](#editing-a-company--edit)** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `edit 2 n/Meta Platforms s/offered`
+**[Edit (Comma-Separated)](#editing-a-company--edit)** | `edit INDEX,INDEX,INDEX [fields]` | `edit 1,3,5 s/rejected`
+**[Edit (Range)](#editing-a-company--edit)** | `edit START-END [fields]` | `edit 2-4 s/applied t/tech`
+**[Delete (Single)](#deleting-a-company--delete)** | `delete INDEX` | `delete 3`
+**[Delete (Comma-Separated)](#deleting-a-company--delete)** | `delete INDEX [MORE_INDICES]` | `delete 1 3 5`
+**[Delete (Range)](#deleting-a-company--delete)** | `delete START-END` | `delete 2-4`
+**[Clear](#clearing-all-entries--clear)** | `clear` | `clear`
 
 ### Other Commands
 
 Action | Format | Examples
 --------|--------|----------
-**Help** | `help` | `help`
-**Exit** | `exit` | `exit`
+**[Help](#viewing-help--help)** | `help` | `help`
+**[Exit](#exiting-the-program--exit)** | `exit` | `exit`
