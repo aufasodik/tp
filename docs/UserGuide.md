@@ -2,8 +2,6 @@
 layout: page
 title: User Guide
 ---
-# Cerebro User Guide
-
 ## Introduction
 
 **Cerebro** is built for CS students managing multiple internship applications efficiently through a CLI interface. Ideal for users who type fast, prefer structure, and value productivity over point-and-click workflows.
@@ -19,12 +17,16 @@ title: User Guide
 
 **This guide contains:**
 
+* **[Table of Contents](#table-of-contents)** - Full table of contents
 * **[Quick Start](#quick-start)** - Installation and first commands
 * **[Features](#features)** - Complete command reference
 * **[FAQ](#faq)** - Common questions and troubleshooting
 * **[Command Summary](#command-summary)** - Quick reference table
+
+## Table of Contents
+
 * Table of Contents
-  {:toc}
+{:toc}
 
 ---
 
