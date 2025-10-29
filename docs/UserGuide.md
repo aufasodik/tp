@@ -53,7 +53,7 @@ title: User Guide
 
 When Cerebro launches, you'll see a clean interface with sample data:
 
-![Ui](images/CurrentUI.png)
+<img src="images/CurrentUI.png" alt="Ui" width="450"/>
 
 ### CLI Tutorial
 
