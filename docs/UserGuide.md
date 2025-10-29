@@ -34,8 +34,9 @@ title: User Guide
 
 1. **Check Java Version**
 
-   - Ensure you have Java `17` or above installed
-   - **Mac users:** Use the JDK version from [here](https://se-education.org/guides/tutorials/javaInstallationMac.html)
+   - Ensure you have Java `17` or above installed.
+     - If not, [follow these guides](https://se-education.org/guides/tutorials/javaInstallation.html) to install Java 17 on your system.
+     - **Mac users:** Use the specific JDK version from [here](https://se-education.org/guides/tutorials/javaInstallationMac.html)
    - Verify installation: `java --version` in terminal
 2. **Download Cerebro**
 
