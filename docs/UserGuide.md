@@ -331,6 +331,7 @@ Furthermore, certain edits can cause Cerebro to behave in unexpected ways (e.g.,
 ### Upcoming Features
 - Archiving & backing up data files
 - Undo changes
+- Reminders for upcoming deadline
 
 ---
 
