@@ -12,7 +12,7 @@ import seedu.address.model.ReadOnlyAddressBook;
 /**
  * Controller for the metrics window that displays application status statistics.
  */
-public class MetricsWindow extends UiPart<Stage> {
+public class MetricsWindow extends ClosableWindow {
 
     private static final Logger logger = LogsCenter.getLogger(MetricsWindow.class);
     private static final String FXML = "MetricsWindow.fxml";
