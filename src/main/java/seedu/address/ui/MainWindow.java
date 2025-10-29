@@ -130,13 +130,16 @@ public class MainWindow extends UiPart<Stage> {
 
     /**
      * Sets the default size based on {@code guiSettings}.
+     * If the settings are invalid (off-screen or too large), corrected settings
+     * are applied and immediately saved to preferences.
      */
     private void setWindowDefaultSize(GuiSettings guiSettings) {
-        primaryStage.setHeight(guiSettings.getWindowHeight());
-        primaryStage.setWidth(guiSettings.getWindowWidth());
-        if (guiSettings.getWindowCoordinates() != null) {
-            primaryStage.setX(guiSettings.getWindowCoordinates().getX());
-            primaryStage.setY(guiSettings.getWindowCoordinates().getY());
+        GuiSettings appliedSettings = WindowPositionManager.applyGuiSettings(primaryStage, guiSettings);
+
+        // If settings were corrected, save them immediately to preferences
+        if (!appliedSettings.equals(guiSettings)) {
+            logic.setGuiSettings(appliedSettings);
+            logger.info("Window position/size was corrected and saved to preferences.");
         }
     }
 
@@ -194,8 +197,7 @@ public class MainWindow extends UiPart<Stage> {
      */
     @FXML
     private void handleExit() {
-        GuiSettings guiSettings = new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(),
-                (int) primaryStage.getX(), (int) primaryStage.getY());
+        GuiSettings guiSettings = WindowPositionManager.captureGuiSettings(primaryStage);
         logic.setGuiSettings(guiSettings);
         helpWindow.hide();
         metricsWindow.hide();
