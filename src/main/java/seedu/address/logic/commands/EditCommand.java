@@ -17,7 +17,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
@@ -37,6 +39,8 @@ import seedu.address.model.tag.Tag;
  * Edits the details of an existing company in the address book.
  */
 public class EditCommand extends Command {
+
+    private static final Logger logger = LogsCenter.getLogger(EditCommand.class);
 
     public static final String COMMAND_WORD = "edit";
 
@@ -65,7 +69,8 @@ public class EditCommand extends Command {
     public static final String MESSAGE_BATCH_EDIT_SUCCESS = "Edited %1$d companies successfully";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_COMPANY = "This company already exists in the address book.";
-    public static final String MESSAGE_BATCH_EDIT_NOT_ALLOWED_FOR_NAME =
+    public static final String MESSAGE_MISSING_INDEX = "Invalid format: missing index.\n" + MESSAGE_USAGE;
+    public static final String MESSAGE_INVALID_BATCH_EDIT_FIELD =
             "Batch editing is not allowed for Name.";
 
     private final Index index;
@@ -107,10 +112,13 @@ public class EditCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        assert editCompanyDescriptor.isAnyFieldEdited() : "Command should not execute with no fields to edit";
 
         if (indices != null) {
+            logger.info(String.format("Executing batch edit for %d companies", indices.size()));
             return executeBatchEdit(model);
         } else {
+            logger.info("Executing single company edit for index: " + index.getOneBased());
             return executeSingleEdit(model);
         }
     }
@@ -160,7 +168,7 @@ public class EditCommand extends Command {
         validateNoDuplicateCompanies(model, lastShownList);
 
         // Validate that editing in batch is allowed for all fields except name
-        validateIsNotName();
+        validateBatchEditFieldsAllowed();
 
         // All validations passed - perform batch edit
         for (Index index : indices) {
@@ -211,9 +219,9 @@ public class EditCommand extends Command {
      *
      * @throws CommandException if a batch edit edits name, phone, email, address
      */
-    private void validateIsNotName() throws CommandException {
+    private void validateBatchEditFieldsAllowed() throws CommandException {
         if (!editCompanyDescriptor.isNotName()) {
-            throw new CommandException(MESSAGE_BATCH_EDIT_NOT_ALLOWED_FOR_NAME);
+            throw new CommandException(MESSAGE_INVALID_BATCH_EDIT_FIELD);
         }
     }
 
@@ -222,7 +230,8 @@ public class EditCommand extends Command {
      * edited with {@code editCompanyDescriptor}.
      */
     private static Company createEditedCompany(Company companyToEdit, EditCompanyDescriptor editCompanyDescriptor) {
-        assert companyToEdit != null;
+        assert companyToEdit != null : "Company to edit cannot be null";
+        assert editCompanyDescriptor != null : "Edit descriptor cannot be null";
 
         Name updatedName = editCompanyDescriptor.getName().orElse(companyToEdit.getName());
         Phone updatedPhone = editCompanyDescriptor.getPhone().orElse(companyToEdit.getPhone());
