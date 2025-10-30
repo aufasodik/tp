@@ -14,6 +14,10 @@ import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.FilterCommand;
+import seedu.address.logic.commands.FindCommand;
 
 /**
  * Controller for a help page
@@ -25,54 +29,39 @@ public class HelpWindow extends ClosableWindow {
     public static final String COMMAND_OVERVIEW = String.format("""
                                 Commands Overview:
 
-                                Status values: %1$s
+                                Status values: %s
 
-                                %s
+                                * list
+                                ---------
+                                Display all companies in Cerebro.
 
-                                list
-                                    Display all companies in Cerebro.
+                                * %s
 
-                                edit INDEX [,INDEX]... [fields]
-                                edit START-END [fields]
-                                    Edit one or more companies.
-                                    Examples:
-                                    edit 2 n/Meta Platforms s/offered
-                                    edit 1,3,5 s/rejected
-                                    edit 2-4 s/applied t/tech
+                                * %s
 
-                                find SUBSTRING [SUBSTRING]...
-                                    Search for companies by substring match in the name. Case insensitive.
-                                    Examples:
-                                    find Google TikTok → Google Inc, Google Singapore, TikTok
-                                    find goOgl iktO → Google Inc, Google Singapore, TikTok
+                                * metrics
+                                ---------
+                                View application status metrics.
 
-                                filter <s/STATUS|t/TAG> [t/TAG]...
-                                    Filter companies by application status and/or tag.
-                                    Examples:
-                                    filter s/in-process
-                                    filter t/remote-friendly t/good-pay
-                                    filter s/applied t/tech
+                                * %s
 
-                                delete INDEX [,INDEX]...
-                                delete START-END
-                                    Delete one or more companies.
-                                    Examples:
-                                    delete 2
-                                    delete 1,3,5
-                                    delete 2-4
+                                * %s
 
-                                clear
-                                    Clear all companies from Cerebro (irreversible!).
+                                * %s
 
-                                metrics
-                                    View application status metrics.
+                                * clear
+                                ---------
+                                Clear all companies from Cerebro (irreversible!).
 
-                                help
-                                    Display this help message.
+                                * help
+                                ---------
+                                Display this help message.
 
-                                exit
-                                    Exit Cerebro.
-                                """, VALID_STATUSES, AddCommand.MESSAGE_USAGE);
+                                * exit
+                                ---------
+                                Exit Cerebro.
+                                """, VALID_STATUSES, FilterCommand.MESSAGE_USAGE, FindCommand.MESSAGE_USAGE,
+                                AddCommand.MESSAGE_USAGE, EditCommand.MESSAGE_USAGE, DeleteCommand.MESSAGE_USAGE);
 
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
