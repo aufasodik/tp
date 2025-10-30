@@ -88,9 +88,13 @@ public final class ConfirmWindow {
         AtomicBoolean answer = new AtomicBoolean(false);
         CountDownLatch latch = new CountDownLatch(1);
         Platform.runLater(() -> {
-            try { answer.set(showNow(title, header, content)); }
-            finally { latch.countDown(); }
+            try {
+                answer.set(showNow(title, header, content)); }
+            finally {
+                latch.countDown();
+            }
         });
+
         try {
             latch.await();
         } catch (InterruptedException e) {
