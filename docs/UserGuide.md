@@ -346,22 +346,22 @@ If your changes to the data file make its format invalid, **Cerebro will discard
 
 ## FAQ
 
-**Q: What happens if I add a company with the same name?**  
+**Q: What happens if I add a company with the same name?**
 **A**: Company names must be unique (case-insensitive). Cerebro rejects duplicates and shows an error message.
 
-**Q: How do I track multiple roles at the same company?**  
+**Q: How do I track multiple roles at the same company?**
 **A**: Use tags to differentiate positions (`add n/Google SWE` vs `add n/Google PM`) or add role details in remarks.
 
-**Q: Can I undo a delete or clear operation?** 
+**Q: Can I undo a delete or clear operation?**
 **A**: No, deletions are permanent. Restore from backup by copying your `addressbook.json` file back to the data folder before restarting.
 
-**Q: How do I transfer my data to another computer?**  
+**Q: How do I transfer my data to another computer?**
 **A**: Install Cerebro on the new computer, then overwrite the empty data file with your existing `[JAR location]/data/addressbook.json`.
 
-**Q: Can I edit the JSON file directly?**  
+**Q: Can I edit the JSON file directly?**
 **A**: Yes, advanced users can edit `addressbook.json` directly. **Always backup first** - invalid format will cause Cerebro to discard all data.
 
-**Q: How do I regenerate the dummy data?**  
+**Q: How do I regenerate the dummy data?**
 **A**: Delete the `/data` folder, then run the app again. **Make sure to backup any important information first!**
 
 --------------------------------------------------------------------------------------------------------------------
