@@ -308,7 +308,7 @@ Cerebro data is saved in the hard disk automatically after any command that chan
 
 ### Editing the data file
 
-Cerebro data is saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+Cerebro data is saved automatically as a JSON file `[JAR file location]/data/Cerebro.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 If your changes to the data file make its format invalid, **Cerebro will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.**
@@ -331,13 +331,13 @@ If your changes to the data file make its format invalid, **Cerebro will discard
 **A**: Use tags to differentiate positions (`add n/Google SWE` vs `add n/Google PM`) or add role details in remarks.
 
 **Q: Can I undo a delete or clear operation?** 
-**A**: No, deletions are permanent. Restore from backup by copying your `addressbook.json` file back to the data folder before restarting.
+**A**: No, deletions are permanent. Restore from backup by copying your `Cerebro.json` file back to the data folder before restarting.
 
 **Q: How do I transfer my data to another computer?**  
-**A**: Install Cerebro on the new computer, then overwrite the empty data file with your existing `[JAR location]/data/addressbook.json`.
+**A**: Install Cerebro on the new computer, then overwrite the empty data file with your existing `[JAR location]/data/Cerebro.json`.
 
 **Q: Can I edit the JSON file directly?**  
-**A**: Yes, advanced users can edit `addressbook.json` directly. **Always backup first** - invalid format will cause Cerebro to discard all data.
+**A**: Yes, advanced users can edit `Cerebro.json` directly. **Always backup first** - invalid format will cause Cerebro to discard all data.
 
 **Q: How do I regenerate the dummy data?**  
 **A**: Delete the `/data` folder, then run the app again. **Make sure to backup any important information first!**
