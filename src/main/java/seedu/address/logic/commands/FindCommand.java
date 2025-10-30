@@ -18,7 +18,7 @@ public class FindCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all companies whose names contain any of "
             + "the specified keywords as substrings (case-insensitive) and displays them as a list with "
             + "index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
+            + "Format: find KEYWORD [MORE_KEYWORDS]...\n"
             + "Example: " + COMMAND_WORD + " goog tra";
 
     private final NameContainsKeywordsPredicate predicate;
