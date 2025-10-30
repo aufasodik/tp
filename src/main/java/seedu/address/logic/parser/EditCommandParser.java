@@ -49,12 +49,10 @@ public class EditCommandParser implements Parser<EditCommand> {
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
         logger.fine("Parsing edit command with args: " + args);
-        
-    if (args.trim().isEmpty()) {
+        if (args.trim().isEmpty()) {
             logger.warning("Empty arguments provided to edit command");
             throw new ParseException(String.format(EditCommand.MESSAGE_MISSING_INDEX));
         }
-        
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE,
                 PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG, PREFIX_REMARK, PREFIX_STATUS);
 
@@ -64,12 +62,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         parseEditFields(argMultimap, editCompanyDescriptor);
 
         logger.fine(String.format("Successfully parsed edit command for %d indices", indices.size()));
-        
-        if (indices.size() == 1) {
-            return new EditCommand(indices.get(0), editCompanyDescriptor);
-        } else {
-            return new EditCommand(indices, editCompanyDescriptor);
-        }
+        return new EditCommand(indices, editCompanyDescriptor);
     }
 
     /**
@@ -104,15 +97,18 @@ public class EditCommandParser implements Parser<EditCommand> {
             throws ParseException {
         assert argMultimap != null && editCompanyDescriptor != null
                 : "Arguments to parseEditFields should not be null";
-        
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
                 PREFIX_REMARK, PREFIX_STATUS);
 
         parseFieldIfPresent(argMultimap, PREFIX_NAME, ParserUtil::parseName, editCompanyDescriptor::setName);
-        parseNullableFieldIfPresent(argMultimap, PREFIX_PHONE, ParserUtil::parsePhone, Phone::new, editCompanyDescriptor::setPhone);
-        parseNullableFieldIfPresent(argMultimap, PREFIX_EMAIL, ParserUtil::parseEmail, Email::new, editCompanyDescriptor::setEmail);
-        parseNullableFieldIfPresent(argMultimap, PREFIX_ADDRESS, ParserUtil::parseAddress, Address::new, editCompanyDescriptor::setAddress);
-        parseNullableFieldIfPresent(argMultimap, PREFIX_REMARK, ParserUtil::parseRemark, Remark::new, editCompanyDescriptor::setRemark);
+        parseNullableFieldIfPresent(argMultimap, PREFIX_PHONE, ParserUtil::parsePhone,
+                Phone::new, editCompanyDescriptor::setPhone);
+        parseNullableFieldIfPresent(argMultimap, PREFIX_EMAIL, ParserUtil::parseEmail,
+                Email::new, editCompanyDescriptor::setEmail);
+        parseNullableFieldIfPresent(argMultimap, PREFIX_ADDRESS, ParserUtil::parseAddress,
+                Address::new, editCompanyDescriptor::setAddress);
+        parseNullableFieldIfPresent(argMultimap, PREFIX_REMARK, ParserUtil::parseRemark,
+                Remark::new, editCompanyDescriptor::setRemark);
         parseFieldIfPresent(argMultimap, PREFIX_STATUS, ParserUtil::parseStatus, editCompanyDescriptor::setStatus);
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editCompanyDescriptor::setTags);
 
@@ -140,7 +136,7 @@ public class EditCommandParser implements Parser<EditCommand> {
     /**
      * Parses a field if present and applies the setter.
      */
-    private <T> void parseFieldIfPresent(ArgumentMultimap argMultimap, Prefix prefix, 
+    private <T> void parseFieldIfPresent(ArgumentMultimap argMultimap, Prefix prefix,
             ParserFunction<T> parser, Consumer<T> setter) throws ParseException {
         Optional<String> value = argMultimap.getValue(prefix);
         if (value.isPresent()) {
