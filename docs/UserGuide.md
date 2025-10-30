@@ -163,7 +163,7 @@ filter s/applied
 filter t/rem
 → Shows companies with tags containing "rem" (e.g. "remote-work")
 
-filter t/rem t/good  
+filter t/rem t/good
 → Shows companies with tags containing "rem" OR "good"
 ```
 
@@ -289,7 +289,7 @@ You can combine both methods in one command! Use `edit 1,3,6-8,10 s/applied` to 
 **Clear any field:** Use empty value to clear
 ```
 edit 3 t/           → All tags cleared
-edit 3 r/           → Remark cleared  
+edit 3 r/           → Remark cleared
 edit 3 t/ r/        → Both tags and remark cleared
 ```
 
@@ -421,10 +421,10 @@ If your changes to the data file make its format invalid, **Cerebro will discard
 
 Common questions and troubleshooting for using Cerebro.
 
-**Q: What happens if I add a company with the same name?**  
+**Q: What happens if I add a company with the same name?**
 **A**: Company names must be unique (case-insensitive). Cerebro rejects duplicates and shows an error message.
 
-**Q: How do I track multiple roles at the same company?**  
+**Q: How do I track multiple roles at the same company?**
 **A**: Use tags to differentiate positions (`add t/Google SWE` vs `add t/Google PM`) or/and add respective role details in remarks.
 
 **Q: Can I undo a delete or clear operation?**
@@ -436,13 +436,13 @@ Common questions and troubleshooting for using Cerebro.
 
 **Prevention tip:** Regularly backup your `addressbook.json` file before making major changes.
 
-**Q: How do I transfer my data to another computer?**  
+**Q: How do I transfer my data to another computer?**
 **A**: Install Cerebro on the new computer, then overwrite the empty data file with your existing `[JAR location]/data/addressbook.json`.
 
-**Q: Can I edit the JSON file directly?**  
+**Q: Can I edit the JSON file directly?**
 **A**: Yes, advanced users can edit `addressbook.json` directly. **Always backup first** - invalid format will cause Cerebro to discard all data.
 
-**Q: How do I regenerate the dummy data?**  
+**Q: How do I regenerate the dummy data?**
 **A**: Delete the `/data` folder, then run the app again. **Make sure to backup any important information first!**
 
 --------------------------------------------------------------------------------------------------------------------
@@ -477,5 +477,6 @@ Action | Format                                                                 
 Action | Format | Examples
 --------|--------|----------
 **[Help](#viewing-help--help)** | `help` | `help`
+
 **[Metrics](#viewing-companies-metrics-metrics)** | `metrics` | `metrics`
 **[Exit](#exiting-the-program--exit)** | `exit` | `exit`
