@@ -16,6 +16,7 @@ public class FilterCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Filters companies by application status and displays "
             + "them as a list with index numbers.\n"
+            + "Format: " + COMMAND_WORD + " s/STATUS\n"
             + "Parameters: s/STATUS (one of: to-apply, applied, oa, tech-interview, hr-interview, in-process, "
             + "offered, accepted, rejected)\n"
             + "Example: " + COMMAND_WORD + " s/in-process";
@@ -59,4 +60,3 @@ public class FilterCommand extends Command {
                 .toString();
     }
 }
-
