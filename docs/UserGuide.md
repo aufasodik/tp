@@ -205,7 +205,7 @@ Use batch editing after deadlines: `edit 1-10 s/applied` updates all at once!
 
 ### Locating companies by name: `find`
 
-Finds companies by name keywords. Case-insensitive, full words only.
+Finds companies by name keywords. Case-insensitive, lists all companies that **contains** the keyword.
 
 **Format:** `find KEYWORD [MORE_KEYWORDS]`
 
@@ -213,16 +213,17 @@ Finds companies by name keywords. Case-insensitive, full words only.
 **Search Rules:**
 * **Case-insensitive** - `google` matches `Google`
 * **Keyword order flexible** - `Google Meta` = `Meta Google`
-* **Full words only** - `Goog` won't match `Google`
+* **Substrings allowed** - `Go` will show `Google`, and all other companies with 'go' in their name
 * **OR search** - `Google Meta` finds both `Google Inc` AND `Meta Platforms`
 </div>
 
 **Examples:**
 
-* `find Google` → `Google Inc`, `Google Singapore`
+* `find go` → `Google Inc`, `Google Singapore`, `Golden Logistics`
 * `find digital pacific` → `Digital Innovations Hub`, `Pacific Trading Co`
 
-![result for 'find alex david'](images/findDigitalPacificResult.png)
+**Result for 'find digital pacific: **
+![result for 'find digital pacific'](images/findDigitalPacificResult.png)
 
 ### Deleting a company : `delete`
 
@@ -327,9 +328,10 @@ If your changes to the data file make its format invalid, Cerebro will discard a
 Furthermore, certain edits can cause Cerebro to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
+### Upcoming Features
+- Archiving & backing up data files
+- Undo changes
+- Reminders for upcoming deadline
 
 ---
 
@@ -352,12 +354,6 @@ _Details coming soon ..._
 
 **Q**: What's the difference between `status` and `edit` commands?<br>
 **A**: `status` updates only the status field quickly. `edit` updates status plus other fields in one command. Use whichever is more convenient.
-
----
-
-## Known issues
-
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 
 --------------------------------------------------------------------------------------------------------------------
 
