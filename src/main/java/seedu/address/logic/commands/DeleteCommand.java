@@ -22,15 +22,16 @@ public class DeleteCommand extends Command {
 
     public static final String COMMAND_WORD = "delete";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the company (or companies) identified by the index/indices in the displayed company list.\n"
-            + "Simple format: " + COMMAND_WORD + " INDEX\n"
-            + "Multiple indices: " + COMMAND_WORD + " INDEX [INDEX]...\n"
-            + "Range: " + COMMAND_WORD + " START-END\n"
-            + "Examples:\n"
-            + "  " + COMMAND_WORD + " 1\n"
-            + "  " + COMMAND_WORD + " 1 3 5\n"
-            + "  " + COMMAND_WORD + " 2-4";
+    public static final String MESSAGE_USAGE = String.format("""
+        %1$s <INDEX|START-END> [,INDEX]... [,START-END]...
+        ---------
+        Delete one or more companies.
+        ---------
+        Examples:
+        %1$s 2
+        %1$s 1,3,5-8
+        """,
+            COMMAND_WORD);
 
     public static final String MESSAGE_DELETE_COMPANY_SUCCESS = "Deleted Company: %1$s";
 

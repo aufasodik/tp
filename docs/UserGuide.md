@@ -64,15 +64,18 @@ When Cerebro launches, you'll see a clean interface with sample data:
 **:information_source: Notes about the command format:**<br>
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
+  * e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
+* For items in angle brackets, and separated by a pipe `|`, exactly one of the items are required.<br>
+  * e.g `<INDEX|START-END>` can be used as `1` or as `1-2`.
+  * e.g `<s/STATUS|t/TAG>` can be used as `s/applied` or as `t/good-pay`.
 * Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+  * e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
 * Items with `…` after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+  * e.g. `[t/TAG]…` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
 * Parameters can be in any order.<br>
-  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+  * e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+  * e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 
 </div>
@@ -90,7 +93,7 @@ All operations are permanent! No undo available.
 3. **Apply:** `edit 1 s/applied r/Applied via website`
 4. **View info** `find CompanyName`
 5. **Interview:** `edit 1 s/tech-interview`
-6. **Overview:** `filter s/KEYWORD` to filter by status, `list` to see all
+6. **Overview:** `filter s/SUBSTRING` to filter by status, `list` to see all
 
 **Power Tips:**
 
@@ -135,26 +138,38 @@ Shows a list of all companies in Cerebro.
 * Resets any active filters from previous `find` commands
 * Shows companies with their current index numbers
 
-### Filtering companies by status: `filter`
+### Filtering companies by status and/or tag: `filter`
 
-Finds companies by status values. Case-insensitive, lists all companies that **matches** the status.
+Finds companies by status and/or tag values. Case-insensitive, lists all companies that **matches** the status AND **matches** **any** of the tags as substrings.
 
-**Format:** `filter s/STATUS`
+**Format:** `filter <s/STATUS|t/TAG> [t/TAG]…`
 
-**Result for `filter`:**
+<div markdown="block" class="alert alert-success">
+**Usage:**
+* **Required:** At least one criteria
+* **Optional:** status criteria and additional tag critera
+* **Statuses:** matched by exact match
+* **Tags:** Multiple allowed, matched by substring
+</div>
+
+**Examples:**
+
+`filter s/in-process`,<br>`filter t/remote-friendly t/good-pay`,<br>`filter s/applied t/tech`
+
+**Result for `filter s/applied t/cl t/og`:**
 
 <img src="images/FilterAcceptedResult.png" alt="result for 'filter accepted" width="450"/>
 
 ### Locating companies by name: `find`
 
-Finds companies by name keywords. Case-insensitive, lists all companies that **contains** the keyword.
+Finds companies by matching name substring. Case-insensitive, lists all companies that **contains** the substring.
 
-**Format:** `find KEYWORD [MORE_KEYWORDS]`
+**Format:** `find SUBSTRING [SUBSTRING]…`
 
 <div markdown="block" class="alert alert-success">
 **Search Rules:**
 * **Case-insensitive** - `google` matches `Google`
-* **Keyword order flexible** - `Google Meta` = `Meta Google`
+* **Substring order flexible** - `Google Meta` = `Meta Google`
 * **Substrings allowed** - `Go` will show `Google`, and all other companies with 'go' in their name
 * **OR search** - `Google Meta` finds both `Google Inc` AND `Meta Platforms`
 </div>
@@ -184,7 +199,7 @@ You can close the metrics window with the `ESC` key, `Ctrl/Cmd` + `W` or `alt` +
 
 Adds a company to Cerebro.
 
-**Format:** `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]...`
+**Format:** `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…`
 
 <div markdown="block" class="alert alert-success">
 **Usage:**
@@ -194,7 +209,7 @@ Adds a company to Cerebro.
 * **Tags:** Multiple allowed
 </div>
 
-Examples:
+**Examples:**
 
 * `add n/Google Inc` - Creates entry with just the name and placeholder values for other fields
 * `add n/Meta e/careers@meta.com s/applied` - Adds name, email, and status only
@@ -208,16 +223,20 @@ Start with just the company name for quick entry when you're researching compani
 
 Edits an existing company in Cerebro. Supports single edit and batch edit.
 
-**Format:** `edit INDEX(ES) [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…`
+**Format:** `edit <INDEX|START-END> [INDEX]… [START-END]… [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​`
 
 **Examples:**
 
 **Single:** `edit 1 p/91234567 e/careers@google.com`
 ```
-Edited Company 1: Phone: 91234567; Email: careers@google.com; ...
+Edited Company 1: Phone: 91234567; Email: careers@google.com; …
 ```
 
-**Comma:** `edit 1, 3, 5 s/rejected` (status/remarks/tags only, spaces OK but no trailing comma)
+**Comma:** `edit 1, 3, 5 s/rejected`
+<div markdown="block" class="alert alert-success">
+ * **batch edit fields:** status/remarks/tags only
+ * **batch edit indices:** spaces OK but no trailing comma
+</div>
 ```
 Edited 3 companies (indices 1, 3, 5) - Status updated to rejected
 ```
@@ -226,7 +245,7 @@ Edited 3 companies (indices 1, 3, 5) - Status updated to rejected
 ```
 Edited 3 companies (indices 2, 3, 4) - Status updated to applied
 ```
-
+<div markdown="block" class="alert alert-success">
 * Edits multiple companies at once with the same changes
 * **Comma-Separated:** `edit INDEX,INDEX,INDEX` - Separate specific indices with commas (no spaces)
 * **Range:** `edit START-END` - Edits all companies from `START` to `END` index (inclusive)
@@ -237,8 +256,9 @@ Edited 3 companies (indices 2, 3, 4) - Status updated to applied
 * Must have at least 1 field to edit
 * Can only edit tags, status, or remarks for batch editing
 * Useful for updating status or tags for multiple companies simultaneously
+</div>
 
-**Clear tags:** `edit 3 t/` (tags replaced, not cumulative)
+**Clear tags:** `edit 3 t/`
 ```
 Edited Company 3 - All tags cleared
 ```
@@ -262,8 +282,9 @@ Use batch editing after deadlines: `edit 1-10 s/applied` updates all at once!
 
 Deletes one or more companies from Cerebro. Supports single deletion, batch deletion.
 
-**Format:** `delete INDEX [MORE_INDICES]` or `delete START-END`
+**Format:** `delete <INDEX|START-END> [INDEX]… [START-END]…`
 
+<div markdown="block" class="alert alert-success">
 * Deletes the company(ies) at the specified index/indices
 * The index refers to the index number shown in the displayed company list
 * The index **must be a positive integer** 1, 2, 3, …​
@@ -272,6 +293,7 @@ Deletes one or more companies from Cerebro. Supports single deletion, batch dele
 * **Range deletion:** `delete START-END` - Deletes all companies from START to END index (inclusive)
 * Duplicate indices are ignored (first occurrence kept)
 * All specified companies are deleted in a single operation
+</div>
 
 <div markdown="span" class="alert alert-danger">:exclamation: **Caution:**
 This action cannot be undone! Company data will be permanently deleted.
@@ -324,22 +346,22 @@ If your changes to the data file make its format invalid, **Cerebro will discard
 
 ## FAQ
 
-**Q: What happens if I add a company with the same name?**  
+**Q: What happens if I add a company with the same name?**
 **A**: Company names must be unique (case-insensitive). Cerebro rejects duplicates and shows an error message.
 
-**Q: How do I track multiple roles at the same company?**  
+**Q: How do I track multiple roles at the same company?**
 **A**: Use tags to differentiate positions (`add n/Google SWE` vs `add n/Google PM`) or add role details in remarks.
 
-**Q: Can I undo a delete or clear operation?** 
+**Q: Can I undo a delete or clear operation?**
 **A**: No, deletions are permanent. Restore from backup by copying your `addressbook.json` file back to the data folder before restarting.
 
-**Q: How do I transfer my data to another computer?**  
+**Q: How do I transfer my data to another computer?**
 **A**: Install Cerebro on the new computer, then overwrite the empty data file with your existing `[JAR location]/data/addressbook.json`.
 
-**Q: Can I edit the JSON file directly?**  
+**Q: Can I edit the JSON file directly?**
 **A**: Yes, advanced users can edit `addressbook.json` directly. **Always backup first** - invalid format will cause Cerebro to discard all data.
 
-**Q: How do I regenerate the dummy data?**  
+**Q: How do I regenerate the dummy data?**
 **A**: Delete the `/data` folder, then run the app again. **Make sure to backup any important information first!**
 
 --------------------------------------------------------------------------------------------------------------------
@@ -351,20 +373,16 @@ If your changes to the data file make its format invalid, **Cerebro will discard
 Action | Format | Examples
 --------|--------|----------
 **[List](#listing-all-companies--list)** | `list` | `list`
-**[Filter](#filtering-companies-by-status-filter)** | `filter s/STATUS` | `filter s/accepted`
-**[Find](#locating-companies-by-name-find)** | `find KEYWORD [MORE_KEYWORDS]` | `find Google Meta`
+**[Filter](#filtering-companies-by-status-andor-tag-filter)** | `filter <s/STATUS|t/TAG> [t/TAG]…` | `filter s/in-process`,<br>`filter t/remote-friendly t/good-pay`,<br>`filter s/applied t/tech`
+**[Find](#locating-companies-by-name-find)** | `find SUBSTRING [SUBSTRING]…` | `find Google Meta`
 
 ### Action Commands
 
 Action | Format | Examples
 --------|--------|----------
-**[Add](#adding-a-company-add)** | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `add n/Google Inc`<br>`add n/Meta p/65432100 e/careers@meta.com`<br>`add n/Apple r/Great benefits s/applied`
-**[Edit (Single)](#editing-a-company--edit)** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `edit 2 n/Meta Platforms s/offered`
-**[Edit (Comma-Separated)](#editing-a-company--edit)** | `edit INDEX,INDEX,INDEX [fields]` | `edit 1,3,5 s/rejected`
-**[Edit (Range)](#editing-a-company--edit)** | `edit START-END [fields]` | `edit 2-4 s/applied t/tech`
-**[Delete (Single)](#deleting-a-company--delete)** | `delete INDEX` | `delete 3`
-**[Delete (Comma-Separated)](#deleting-a-company--delete)** | `delete INDEX [MORE_INDICES]` | `delete 1 3 5`
-**[Delete (Range)](#deleting-a-company--delete)** | `delete START-END` | `delete 2-4`
+**[Add](#adding-a-company-add)** | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `add n/Google Inc`,<br>`add n/Meta p/65432100 e/careers@meta.com`,<br>`add n/Apple r/Great benefits s/applied`
+**[Edit](#editing-a-company--edit)** | `edit <INDEX|START-END> [INDEX]… [START-END]… [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `edit 1 p/91234567 e/googlehr@gmail.com s/applied`, `edit 1,2,4-8 p/91234567 e/googlehr@gmail.com a/70 Pasir Panjang Rd, #03-71 Mapletree Business City II, Singapore 117371 s/applied t/FAANG`
+**[Delete (Single)](#deleting-a-company--delete)** | `delete  <INDEX|START-END> [INDEX]… [START-END]…` | `delete 3`, `delete 1,3,5-8`
 **[Clear](#clearing-all-entries--clear)** | `clear` | `clear`
 
 ### Other Commands
