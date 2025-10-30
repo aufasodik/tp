@@ -27,8 +27,8 @@ public class NameTest {
         // invalid name
         assertFalse(Name.isValidName("")); // empty string
         assertFalse(Name.isValidName(" ")); // spaces only
-        assertFalse(Name.isValidName("^")); // only non-alphanumeric characters
-        assertFalse(Name.isValidName("peter*")); // contains non-alphanumeric characters
+        assertFalse(Name.isValidName("  ")); // multiple spaces only
+        assertFalse(Name.isValidName("\t")); // tab only
 
         // valid name
         assertTrue(Name.isValidName("peter jack")); // alphabets only
@@ -36,6 +36,12 @@ public class NameTest {
         assertTrue(Name.isValidName("peter the 2nd")); // alphanumeric characters
         assertTrue(Name.isValidName("Capital Tan")); // with capital letters
         assertTrue(Name.isValidName("David Roger Jackson Ray Jr 2nd")); // long names
+        assertTrue(Name.isValidName("P&G")); // company name with ampersand
+        assertTrue(Name.isValidName("Amazon.com")); // company name with period
+        assertTrue(Name.isValidName("Yahoo!")); // company name with exclamation
+        assertTrue(Name.isValidName("AT&T")); // company name with ampersand
+        assertTrue(Name.isValidName("^")); // single special character
+        assertTrue(Name.isValidName("peter*")); // name with asterisk
     }
 
     @Test
