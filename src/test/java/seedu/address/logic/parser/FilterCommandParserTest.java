@@ -136,9 +136,9 @@ public class FilterCommandParserTest {
 
     @Test
     public void parse_multipleTags_duplicateKeywordsAllowed() {
-        // Duplicate tag keywords should be allowed (might be intentional)
+        // Duplicate tag keywords are deduplicated (doesn't affect filtering logic)
         FilterCommand expected = new FilterCommand(
-                Optional.empty(), Arrays.asList("java", "java"));
+                Optional.empty(), Arrays.asList("java"));
         assertParseSuccess(parser, " t/java t/java", expected);
     }
 }

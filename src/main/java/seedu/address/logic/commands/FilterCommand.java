@@ -4,7 +4,9 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.Model;
 import seedu.address.model.company.FilterPredicate;
@@ -28,6 +30,13 @@ public class FilterCommand extends Command {
             + "- " + COMMAND_WORD + " t/java t/remote\n"
             + "- " + COMMAND_WORD + " s/offered t/good";
 
+    public static final String MESSAGE_COMPANIES_LISTED_OVERVIEW = "%1$d %2$s listed!";
+    public static final String MESSAGE_FILTER_STATUS = "\nFiltered by status: %1$s";
+    public static final String MESSAGE_FILTER_TAGS = "\nFiltered by tags containing: %1$s";
+    public static final String MESSAGE_FILTER_STATUS_AND_TAGS = "\nFiltered by status: %1$s and tags containing: %2$s";
+
+    private final Logger logger = LogsCenter.getLogger(getClass());
+
     private final Optional<Status> status;
     private final List<String> tagKeywords;
 
@@ -47,6 +56,7 @@ public class FilterCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
+        logger.info("Executing filter: status=%s, tags=%s".formatted(status, tagKeywords));
         FilterPredicate predicate = new FilterPredicate(status, tagKeywords);
         model.updateFilteredCompanyList(predicate);
 
@@ -57,16 +67,18 @@ public class FilterCommand extends Command {
      * Generates a success message based on the filters applied and the number of companies found.
      */
     private String generateSuccessMessage(int count) {
+        assert(count >= 0) : "Count must be non-negative.";
+
         StringBuilder message = new StringBuilder();
-        message.append(String.format("%d companies listed!", count));
+        String countWord = (count == 1) ? "company" : "companies";
+        message.append(String.format(MESSAGE_COMPANIES_LISTED_OVERVIEW, count, countWord));
 
         if (status.isPresent() && !tagKeywords.isEmpty()) {
-            message.append(String.format("\nFiltered by status: %s and tags containing: %s",
-                    status.get(), tagKeywords));
+            message.append(String.format(MESSAGE_FILTER_STATUS_AND_TAGS, status.get(), tagKeywords));
         } else if (status.isPresent()) {
-            message.append(String.format("\nFiltered by status: %s", status.get()));
+            message.append(String.format(MESSAGE_FILTER_STATUS, status.get()));
         } else if (!tagKeywords.isEmpty()) {
-            message.append(String.format("\nFiltered by tags containing: %s", tagKeywords));
+            message.append(String.format(MESSAGE_FILTER_TAGS, tagKeywords));
         }
 
         return message.toString();

@@ -5,14 +5,12 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import seedu.address.logic.commands.FilterCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.company.Status;
-import seedu.address.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new {@link FilterCommand} object.
@@ -42,11 +40,10 @@ public class FilterCommandParser implements Parser<FilterCommand> {
         }
 
         // Parse and validate tag keywords (optional, can have multiple)
-        List<String> tagKeywords = new ArrayList<>();
-        for (String tagValue : argMultimap.getAllValues(PREFIX_TAG)) {
-            Tag validatedTag = ParserUtil.parseTag(tagValue);
-            tagKeywords.add(validatedTag.tagName);
-        }
+        List<String> tagKeywords = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG))
+                .stream()
+                .map(tag -> tag.tagName)
+                .toList();
 
         // Ensure at least one filter is provided
         if (status.isEmpty() && tagKeywords.isEmpty()) {

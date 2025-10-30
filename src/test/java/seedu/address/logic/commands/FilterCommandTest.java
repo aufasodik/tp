@@ -83,7 +83,8 @@ public class FilterCommandTest {
                 Optional.of(new Status("applied")), Collections.emptyList());
         expectedModel.updateFilteredCompanyList(
                 new FilterPredicate(Optional.of(new Status("applied")), Collections.emptyList()));
-        String expectedMessage = "1 companies listed!\nFiltered by status: applied";
+        String expectedMessage = String.format(FilterCommand.MESSAGE_COMPANIES_LISTED_OVERVIEW, 1, "company")
+                + String.format(FilterCommand.MESSAGE_FILTER_STATUS, new Status("applied"));
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(CONS), model.getFilteredCompanyList());
     }
@@ -95,7 +96,8 @@ public class FilterCommandTest {
                 Optional.of(new Status("to-apply")), Collections.emptyList());
         expectedModel.updateFilteredCompanyList(
                 new FilterPredicate(Optional.of(new Status("to-apply")), Collections.emptyList()));
-        String expectedMessage = "2 companies listed!\nFiltered by status: to-apply";
+        String expectedMessage = String.format(FilterCommand.MESSAGE_COMPANIES_LISTED_OVERVIEW, 2, "companies")
+                + String.format(FilterCommand.MESSAGE_FILTER_STATUS, new Status("to-apply"));
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(ALPHA, HOLLY), model.getFilteredCompanyList());
     }
@@ -107,7 +109,8 @@ public class FilterCommandTest {
                 Optional.of(new Status("accepted")), Collections.emptyList());
         expectedModel.updateFilteredCompanyList(
                 new FilterPredicate(Optional.of(new Status("accepted")), Collections.emptyList()));
-        String expectedMessage = "0 companies listed!\nFiltered by status: accepted";
+        String expectedMessage = String.format(FilterCommand.MESSAGE_COMPANIES_LISTED_OVERVIEW, 0, "companies")
+                + String.format(FilterCommand.MESSAGE_FILTER_STATUS, new Status("accepted"));
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Collections.emptyList(), model.getFilteredCompanyList());
     }
@@ -164,7 +167,8 @@ public class FilterCommandTest {
                 Optional.of(new Status("applied")), Collections.emptyList());
         expectedEmptyModel.updateFilteredCompanyList(
                 new FilterPredicate(Optional.of(new Status("applied")), Collections.emptyList()));
-        String expectedMessage = "0 companies listed!\nFiltered by status: applied";
+        String expectedMessage = String.format(FilterCommand.MESSAGE_COMPANIES_LISTED_OVERVIEW, 0, "companies")
+                + String.format(FilterCommand.MESSAGE_FILTER_STATUS, new Status("applied"));
         assertCommandSuccess(command, emptyModel, expectedMessage, expectedEmptyModel);
         assertEquals(Collections.emptyList(), emptyModel.getFilteredCompanyList());
     }
@@ -176,7 +180,8 @@ public class FilterCommandTest {
                 Optional.of(new Status("APPLIED")), Collections.emptyList()); // uppercase
         expectedModel.updateFilteredCompanyList(
                 new FilterPredicate(Optional.of(new Status("applied")), Collections.emptyList()));
-        String expectedMessage = "1 companies listed!\nFiltered by status: applied";
+        String expectedMessage = String.format(FilterCommand.MESSAGE_COMPANIES_LISTED_OVERVIEW, 1, "company")
+                + String.format(FilterCommand.MESSAGE_FILTER_STATUS, new Status("applied"));
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
     }
 
@@ -188,7 +193,8 @@ public class FilterCommandTest {
                 Optional.empty(), Collections.singletonList("supplier"));
         expectedModel.updateFilteredCompanyList(
                 new FilterPredicate(Optional.empty(), Collections.singletonList("supplier")));
-        String expectedMessage = "2 companies listed!\nFiltered by tags containing: [supplier]";
+        String expectedMessage = String.format(FilterCommand.MESSAGE_COMPANIES_LISTED_OVERVIEW, 2, "companies")
+                + String.format(FilterCommand.MESSAGE_FILTER_TAGS, Collections.singletonList("supplier"));
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(ALPHA, DELTA), model.getFilteredCompanyList());
     }
@@ -201,7 +207,8 @@ public class FilterCommandTest {
                 Optional.empty(), Collections.singletonList("cli"));
         expectedModel.updateFilteredCompanyList(
                 new FilterPredicate(Optional.empty(), Collections.singletonList("cli")));
-        String expectedMessage = "1 companies listed!\nFiltered by tags containing: [cli]";
+        String expectedMessage = String.format(FilterCommand.MESSAGE_COMPANIES_LISTED_OVERVIEW, 1, "company")
+                + String.format(FilterCommand.MESSAGE_FILTER_TAGS, Collections.singletonList("cli"));
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(BETA), model.getFilteredCompanyList());
     }
@@ -214,7 +221,8 @@ public class FilterCommandTest {
                 Optional.empty(), Arrays.asList("client", "partner"));
         expectedModel.updateFilteredCompanyList(
                 new FilterPredicate(Optional.empty(), Arrays.asList("client", "partner")));
-        String expectedMessage = "1 companies listed!\nFiltered by tags containing: [client, partner]";
+        String expectedMessage = String.format(FilterCommand.MESSAGE_COMPANIES_LISTED_OVERVIEW, 1, "company")
+                + String.format(FilterCommand.MESSAGE_FILTER_TAGS, Arrays.asList("client", "partner"));
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(BETA), model.getFilteredCompanyList());
     }
@@ -227,7 +235,8 @@ public class FilterCommandTest {
                 Optional.empty(), Arrays.asList("supplier", "client"));
         expectedModel.updateFilteredCompanyList(
                 new FilterPredicate(Optional.empty(), Arrays.asList("supplier", "client")));
-        String expectedMessage = "3 companies listed!\nFiltered by tags containing: [supplier, client]";
+        String expectedMessage = String.format(FilterCommand.MESSAGE_COMPANIES_LISTED_OVERVIEW, 3, "companies")
+                + String.format(FilterCommand.MESSAGE_FILTER_TAGS, Arrays.asList("supplier", "client"));
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(ALPHA, BETA, DELTA), model.getFilteredCompanyList());
     }
@@ -239,7 +248,8 @@ public class FilterCommandTest {
                 Optional.empty(), Collections.singletonList("python"));
         expectedModel.updateFilteredCompanyList(
                 new FilterPredicate(Optional.empty(), Collections.singletonList("python")));
-        String expectedMessage = "0 companies listed!\nFiltered by tags containing: [python]";
+        String expectedMessage = String.format(FilterCommand.MESSAGE_COMPANIES_LISTED_OVERVIEW, 0, "companies")
+                + String.format(FilterCommand.MESSAGE_FILTER_TAGS, Collections.singletonList("python"));
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Collections.emptyList(), model.getFilteredCompanyList());
     }
@@ -253,8 +263,9 @@ public class FilterCommandTest {
         expectedModel.updateFilteredCompanyList(
                 new FilterPredicate(Optional.of(new Status("tech-interview")),
                         Collections.singletonList("client")));
-        String expectedMessage = "1 companies listed!\n"
-                + "Filtered by status: tech-interview and tags containing: [client]";
+        String expectedMessage = String.format(FilterCommand.MESSAGE_COMPANIES_LISTED_OVERVIEW, 1, "company")
+                + String.format(FilterCommand.MESSAGE_FILTER_STATUS_AND_TAGS,
+                        new Status("tech-interview"), Collections.singletonList("client"));
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(BETA), model.getFilteredCompanyList());
     }
@@ -268,7 +279,9 @@ public class FilterCommandTest {
         expectedModel.updateFilteredCompanyList(
                 new FilterPredicate(Optional.of(new Status("applied")),
                         Collections.singletonList("supplier")));
-        String expectedMessage = "0 companies listed!\nFiltered by status: applied and tags containing: [supplier]";
+        String expectedMessage = String.format(FilterCommand.MESSAGE_COMPANIES_LISTED_OVERVIEW, 0, "companies")
+                + String.format(FilterCommand.MESSAGE_FILTER_STATUS_AND_TAGS,
+                        new Status("applied"), Collections.singletonList("supplier"));
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Collections.emptyList(), model.getFilteredCompanyList());
     }
@@ -281,7 +294,8 @@ public class FilterCommandTest {
                 Optional.empty(), Collections.singletonList("SUPPLIER"));
         expectedModel.updateFilteredCompanyList(
                 new FilterPredicate(Optional.empty(), Collections.singletonList("SUPPLIER")));
-        String expectedMessage = "2 companies listed!\nFiltered by tags containing: [SUPPLIER]";
+        String expectedMessage = String.format(FilterCommand.MESSAGE_COMPANIES_LISTED_OVERVIEW, 2, "companies")
+                + String.format(FilterCommand.MESSAGE_FILTER_TAGS, Collections.singletonList("SUPPLIER"));
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(ALPHA, DELTA), model.getFilteredCompanyList());
     }
