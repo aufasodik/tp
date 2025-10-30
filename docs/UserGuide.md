@@ -90,7 +90,7 @@ All operations are permanent! No undo available.
 3. **Apply:** `edit 1 s/applied r/Applied via website`
 4. **View info** `find CompanyName`
 5. **Interview:** `edit 1 s/tech-interview`
-6. **Overview:** `filter s/KEYWORD` to filter by status, `list` to see all
+6. **Overview:** `filter s/SUBSTRING` to filter by status, `list` to see all
 
 **Power Tips:**
 
@@ -135,9 +135,9 @@ Shows a list of all companies in Cerebro.
 * Resets any active filters from previous `find` commands
 * Shows companies with their current index numbers
 
-### Filtering companies by status: `filter`
+### Filtering companies by status and/or tag: `filter`
 
-Finds companies by status values. Case-insensitive, lists all companies that **matches** the status.
+Finds companies by status and/or tag values. Case-insensitive, lists all companies that **matches** the status.
 
 **Format:** `filter s/STATUS`
 
@@ -147,14 +147,14 @@ Finds companies by status values. Case-insensitive, lists all companies that **m
 
 ### Locating companies by name: `find`
 
-Finds companies by name keywords. Case-insensitive, lists all companies that **contains** the keyword.
+Finds companies by matching name substring. Case-insensitive, lists all companies that **contains** the substring.
 
-**Format:** `find KEYWORD [MORE_KEYWORDS]`
+**Format:** `find SUBSTRING [SUBSTRING]…`
 
 <div markdown="block" class="alert alert-success">
 **Search Rules:**
 * **Case-insensitive** - `google` matches `Google`
-* **Keyword order flexible** - `Google Meta` = `Meta Google`
+* **Substring order flexible** - `Google Meta` = `Meta Google`
 * **Substrings allowed** - `Go` will show `Google`, and all other companies with 'go' in their name
 * **OR search** - `Google Meta` finds both `Google Inc` AND `Meta Platforms`
 </div>
@@ -184,7 +184,7 @@ You can close the metrics window with the `ESC` key, `Ctrl/Cmd` + `W` or `alt` +
 
 Adds a company to Cerebro.
 
-**Format:** `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]...`
+**Format:** `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…`
 
 <div markdown="block" class="alert alert-success">
 **Usage:**
@@ -208,13 +208,13 @@ Start with just the company name for quick entry when you're researching compani
 
 Edits an existing company in Cerebro. Supports single edit and batch edit.
 
-**Format:** `edit INDEX(ES) [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…`
+**Format:** `edit <INDEX|START-END> [INDEX]… [START-END]… [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​`
 
 **Examples:**
 
 **Single:** `edit 1 p/91234567 e/careers@google.com`
 ```
-Edited Company 1: Phone: 91234567; Email: careers@google.com; ...
+Edited Company 1: Phone: 91234567; Email: careers@google.com; …
 ```
 
 **Comma:** `edit 1, 3, 5 s/rejected` (status/remarks/tags only, spaces OK but no trailing comma)
@@ -262,7 +262,7 @@ Use batch editing after deadlines: `edit 1-10 s/applied` updates all at once!
 
 Deletes one or more companies from Cerebro. Supports single deletion, batch deletion.
 
-**Format:** `delete INDEX [MORE_INDICES]` or `delete START-END`
+**Format:** `delete <INDEX|START-END> [INDEX]… [START-END]…`
 
 * Deletes the company(ies) at the specified index/indices
 * The index refers to the index number shown in the displayed company list
@@ -351,16 +351,16 @@ If your changes to the data file make its format invalid, **Cerebro will discard
 Action | Format | Examples
 --------|--------|----------
 **[List](#listing-all-companies--list)** | `list` | `list`
-**[Filter](#filtering-companies-by-status-filter)** | `filter <s/STATUS|t/TAG> [t/TAG]...` | `filter s/accepted`
-**[Find](#locating-companies-by-name-find)** | `find SUBSTRING [SUBSTRING]...` | `find Google Meta`
+**[Filter](#filtering-companies-by-status-filter)** | `filter <s/STATUS|t/TAG> [t/TAG]…` | `filter s/accepted`
+**[Find](#locating-companies-by-name-find)** | `find SUBSTRING [SUBSTRING]…` | `find Google Meta`
 
 ### Action Commands
 
 Action | Format | Examples
 --------|--------|----------
 **[Add](#adding-a-company-add)** | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `add n/Google Inc`,<br>`add n/Meta p/65432100 e/careers@meta.com`,<br>`add n/Apple r/Great benefits s/applied`
-**[Edit](#editing-a-company--edit)** | `edit <INDEX|START-END> [INDEX]... [START-END]... [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `edit 1 p/91234567 e/googlehr@gmail.com s/applied`, `edit 1,2,4-8 p/91234567 e/googlehr@gmail.com a/70 Pasir Panjang Rd, #03-71 Mapletree Business City II, Singapore 117371 s/applied t/FAANG`
-**[Delete (Single)](#deleting-a-company--delete)** | `delete  <INDEX|START-END> [INDEX]... [START-END]...` | `delete 3`, `delete 1,3,5-8`
+**[Edit](#editing-a-company--edit)** | `edit <INDEX|START-END> [INDEX]… [START-END]… [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `edit 1 p/91234567 e/googlehr@gmail.com s/applied`, `edit 1,2,4-8 p/91234567 e/googlehr@gmail.com a/70 Pasir Panjang Rd, #03-71 Mapletree Business City II, Singapore 117371 s/applied t/FAANG`
+**[Delete (Single)](#deleting-a-company--delete)** | `delete  <INDEX|START-END> [INDEX]… [START-END]…` | `delete 3`, `delete 1,3,5-8`
 **[Clear](#clearing-all-entries--clear)** | `clear` | `clear`
 
 ### Other Commands
