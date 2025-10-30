@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,16 +21,19 @@ public class FilterCommand extends Command {
 
     public static final String COMMAND_WORD = "filter";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Filters companies by application status "
-            + "and/or tags, then displays them as a list with index numbers.\n"
-            + "At least one filter criterion must be provided.\n"
-            + "Parameters: [s/STATUS] [t/TAG_KEYWORD]...\n"
-            + "Status values: to-apply, applied, oa, tech-interview, hr-interview, in-process, "
-            + "offered, accepted, rejected\n"
-            + "Examples:\n"
-            + "- " + COMMAND_WORD + " s/applied\n"
-            + "- " + COMMAND_WORD + " t/java t/remote\n"
-            + "- " + COMMAND_WORD + " s/offered t/good";
+    public static final String MESSAGE_USAGE = String.format("""
+        %1$s <%2$sSTATUS|%3$sTAG> [%3$sTAG]...
+        ---------
+        Filter companies by application status and/or tag.
+        ---------
+        Examples:
+        %1$s %2$sin-process
+        %1$s %3$sremote-friendly %3$sgood-pay
+        %1$s %2$sapplied %3$stech
+        """,
+            COMMAND_WORD,
+            PREFIX_STATUS,
+            PREFIX_TAG);
 
     public static final String MESSAGE_COMPANIES_LISTED_OVERVIEW = "%1$d %2$s listed!";
     public static final String MESSAGE_FILTER_STATUS = "\nFiltered by status: %1$s";

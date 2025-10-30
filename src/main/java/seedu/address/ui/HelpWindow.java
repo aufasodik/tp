@@ -1,5 +1,7 @@
 package seedu.address.ui;
 
+import static seedu.address.model.company.Status.VALID_STATUSES;
+
 import java.util.logging.Logger;
 
 import javafx.application.Platform;
@@ -23,6 +25,8 @@ public class HelpWindow extends ClosableWindow {
     public static final String COMMAND_OVERVIEW = String.format("""
                                 Commands Overview:
 
+                                Status values: %1$s
+
                                 %s
 
                                 list
@@ -36,13 +40,14 @@ public class HelpWindow extends ClosableWindow {
                                     edit 1,3,5 s/rejected
                                     edit 2-4 s/applied t/tech
 
-                                find KEYWORD [MORE_KEYWORDS]
-                                    Search for companies by name.
+                                find SUBSTRING [SUBSTRING]...
+                                    Search for companies by substring match in the name. Case insensitive.
                                     Examples:
-                                    find Google
+                                    find Google TikTok → Google Inc, Google Singapore, TikTok
+                                    find goOgl iktO → Google Inc, Google Singapore, TikTok
 
-                                filter [s/STATUS] [t/TAG]...
-                                    Filter companies by application status or tag.
+                                filter <s/STATUS|t/TAG> [t/TAG]...
+                                    Filter companies by application status and/or tag.
                                     Examples:
                                     filter s/in-process
                                     filter t/remote-friendly t/good-pay
@@ -67,7 +72,7 @@ public class HelpWindow extends ClosableWindow {
 
                                 exit
                                     Exit Cerebro.
-                                """, AddCommand.MESSAGE_USAGE);
+                                """, VALID_STATUSES, AddCommand.MESSAGE_USAGE);
 
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
