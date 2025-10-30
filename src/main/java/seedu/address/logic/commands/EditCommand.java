@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REMARK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.IndexParser.MESSAGE_INDEX_OUT_OF_RANGE;
@@ -43,8 +44,8 @@ public class EditCommand extends Command {
 
     public static final String MESSAGE_USAGE = String.format("""
             %1$s <INDEX|START-END> [,INDEX]... [,START-END]... [%2$sNAME] \
-            [%3$sPHONE] [%4$sEMAIL] [%5$sADDRESS] [%6$sSTATUS] \
-            [%7$sTAG]...
+            [%3$sPHONE] [%4$sEMAIL] [%5$sADDRESS] [%6$sREMARK] [%7$sSTATUS] \
+            [%8$sTAG]...
             ---------
             Edits the details of the company identified by the \
             index number used in the currently displayed company list.
@@ -61,6 +62,7 @@ public class EditCommand extends Command {
             PREFIX_PHONE,
             PREFIX_EMAIL,
             PREFIX_ADDRESS,
+            PREFIX_REMARK,
             PREFIX_STATUS,
             PREFIX_TAG);
 
