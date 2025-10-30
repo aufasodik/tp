@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-  <ListView fx:id="companyListView" VBox.vgrow="ALWAYS" />
-</VBox>
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+  <!-- The list, as before -->
+  <ListView fx:id="companyListView" />
+
+  <!-- Overlayed placeholder shown only when the list is empty -->
+  <VBox fx:id="emptyPlaceholder"
+        alignment="CENTER"
+        spacing="6.0"
+        visible="false"
+        managed="false">
+    <Label text="No companies yet" styleClass="placeholder-title"/>
+    <Label text="Use:  add n/NAME [p/PHONE] [e/EMAIL] …" styleClass="placeholder-sub"/>
+  </VBox>
+</StackPane>

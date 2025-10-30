@@ -2,11 +2,13 @@ package seedu.address.ui;
 
 import java.util.logging.Logger;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.company.Company;
 
@@ -20,6 +22,9 @@ public class CompanyListPanel extends UiPart<Region> {
     @FXML
     private ListView<Company> companyListView;
 
+    @FXML
+    private VBox emptyPlaceholder;
+
     /**
      * Creates a {@code CompanyListPanel} with the given {@code ObservableList}.
      */
@@ -27,6 +32,12 @@ public class CompanyListPanel extends UiPart<Region> {
         super(FXML);
         companyListView.setItems(companyList);
         companyListView.setCellFactory(listView -> new CompanyListViewCell());
+
+        // Show placeholder iff the list is empty
+        emptyPlaceholder.visibleProperty().bind(
+                Bindings.isEmpty(companyListView.getItems()));
+        // Do not take layout space when invisible
+        emptyPlaceholder.managedProperty().bind(emptyPlaceholder.visibleProperty());
     }
 
     /**
@@ -45,5 +56,4 @@ public class CompanyListPanel extends UiPart<Region> {
             }
         }
     }
-
 }

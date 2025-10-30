@@ -19,7 +19,7 @@
         <URL value="@MetricsWindow.css" />
       </stylesheets>
 
-      <VBox alignment="CENTER" fx:id="metricsContainer" spacing="10">
+      <VBox alignment="CENTER" fx:id="metricsContainer" spacing="10" minWidth="400" minHeight="300" maxWidth="600" maxHeight="500" prefWidth="500" prefHeight="400">
         <children>
           <VBox fx:id="statusMetrics" spacing="5" styleClass="metrics-content">
             <!-- Status percentages will be populated dynamically -->

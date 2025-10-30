@@ -29,6 +29,14 @@
     -fx-font-family: "Segoe UI", "Helvetica Neue", "Arial", sans-serif;
 }
 
+.placeholder-title {
+    -fx-font-size: 22pt; -fx-font-weight: bold;
+}
+
+.placeholder-sub   {
+    -fx-opacity: 0.867;
+}
+
 .tab-pane {
     -fx-padding: 0 0 0 1;
 }

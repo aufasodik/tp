@@ -105,4 +105,3 @@ public class FilterCommand extends Command {
                 .toString();
     }
 }
-
