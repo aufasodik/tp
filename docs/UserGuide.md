@@ -2,8 +2,6 @@
 layout: page
 title: User Guide
 ---
-# Cerebro User Guide
-
 ## Introduction
 
 **Cerebro** is built for CS students managing multiple internship applications efficiently through a CLI interface. Ideal for users who type fast, prefer structure, and value productivity over point-and-click workflows.
@@ -19,12 +17,18 @@ title: User Guide
 
 **This guide contains:**
 
+* **[Table of Contents](#table-of-contents)** - Full table of contents
 * **[Quick Start](#quick-start)** - Installation and first commands
-* **[Features](#features)** - Complete command reference
+* **[CLI Tutorial](#cli-tutorial)** - Command format and important information
+* **[Company Fields](#company-fields)** - Summary of fields available a Company and their valid values
+* **[Commands](#Commands)** - Complete command reference
 * **[FAQ](#faq)** - Common questions and troubleshooting
 * **[Command Summary](#command-summary)** - Quick reference table
+
+## Table of Contents
+
 * Table of Contents
-  {:toc}
+{:toc}
 
 ---
 
@@ -34,8 +38,9 @@ title: User Guide
 
 1. **Check Java Version**
 
-   - Ensure you have Java `17` or above installed
-   - **Mac users:** Use the JDK version from [here](https://se-education.org/guides/tutorials/javaInstallationMac.html)
+   - Ensure you have Java `17` or above installed.
+     - If not, [follow these guides](https://se-education.org/guides/tutorials/javaInstallation.html) to install Java 17 on your system.
+     - **Mac users:** Use the specific JDK version from [here](https://se-education.org/guides/tutorials/javaInstallationMac.html)
    - Verify installation: `java --version` in terminal
 2. **Download Cerebro**
 
@@ -50,46 +55,9 @@ title: User Guide
 
 When Cerebro launches, you'll see a clean interface with sample data:
 
-![Ui](images/CurrentUI.png)
+<img src="images/CurrentUI.png" alt="Ui" width="450"/>
 
 ### CLI Tutorial
-
-**Command Structure:** `COMMAND [INDEX] [PARAMETERS]` with prefixes like `n/NAME`, `s/STATUS`, `t/TAG`
-
-**Essential Commands:**
-
-```bash
-list                         # View all companies
-add n/Google Inc             # Add company (minimal)
-add n/Meta s/applied t/tech  # Add with details
-remark 1 r/Closed down.      # Update status
-status 1 s/tech-interview    # Update status
-find Google Meta             # Search companies
-edit 1,3,5 s/rejected        # Batch update (no spaces in indices)
-delete 3                     # Remove company
-```
-
-<div markdown="span" class="alert alert-danger">:exclamation: **Warning:**
-Delete operations are permanent! No undo available.
-</div>
-
-**Typical Workflow:**
-
-1. **Research:** `add n/CompanyName` (quick entry)
-2. **Apply:** `edit 1 s/applied r/Applied via website`
-3. **Interview:** `status 1 s/tech-interview`
-4. **Organize:** `find KEYWORD` to filter, `list` to see all
-
-**Power Tips:**
-
-- **Batch edit/delete:** `delete 1,2,5-7` (indices 1, 2, 5, 6, 7)
-- **Flexible input:** Parameters work in any order
-
-Ready for the complete command reference? Jump to [Features](#features).
-
----
-
-## Features
 
 <div markdown="block" class="alert alert-info">
 
@@ -109,99 +77,73 @@ Ready for the complete command reference? Jump to [Features](#features).
 
 </div>
 
+**Command Structure:** `COMMAND [INDEX] [PARAMETERS]` with prefixes like `n/NAME`, `s/STATUS`, `t/TAG`
+
+<div markdown="span" class="alert alert-danger">:exclamation: **Warning:**
+All operations are permanent! No undo available.
+</div>
+
+**Typical Workflow:**
+
+1. **Research:** `add n/CompanyName` (quick entry)
+2. **Add details:** `edit 1 e/contact_email@example.com a/Sample Address #00-00`
+3. **Apply:** `edit 1 s/applied r/Applied via website`
+4. **View info** `find CompanyName`
+5. **Interview:** `edit 1 s/tech-interview`
+6. **Overview:** `filter s/KEYWORD` to filter by status, `list` to see all
+
+**Power Tips:**
+
+- **Batch edit/delete:** `delete 1,2,5-7` (indices 1, 2, 5, 6, 7)
+- **Flexible input:** Parameters work in any order
+
+---
+
+## Company Fields
+
+| Field      | Requirements                                                                                                     | Valid Examples                     | Invalid Examples                  |
+|------------|-----------------------------------------------------------------------------------------------------------------|-------------------------------------|------------------------------------|
+| **Name**   | Only alphanumeric characters and spaces, cannot be blank                                                        | `Google`, `Meta Inc`               | `@Google`, `Meta!`, `""` (blank)          |
+| **Phone**  | At least 3 digits, may start with `+`, may contain single spaces between digits                                  | `98765432`, <br>`+65 9123 4567`        | `12`, `+65 9123  4567`,<br>`91+234567`            |
+| **Email**  | Format: local-part@domain. Local-part: alphanumeric + `+_.-`, no special chars at start/end. Domain: valid labels | `john.doe@example.com`             | `john..doe@example.com`, `@test`  |
+| **Address**| Free text                                                                                                       | `123 Main St, #01-01`              | -                                  |
+| **Status** | One of: `to-apply`, `applied`, `oa`, `tech-interview`, `hr-interview`, `in-process`, `offered`, `accepted`, `rejected` | `applied`, `offered`               | `pending`, `done`                 |
+| **Tag**    | Max 30 characters, hyphen-separated words. Case-insensitive.                                                            | `remote-work`, `tech-role`, `GreAT-loCaTion`         | `remote work`, `this-is-way-too-long-for-a-tag` |
+| **Remark** | Free text                                                                                                       | `Met at career fair`               | -                                  |
+
+## Commands
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+Make sure you familiarise yourself with the [command format](#cli-tutorial) used in this User Guide first!
+</div>
+
 ### Viewing help : `help`
 
 Shows a message explaining how to access the help page.
 
-![help message](images/helpMessage.png)
-
-Format: `help`
-
-### Adding a company: `add`
-
-Adds a company to Cerebro. Only company name required - other fields optional.
-
-**Format:** `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]...`
-
-<div markdown="block" class="alert alert-success">
-**Quick Facts:**
-* **Required:** Company name only
-* **Optional:** All other fields (auto-filled with placeholders if empty)
-* **Default status:** `to-apply`
-* **Tags:** Multiple allowed
-</div>
-
-**Valid STATUS values:** `to-apply`, `applied`, `oa`, `tech-interview`, `hr-interview`, `in-process`, `offered`, `accepted`, `rejected`
+<img src="images/helpMessage.png" alt="help message" width="550"/>
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Start with just the company name for quick entry when you're researching companies, then update details later with the `edit` command!
+You can close the help window with the `ESC` key, `Ctrl/Cmd` + `W` or `alt` + `f4`
 </div>
-
-Examples:
-
-* `add n/Google Inc` - Creates entry with just the name and placeholder values for other fields
-* `add n/Meta e/careers@meta.com s/applied` - Adds name, email, and status only
-* `add n/ByteDance p/12345678 e/recruit@bytedance.com a/Singapore Science Park r/Fast-growing s/tech-interview t/tech t/remote-friendly` - Adds complete entry with all details
 
 ### Listing all companies : `list`
 
 Shows a list of all companies in Cerebro.
 
-Format: `list`
-
 * Displays all companies with their details
 * Resets any active filters from previous `find` commands
 * Shows companies with their current index numbers
 
-### Editing a company : `edit`
+### Filtering companies by status: `filter`
 
-Edits an existing company in Cerebro. Supports single edit and batch edit.
+Finds companies by status values. Case-insensitive, lists all companies that **matches** the status.
 
-**Format:** `edit INDEX(ES) [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…`
+**Format:** `filter s/STATUS`
 
-**Examples:**
+**Result for `filter`:**
 
-**Single:** `edit 1 p/91234567 e/careers@google.com` (any fields allowed)
-```
-Edited Company 1: Phone: 91234567; Email: careers@google.com; ...
-```
-
-**Comma:** `edit 1, 3, 5 s/rejected` (status/remarks/tags only, spaces OK but no trailing comma)
-```
-Edited 3 companies (indices 1, 3, 5) - Status updated to rejected
-```
-
-**Range:** `edit 2-4 s/applied` (inclusive range)
-```
-Edited 3 companies (indices 2, 3, 4) - Status updated to applied
-```
-
-* Edits multiple companies at once with the same changes
-* **Comma-Separated:** `edit INDEX,INDEX,INDEX` - Separate specific indices with commas (no spaces)
-* **Range:** `edit START-END` - Edits all companies from START to END index (inclusive)
-* Must have at least 1 field to edit
-* Can only edit tags, status, or remarks for batch editing
-* Useful for updating status or tags for multiple companies simultaneously
-
-**Clear tags:** `edit 3 t/` (tags replaced, not cumulative)
-```
-Edited Company 3 - All tags cleared
-```
-
-**Batch edit in action:** `edit 1,3,5 s/rejected`
-
-![Batch edit in action](images/BatchEditResult.png)
-
-<div markdown="block" class="alert alert-danger">
-**:exclamation: Important - Index Reference:**<br>
-Indices refer to the numbers shown in the **current displayed list**. After using `find`, edit indices 1,2,3 refer to the 1st, 2nd, 3rd companies in the filtered results, not the original full list.
-</div>
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Use batch editing after deadlines: `edit 1-10 s/applied` updates all at once!
-</div>
-
-**Valid STATUS values:** `to-apply`, `applied`, `oa`, `tech-interview`, `hr-interview`, `in-process`, `offered`, `accepted`, `rejected`
+<img src="images/FilterAcceptedResult.png" alt="result for 'filter accepted" width="450"/>
 
 ### Locating companies by name: `find`
 
@@ -219,11 +161,102 @@ Finds companies by name keywords. Case-insensitive, lists all companies that **c
 
 **Examples:**
 
-* `find go` → `Google Inc`, `Google Singapore`, `Golden Logistics`
-* `find digital pacific` → `Digital Innovations Hub`, `Pacific Trading Co`
+* `find Google TikTok` → `Google Inc`, `Google Singapore`, `TikTok`
+* `find goOgl iktO` → `Google Inc`, `Google Singapore`, `TikTok`
 
-**Result for 'find digital pacific: **
+**Result for `find digital pacific`:**
+
 ![result for 'find digital pacific'](images/findDigitalPacificResult.png)
+
+### Viewing companies metrics: `metrics`
+
+Displays a summary of how your internship applications are distributed across different statuses (e.g., Applied, Offered, Rejected) for all companies you’ve added.
+
+**Result for `metrics`:**
+
+<img src="images/MetricsResult.png" alt="result for `metrics`" width="450"/>
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+You can close the metrics window with the `ESC` key, `Ctrl/Cmd` + `W` or `alt` + `f4`
+</div>
+
+### Adding a company: `add`
+
+Adds a company to Cerebro.
+
+**Format:** `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]...`
+
+<div markdown="block" class="alert alert-success">
+**Usage:**
+* **Required:** Company name only
+* **Optional:** All other fields
+* **Default status:** `to-apply`
+* **Tags:** Multiple allowed
+</div>
+
+Examples:
+
+* `add n/Google Inc` - Creates entry with just the name and placeholder values for other fields
+* `add n/Meta e/careers@meta.com s/applied` - Adds name, email, and status only
+* `add n/ByteDance p/12345678 e/recruit@bytedance.com a/Singapore Science Park r/Fast-growing s/tech-interview t/tech t/remote-friendly` - Adds complete entry with all details
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Start with just the company name for quick entry when you're researching companies, then update details later with the `edit` command!
+</div>
+
+### Editing a company : `edit`
+
+Edits an existing company in Cerebro. Supports single edit and batch edit.
+
+**Format:** `edit INDEX(ES) [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…`
+
+**Examples:**
+
+**Single:** `edit 1 p/91234567 e/careers@google.com`
+```
+Edited Company 1: Phone: 91234567; Email: careers@google.com; ...
+```
+
+**Comma:** `edit 1, 3, 5 s/rejected` (status/remarks/tags only, spaces OK but no trailing comma)
+```
+Edited 3 companies (indices 1, 3, 5) - Status updated to rejected
+```
+
+**Range:** `edit 2-4 s/applied` (inclusive range)
+```
+Edited 3 companies (indices 2, 3, 4) - Status updated to applied
+```
+
+* Edits multiple companies at once with the same changes
+* **Comma-Separated:** `edit INDEX,INDEX,INDEX` - Separate specific indices with commas (no spaces)
+* **Range:** `edit START-END` - Edits all companies from `START` to `END` index (inclusive)
+  * the `START` index must be <= the `END` index:
+  * 3-6: edits companies 3,4,5,6
+  * 3-3: edits company 3
+  * 6-3: NOT ALLOWED
+* Must have at least 1 field to edit
+* Can only edit tags, status, or remarks for batch editing
+* Useful for updating status or tags for multiple companies simultaneously
+
+**Clear tags:** `edit 3 t/` (tags replaced, not cumulative)
+```
+Edited Company 3 - All tags cleared
+```
+<div markdown="span" class="alert alert-danger">:exclamation: **Caution:** edits will replace existing fields, including replacing all existing tags.
+</div>
+
+**Batch edit in action:** `edit 1,3 s/accepted`
+
+<img src="images/BatchEditResult.png" alt="Batch edit" width="400"/>
+
+<div markdown="block" class="alert alert-danger">
+**:exclamation: Important - Index Reference:**<br>
+Indices refer to the numbers shown in the **current displayed list**. After using `find`, edit indices 1,2,3 refer to the 1st, 2nd, 3rd companies in the filtered results, not the original full list.
+</div>
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Use batch editing after deadlines: `edit 1-10 s/applied` updates all at once!
+</div>
 
 ### Deleting a company : `delete`
 
@@ -240,6 +273,10 @@ Deletes one or more companies from Cerebro. Supports single deletion, batch dele
 * Duplicate indices are ignored (first occurrence kept)
 * All specified companies are deleted in a single operation
 
+<div markdown="span" class="alert alert-danger">:exclamation: **Caution:**
+This action cannot be undone! Company data will be permanently deleted.
+</div>
+
 Examples:
 
 * `delete 2` - Deletes the 2nd company
@@ -247,57 +284,7 @@ Examples:
 * `delete 2-4` - Deletes companies at indices 2, 3, and 4
 * `list` followed by `delete 2` - Deletes the 2nd company in the full list
 * `find Google` followed by `delete 1` - Deletes the 1st company in the filtered results
-
-### Updating application status: `status`
-
-Updates the application status of a company to track your internship application progress.
-
-Format: `status INDEX s/STATUS`
-
-* Updates the status of the company at the specified `INDEX`
-* The index refers to the index number shown in the displayed company list
-* The index **must be a positive integer** 1, 2, 3, …
-* Status is **case-insensitive** (e.g., `APPLIED` and `applied` both work)
-
-**Valid STATUS values:**
-
-* `to-apply` - Not yet applied (default for new entries)
-* `applied` - Application submitted
-* `oa` - Online Assessment stage
-* `tech-interview` - Technical interview scheduled/in progress
-* `hr-interview` - HR/behavioral interview
-* `in-process` - General process stage
-* `offered` - Internship offer received
-* `accepted` - Offer accepted
-* `rejected` - Application rejected
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Use status to track your application pipeline! You can also use the `edit` command to update status along with other fields.
-</div>
-
-Examples:
-
-* `status 1 s/tech-interview` - Updates the 1st company's status to "tech-interview"
-* `status 3 s/rejected` - Updates the 3rd company's status to "rejected"
-* `status 5 s/offered` - Updates the 5th company's status to "offered"
-
-### Adding or editing remarks: `remark`
-
-Adds, edits, or deletes remarks for a company. Remarks are useful for adding notes about the company or your application.
-
-Format: `remark INDEX r/[REMARK]`
-
-* Adds or updates the remark for the company at the specified `INDEX`
-* The index refers to the index number shown in the displayed company list
-* The index **must be a positive integer** 1, 2, 3, …
-* To **delete a remark**, use `remark INDEX r/` (leave the remark field empty)
-* Existing remark will be overwritten with the new remark
-
-Examples:
-
-* `remark 1 r/Great company culture, flexible hours` - Adds/updates remark for the 1st company
-* `remark 2 r/Referral from John Doe` - Adds/updates remark for the 2nd company
-* `remark 3 r/` - Deletes the remark for the 3rd company
+* `filter applied` followed by `delete 1` - Deletes the 1st company in the filtered results of companies with status `applied`
 
 ### Clearing all entries : `clear`
 
@@ -305,7 +292,7 @@ Clears all companies from Cerebro.
 
 Format: `clear`
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+<div markdown="span" class="alert alert-danger">:exclamation: **Caution:**
 This action cannot be undone! All company data will be permanently deleted.
 </div>
 
@@ -324,8 +311,8 @@ Cerebro data is saved in the hard disk automatically after any command that chan
 Cerebro data is saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file make its format invalid, Cerebro will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause Cerebro to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file make its format invalid, **Cerebro will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.**
+<br>Furthermore, certain edits can cause Cerebro to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
 ### Upcoming Features
@@ -337,45 +324,53 @@ Furthermore, certain edits can cause Cerebro to behave in unexpected ways (e.g.,
 
 ## FAQ
 
-**Q**: What happens if I add a company with the same name?<br>
+**Q: What happens if I add a company with the same name?**  
 **A**: Company names must be unique (case-insensitive). Cerebro rejects duplicates and shows an error message.
 
-**Q**: How do I track multiple roles at the same company?<br>
+**Q: How do I track multiple roles at the same company?**  
 **A**: Use tags to differentiate positions (`add n/Google SWE` vs `add n/Google PM`) or add role details in remarks.
 
-**Q**: Can I undo a delete or clear operation?<br>
+**Q: Can I undo a delete or clear operation?** 
 **A**: No, deletions are permanent. Restore from backup by copying your `addressbook.json` file back to the data folder before restarting.
 
-**Q**: How do I transfer my data to another computer?<br>
+**Q: How do I transfer my data to another computer?**  
 **A**: Install Cerebro on the new computer, then overwrite the empty data file with your existing `[JAR location]/data/addressbook.json`.
 
-**Q**: Can I edit the JSON file directly?<br>
+**Q: Can I edit the JSON file directly?**  
 **A**: Yes, advanced users can edit `addressbook.json` directly. **Always backup first** - invalid format will cause Cerebro to discard all data.
 
-**Q**: What's the difference between `status` and `edit` commands?<br>
-**A**: `status` updates only the status field quickly. `edit` updates status plus other fields in one command. Use whichever is more convenient.
+**Q: How do I regenerate the dummy data?**  
+**A**: Delete the `/data` folder, then run the app again. **Make sure to backup any important information first!**
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
 
+### Viewing Commands
+
 Action | Format | Examples
 --------|--------|----------
-**Add** | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `add n/Google Inc`<br>`add n/Meta p/65432100 e/careers@meta.com`<br>`add n/Apple r/Great benefits s/applied`
-**List** | `list` | `list`
-**Edit (Single)** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `edit 2 n/Meta Platforms s/offered`
-**Edit (Comma-Separated)** | `edit INDEX,INDEX,INDEX [fields]` | `edit 1,3,5 s/rejected`
-**Edit (Range)** | `edit START-END [fields]` | `edit 2-4 s/applied t/tech`
-**Find** | `find KEYWORD [MORE_KEYWORDS]` | `find Google Meta`
-**Delete (Single)** | `delete INDEX` | `delete 3`
-**Delete (Comma-Separated)** | `delete INDEX [MORE_INDICES]` | `delete 1 3 5`
-**Delete (Range)** | `delete START-END` | `delete 2-4`
-**Status** | `status INDEX s/STATUS` | `status 1 s/tech-interview`
-**Remark** | `remark INDEX r/[REMARK]` | `remark 1 r/Great company culture`
-**Clear** | `clear` | `clear`
-**Help** | `help` | `help`
-**Exit** | `exit` | `exit`
+**[List](#listing-all-companies--list)** | `list` | `list`
+**[Filter](#filtering-companies-by-status-filter)** | `filter s/STATUS` | `filter s/accepted`
+**[Find](#locating-companies-by-name-find)** | `find KEYWORD [MORE_KEYWORDS]` | `find Google Meta`
 
-### Valid Status Values
+### Action Commands
 
-`to-apply`, `applied`, `oa`, `tech-interview`, `hr-interview`, `in-process`, `offered`, `accepted`, `rejected`
+Action | Format | Examples
+--------|--------|----------
+**[Add](#adding-a-company-add)** | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `add n/Google Inc`<br>`add n/Meta p/65432100 e/careers@meta.com`<br>`add n/Apple r/Great benefits s/applied`
+**[Edit (Single)](#editing-a-company--edit)** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `edit 2 n/Meta Platforms s/offered`
+**[Edit (Comma-Separated)](#editing-a-company--edit)** | `edit INDEX,INDEX,INDEX [fields]` | `edit 1,3,5 s/rejected`
+**[Edit (Range)](#editing-a-company--edit)** | `edit START-END [fields]` | `edit 2-4 s/applied t/tech`
+**[Delete (Single)](#deleting-a-company--delete)** | `delete INDEX` | `delete 3`
+**[Delete (Comma-Separated)](#deleting-a-company--delete)** | `delete INDEX [MORE_INDICES]` | `delete 1 3 5`
+**[Delete (Range)](#deleting-a-company--delete)** | `delete START-END` | `delete 2-4`
+**[Clear](#clearing-all-entries--clear)** | `clear` | `clear`
+
+### Other Commands
+
+Action | Format | Examples
+--------|--------|----------
+**[Help](#viewing-help--help)** | `help` | `help`
+**[Metrics](#viewing-companies-metrics-metrics)** | `metrics` | `metrics`
+**[Exit](#exiting-the-program--exit)** | `exit` | `exit`
