@@ -206,10 +206,10 @@ public class FilterCommandTest {
         assertEquals(Arrays.asList(BETA), model.getFilteredCompanyList());
     }
 
-    // Tests filtering by multiple tags (AND logic)
+    // Tests filtering by multiple tags (OR logic)
     @Test
-    public void execute_multipleTags_companiesWithAllTagsFound() {
-        // Filter by "client" AND "partner" - should find BETA only
+    public void execute_multipleTags_companiesWithAnyTagFound() {
+        // Filter by "client" OR "partner" - should find BETA (has both)
         FilterCommand command = new FilterCommand(
                 Optional.empty(), Arrays.asList("client", "partner"));
         expectedModel.updateFilteredCompanyList(
@@ -217,6 +217,19 @@ public class FilterCommandTest {
         String expectedMessage = "1 companies listed!\nFiltered by tags containing: [client, partner]";
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(BETA), model.getFilteredCompanyList());
+    }
+
+    // Tests filtering by multiple tags where different companies match different tags (OR logic)
+    @Test
+    public void execute_multipleTagsOrLogic_multipleCompaniesFound() {
+        // Filter by "supplier" OR "client" - ALPHA and DELTA have supplier, BETA has client
+        FilterCommand command = new FilterCommand(
+                Optional.empty(), Arrays.asList("supplier", "client"));
+        expectedModel.updateFilteredCompanyList(
+                new FilterPredicate(Optional.empty(), Arrays.asList("supplier", "client")));
+        String expectedMessage = "3 companies listed!\nFiltered by tags containing: [supplier, client]";
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(ALPHA, BETA, DELTA), model.getFilteredCompanyList());
     }
 
     // Tests filtering by tag that doesn't match any company

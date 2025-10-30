@@ -8,7 +8,7 @@ import seedu.address.commons.util.ToStringBuilder;
 
 /**
  * Tests that a {@code Company} matches the given status and/or tag filters.
- * For tags, all keywords must match at least one tag (AND logic between keywords).
+ * For tags, at least one keyword must match at least one tag (OR logic between keywords).
  * Tag matching is case-insensitive and uses substring matching.
  */
 public class FilterPredicate implements Predicate<Company> {
@@ -31,7 +31,7 @@ public class FilterPredicate implements Predicate<Company> {
         boolean statusMatch = status.isEmpty() || company.getStatus().equals(status.get());
 
         boolean tagsMatch = tagKeywords.isEmpty() || tagKeywords.stream()
-                .allMatch(keyword -> company.getTags().stream()
+                .anyMatch(keyword -> company.getTags().stream()
                         .anyMatch(tag -> tag.tagName.toLowerCase()
                                 .contains(keyword.toLowerCase())));
 

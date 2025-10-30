@@ -100,7 +100,7 @@ public class FilterPredicateTest {
 
     @Test
     public void test_tagOnlyMultipleKeywords_returnsTrue() {
-        // Multiple tag keywords - all match (AND logic)
+        // Multiple tag keywords - all match (OR logic - returns true if any matches)
         FilterPredicate predicate = new FilterPredicate(
                 Optional.empty(), Arrays.asList("java", "remote"));
         assertTrue(predicate.test(new CompanyBuilder().withTags("java", "remote-work").build()));
@@ -112,6 +112,10 @@ public class FilterPredicateTest {
         // Multiple keywords with case insensitive matching
         predicate = new FilterPredicate(Optional.empty(), Arrays.asList("JAVA", "REM"));
         assertTrue(predicate.test(new CompanyBuilder().withTags("java", "remote-work").build()));
+
+        // Only one keyword matches (OR logic - should still return true)
+        predicate = new FilterPredicate(Optional.empty(), Arrays.asList("java", "python"));
+        assertTrue(predicate.test(new CompanyBuilder().withTags("java", "cpp").build()));
     }
 
     @Test
@@ -125,8 +129,8 @@ public class FilterPredicateTest {
         predicate = new FilterPredicate(Optional.empty(), Collections.singletonList("python"));
         assertFalse(predicate.test(new CompanyBuilder().withTags("java", "cpp").build()));
 
-        // Multiple keywords - not all match (AND logic fails)
-        predicate = new FilterPredicate(Optional.empty(), Arrays.asList("java", "python"));
+        // Multiple keywords - none match (OR logic fails when no keywords match)
+        predicate = new FilterPredicate(Optional.empty(), Arrays.asList("python", "ruby"));
         assertFalse(predicate.test(new CompanyBuilder().withTags("java", "cpp").build()));
 
         // Substring not found
@@ -187,9 +191,9 @@ public class FilterPredicateTest {
                 .withTags("java")
                 .build()));
 
-        // Status matches but not all tags match
+        // Status matches but no tags match (OR logic - all tag keywords must fail)
         predicate = new FilterPredicate(
-                Optional.of(new Status("applied")), Arrays.asList("java", "python"));
+                Optional.of(new Status("applied")), Arrays.asList("python", "ruby"));
         assertFalse(predicate.test(new CompanyBuilder()
                 .withStatus("applied")
                 .withTags("java", "cpp")
