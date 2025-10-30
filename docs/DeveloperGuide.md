@@ -505,7 +505,7 @@ testers are expected to do more *exploratory* testing.
 
    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   1. Double-click the jar file Expected: Shows the GUI with a set of sample companies. The window size may not be optimum.
 
 1. Saving window preferences
 
@@ -523,7 +523,7 @@ testers are expected to do more *exploratory* testing.
    1. Prerequisites: List all companies using the `list` command. Multiple companies in the list.
 
    1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+      Expected: First company is deleted from the list. Details of the deleted company shown in the status message. Timestamp in the status bar is updated.
 
    1. Test case: `delete 0`<br>
       Expected: No company is deleted. Error details shown in the status message. Status bar remains the same.
@@ -532,6 +532,34 @@ testers are expected to do more *exploratory* testing.
       Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
+
+### Filtering companies by status
+
+1. Filtering companies by application status
+
+   1. Prerequisites: Have companies with various statuses in the list. Use `list` to see all companies.
+
+   1. Test case: `filter s/applied`<br>
+      Expected: Only companies with status "applied" are shown. Number of companies displayed shown in the status message.
+
+   1. Test case: `filter s/in-process`<br>
+      Expected: Only companies with status "in-process" are shown.
+
+   1. Test case: `filter s/invalid-status`<br>
+      Expected: Error message shown indicating invalid status. List remains unchanged.
+
+   1. Test case: `filter` (missing status parameter)<br>
+      Expected: Error message showing correct command format.
+
+### Viewing metrics
+
+1. Opening the metrics window
+
+   1. Test case: `metrics`<br>
+      Expected: Metrics window opens showing statistics about application statuses. If window is already open, it is brought to focus and data is refreshed.
+
+   1. Test case: Close the metrics window and run `metrics` again<br>
+      Expected: Metrics window reopens with current data.
 
 ### Saving data
 
