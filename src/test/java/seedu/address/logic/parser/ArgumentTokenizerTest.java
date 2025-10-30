@@ -147,4 +147,36 @@ public class ArgumentTokenizerTest {
         assertNotEquals(aaa, new Prefix("aab"));
     }
 
+    @Test
+    public void tokenize_escapesSingleCharacterPrefix() {
+        String argsString = "SomePreambleString p/adsf \\p/ asdf";
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(argsString, pSlash);
+        assertPreamblePresent(argMultimap, "SomePreambleString");
+        assertArgumentAbsent(argMultimap, new Prefix("adsf \\p/ asdf"));
+        assertArgumentPresent(argMultimap, pSlash, "adsf p/ asdf");
+    }
+
+    @Test
+    public void tokenize_doesNotEscapeMultipleCharacterPrefix() {
+        String argsString = "SomePreambleString p/adsf \\pp/ asdf";
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(argsString, pSlash);
+        assertPreamblePresent(argMultimap, "SomePreambleString");
+        assertArgumentPresent(argMultimap, pSlash, "adsf \\pp/ asdf");
+    }
+
+    @Test
+    public void tokenize_doesNotEscapeOtherCharacterPrefix() {
+        String argsString = "SomePreambleString p/adsf \\</ asdf";
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(argsString, pSlash);
+        assertPreamblePresent(argMultimap, "SomePreambleString");
+        assertArgumentPresent(argMultimap, pSlash, "adsf \\</ asdf");
+    }
+
+    @Test
+    public void tokenize_doesNotEscapeBackslashOnItsOwn() {
+        String argsString = "SomePreambleString p/adsf \\ asdf";
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(argsString, pSlash);
+        assertPreamblePresent(argMultimap, "SomePreambleString");
+        assertArgumentPresent(argMultimap, pSlash, "adsf \\ asdf");
+    }
 }
