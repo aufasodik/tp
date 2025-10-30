@@ -76,6 +76,8 @@ When Cerebro launches, you'll see a clean interface with sample data:
   * e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   * e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+* Use a backslash "\" to escape command prefixes e.g. in your remark
+  * e.g. add n/Company r/This is a remark with a \r/ for some reason -> Remark: This is a remark with a r/ for some reason
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 
 </div>
