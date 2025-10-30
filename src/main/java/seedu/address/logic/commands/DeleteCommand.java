@@ -63,7 +63,7 @@ public class DeleteCommand extends Command {
         final List<Company> lastShownList = model.getFilteredCompanyList();
         final int listSize = lastShownList.size();
 
-        // Validate first
+        // Validate all indices first (fail-fast if any is out of bounds)
         for (Index idx : targetIndices) {
             if (idx.getZeroBased() >= listSize) {
                 throw new CommandException(Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
