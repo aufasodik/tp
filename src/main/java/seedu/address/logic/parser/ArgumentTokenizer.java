@@ -122,9 +122,7 @@ public class ArgumentTokenizer {
         String value = argsString.substring(valueStartPos, nextPrefixPosition.getStartPosition());
 
         // Remove backslashes escaping valid prefixes throughout the argsString
-        //TODO: Probably should refactor this to avoid hardcoding the valid prefixes in multiple places
-        String validPrefixesPattern = "n/|p/|e/|a/|t/|r/|s/";
-        value = value.replaceAll("\\\\(?=" + validPrefixesPattern + ")", "");
+        value = value.replaceAll("\\\\(?=\\w+/)", "");
 
         return value.trim();
     }
