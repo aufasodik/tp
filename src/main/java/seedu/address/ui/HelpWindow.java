@@ -11,6 +11,7 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.commands.AddCommand;
 
 /**
  * Controller for a help page
@@ -19,15 +20,10 @@ public class HelpWindow extends ClosableWindow {
 
     public static final String USERGUIDE_URL = "https://nus-cs2103-ay2526s1.github.io/tp/UserGuide.html";
     public static final String HELP_MESSAGE = "Refer to the full user guide at: " + USERGUIDE_URL;
-    public static final String COMMAND_OVERVIEW = """
+    public static final String COMMAND_OVERVIEW = String.format("""
                                 Commands Overview:
 
-                                add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]...
-                                    Add a company to Cerebro.
-                                    Examples:
-                                    add n/Google Inc
-                                    add n/Meta p/65432100 e/careers@meta.com s/applied
-                                    add n/ByteDance r/Fast-growing s/tech-interview t/tech t/remote-friendly
+                                %s
 
                                 list
                                     Display all companies in Cerebro.
@@ -71,7 +67,7 @@ public class HelpWindow extends ClosableWindow {
 
                                 exit
                                     Exit Cerebro.
-                                """;
+                                """, AddCommand.MESSAGE_USAGE);
 
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);

@@ -22,27 +22,26 @@ public class AddCommand extends Command {
 
     public static final String COMMAND_WORD = "add";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a company to the address book.\n"
-            + "Format: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "NAME "
-            + "[" + PREFIX_PHONE + "PHONE] "
-            + "[" + PREFIX_EMAIL + "EMAIL] "
-            + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_REMARK + "REMARK] "
-            + "[" + PREFIX_STATUS + "STATUS] "
-            + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Examples:\n"
-            + "  " + COMMAND_WORD + " " + PREFIX_NAME + "Google\n"
-            + "  " + COMMAND_WORD + " " + PREFIX_NAME + "Google " + PREFIX_PHONE + "67676767\n"
-            + "  " + COMMAND_WORD + " "
-            + PREFIX_NAME + "Google "
-            + PREFIX_PHONE + "67676767 "
-            + PREFIX_EMAIL + "google@example.com "
-            + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
-            + PREFIX_REMARK + "FAANG Jackpot "
-            + PREFIX_STATUS + "in-process "
-            + PREFIX_TAG + "good-pay "
-            + PREFIX_TAG + "decent-location";
+    public static final String MESSAGE_USAGE = String.format("""
+    %1$s %2$sNAME [%3$sPHONE] [%4$sEMAIL] [%5$sADDRESS] [%6$sREMARK] [%7$sSTATUS] [%8$sTAG]...
+    ---------
+    Add a company to Cerebro.
+    ---------
+    Examples:
+    %1$s %2$sGoogle Inc
+    %1$s %2$sMeta %3$s65432100 %4$scareers@meta.com %7$sapplied
+    %1$s %2$sGoogle %3$s67676767 %4$sgoogle@example.com %5$s311, Clementi Ave 2, \
+    #02-25 %6$sFAANG\
+    Jackpot %7$sin-process %8$sgood-pay %8$sgood-location
+        """,
+            COMMAND_WORD,
+            PREFIX_NAME,
+            PREFIX_PHONE,
+            PREFIX_EMAIL,
+            PREFIX_ADDRESS,
+            PREFIX_REMARK,
+            PREFIX_STATUS,
+            PREFIX_TAG);
 
     public static final String MESSAGE_SUCCESS = "New company added: %1$s";
     public static final String MESSAGE_DUPLICATE_COMPANY = "This company already exists in the address book";
