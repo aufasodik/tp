@@ -143,8 +143,17 @@ The `Model` component,
 
 * stores the address book data i.e., all `Company` objects (which are contained in a `UniqueCompanyList` object).
 * stores the currently 'selected' `Company` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Company>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
+* stores a `UserPref` object that represents the user's preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
+
+Each `Company` object contains the following fields:
+* `Name` (required) - The company name
+* `Phone` (optional/nullable) - Contact phone number
+* `Email` (optional/nullable) - Contact email address
+* `Address` (optional/nullable) - Company address
+* `Tags` (required, but can be empty) - Set of tags for categorization
+* `Remark` (required, but can be empty) - Additional notes about the company
+* `Status` (required) - Application status (e.g., Applied, Interview, Offered, Rejected)
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Company` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Company` needing their own `Tag` objects. Similarly, `Status` objects are stored centrally, but each `Company` can reference at most one `Status`. <br>
 
