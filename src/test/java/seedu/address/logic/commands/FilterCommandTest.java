@@ -4,15 +4,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.Messages.MESSAGE_COMPANIES_LISTED_OVERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalCompanies.ALPHA;
+import static seedu.address.testutil.TypicalCompanies.BETA;
 import static seedu.address.testutil.TypicalCompanies.CONS;
+import static seedu.address.testutil.TypicalCompanies.DELTA;
 import static seedu.address.testutil.TypicalCompanies.HOLLY;
 import static seedu.address.testutil.TypicalCompanies.getTypicalAddressBook;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
@@ -20,6 +22,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.company.FilterPredicate;
 import seedu.address.model.company.Status;
 
 /**
@@ -32,14 +35,19 @@ public class FilterCommandTest {
     // Verifies equals method works correctly for FilterCommand objects
     @Test
     public void equals() {
-        FilterCommand byApplied = new FilterCommand(new Status("applied"));
-        FilterCommand byOa = new FilterCommand(new Status("oa"));
+        FilterCommand byApplied = new FilterCommand(
+                Optional.of(new Status("applied")), Collections.emptyList());
+        FilterCommand byOa = new FilterCommand(
+                Optional.of(new Status("oa")), Collections.emptyList());
+        FilterCommand byTagJava = new FilterCommand(
+                Optional.empty(), Collections.singletonList("java"));
 
         // same object -> returns true
         assertTrue(byApplied.equals(byApplied));
 
         // same values -> returns true
-        FilterCommand byAppliedCopy = new FilterCommand(new Status("applied"));
+        FilterCommand byAppliedCopy = new FilterCommand(
+                Optional.of(new Status("applied")), Collections.emptyList());
         assertTrue(byApplied.equals(byAppliedCopy));
 
         // different types -> returns false
@@ -52,17 +60,30 @@ public class FilterCommandTest {
         // different status -> returns false
         assertFalse(byApplied.equals(byOa));
 
-        // case insensitive -> returns true
-        FilterCommand byAppliedUpperCase = new FilterCommand(new Status("APPLIED"));
+        // different tags -> returns false
+        assertFalse(byApplied.equals(byTagJava));
+
+        // case insensitive status -> returns true
+        FilterCommand byAppliedUpperCase = new FilterCommand(
+                Optional.of(new Status("APPLIED")), Collections.emptyList());
         assertTrue(byApplied.equals(byAppliedUpperCase));
+
+        // same status and tags -> returns true
+        FilterCommand combined1 = new FilterCommand(
+                Optional.of(new Status("applied")), Collections.singletonList("java"));
+        FilterCommand combined2 = new FilterCommand(
+                Optional.of(new Status("applied")), Collections.singletonList("java"));
+        assertTrue(combined1.equals(combined2));
     }
 
     // Ensures filtering finds the correct company with given status (1 company found)
     @Test
     public void execute_matchingStatus_singleCompanyFound() {
-        String expectedMessage = String.format(MESSAGE_COMPANIES_LISTED_OVERVIEW, 1);
-        FilterCommand command = new FilterCommand(new Status("applied"));
-        expectedModel.updateFilteredCompanyList(c -> c.getStatus().equals(new Status("applied")));
+        FilterCommand command = new FilterCommand(
+                Optional.of(new Status("applied")), Collections.emptyList());
+        expectedModel.updateFilteredCompanyList(
+                new FilterPredicate(Optional.of(new Status("applied")), Collections.emptyList()));
+        String expectedMessage = "1 companies listed!\nFiltered by status: applied";
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(CONS), model.getFilteredCompanyList());
     }
@@ -70,9 +91,11 @@ public class FilterCommandTest {
     // Ensures filtering finds the correct company with given status (multiple companies found)
     @Test
     public void execute_matchingStatus_multipleCompaniesFound() {
-        String expectedMessage = String.format(MESSAGE_COMPANIES_LISTED_OVERVIEW, 2);
-        FilterCommand command = new FilterCommand(new Status("to-apply"));
-        expectedModel.updateFilteredCompanyList(c -> c.getStatus().equals(new Status("to-apply")));
+        FilterCommand command = new FilterCommand(
+                Optional.of(new Status("to-apply")), Collections.emptyList());
+        expectedModel.updateFilteredCompanyList(
+                new FilterPredicate(Optional.of(new Status("to-apply")), Collections.emptyList()));
+        String expectedMessage = "2 companies listed!\nFiltered by status: to-apply";
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(ALPHA, HOLLY), model.getFilteredCompanyList());
     }
@@ -80,9 +103,11 @@ public class FilterCommandTest {
     // Ensures filtering correctly yields empty list when no matches.
     @Test
     public void execute_noCompanyWithStatus_zeroFound() {
-        String expectedMessage = String.format(MESSAGE_COMPANIES_LISTED_OVERVIEW, 0);
-        FilterCommand command = new FilterCommand(new Status("accepted"));
-        expectedModel.updateFilteredCompanyList(c -> c.getStatus().equals(new Status("accepted")));
+        FilterCommand command = new FilterCommand(
+                Optional.of(new Status("accepted")), Collections.emptyList());
+        expectedModel.updateFilteredCompanyList(
+                new FilterPredicate(Optional.of(new Status("accepted")), Collections.emptyList()));
+        String expectedMessage = "0 companies listed!\nFiltered by status: accepted";
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
         assertEquals(Collections.emptyList(), model.getFilteredCompanyList());
     }
@@ -91,7 +116,8 @@ public class FilterCommandTest {
     @Test
     public void execute_filterDoesNotModifyOriginalList() {
         AddressBook original = new AddressBook(model.getAddressBook());
-        FilterCommand command = new FilterCommand(new Status("applied"));
+        FilterCommand command = new FilterCommand(
+                Optional.of(new Status("applied")), Collections.emptyList());
         command.execute(model);
         assertEquals(original, model.getAddressBook());
     }
@@ -99,22 +125,32 @@ public class FilterCommandTest {
     // Checks toString() returns the correct string.
     @Test
     public void toStringMethod() {
-        Status status = new Status("oa");
-        FilterCommand command = new FilterCommand(status);
-        String expected = FilterCommand.class.getCanonicalName() + "{status=" + status + "}";
+        Optional<Status> status = Optional.of(new Status("oa"));
+        FilterCommand command = new FilterCommand(status, Collections.emptyList());
+        String expected = FilterCommand.class.getCanonicalName()
+                + "{status=" + status + ", tagKeywords=[]}";
         assertEquals(expected, command.toString());
     }
 
     // Ensures constructor rejects null status parameter
     @Test
     public void constructor_nullStatus_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new FilterCommand(null));
+        assertThrows(NullPointerException.class, () ->
+                new FilterCommand(null, Collections.emptyList()));
+    }
+
+    // Ensures constructor rejects null tagKeywords parameter
+    @Test
+    public void constructor_nullTagKeywords_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () ->
+                new FilterCommand(Optional.of(new Status("applied")), null));
     }
 
     // Ensures execute method rejects null model parameter
     @Test
     public void execute_nullModel_throwsNullPointerException() {
-        FilterCommand command = new FilterCommand(new Status("applied"));
+        FilterCommand command = new FilterCommand(
+                Optional.of(new Status("applied")), Collections.emptyList());
         assertThrows(NullPointerException.class, () -> command.execute(null));
     }
 
@@ -124,9 +160,11 @@ public class FilterCommandTest {
         Model emptyModel = new ModelManager(new AddressBook(), new UserPrefs());
         Model expectedEmptyModel = new ModelManager(new AddressBook(), new UserPrefs());
 
-        String expectedMessage = String.format(MESSAGE_COMPANIES_LISTED_OVERVIEW, 0);
-        FilterCommand command = new FilterCommand(new Status("applied"));
-        expectedEmptyModel.updateFilteredCompanyList(c -> c.getStatus().equals(new Status("applied")));
+        FilterCommand command = new FilterCommand(
+                Optional.of(new Status("applied")), Collections.emptyList());
+        expectedEmptyModel.updateFilteredCompanyList(
+                new FilterPredicate(Optional.of(new Status("applied")), Collections.emptyList()));
+        String expectedMessage = "0 companies listed!\nFiltered by status: applied";
         assertCommandSuccess(command, emptyModel, expectedMessage, expectedEmptyModel);
         assertEquals(Collections.emptyList(), emptyModel.getFilteredCompanyList());
     }
@@ -134,9 +172,104 @@ public class FilterCommandTest {
     // Verifies that filtering is case-insensitive.
     @Test
     public void execute_caseInsensitiveStatusMatch_success() {
-        String expectedMessage = String.format(MESSAGE_COMPANIES_LISTED_OVERVIEW, 1);
-        FilterCommand command = new FilterCommand(new Status("APPLIED")); // uppercase
-        expectedModel.updateFilteredCompanyList(c -> c.getStatus().equals(new Status("applied")));
+        FilterCommand command = new FilterCommand(
+                Optional.of(new Status("APPLIED")), Collections.emptyList()); // uppercase
+        expectedModel.updateFilteredCompanyList(
+                new FilterPredicate(Optional.of(new Status("applied")), Collections.emptyList()));
+        String expectedMessage = "1 companies listed!\nFiltered by status: applied";
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
+    }
+
+    // Tests filtering by single tag keyword
+    @Test
+    public void execute_matchingTag_companiesFound() {
+        // Filter by "supplier" tag - should find ALPHA and DELTA
+        FilterCommand command = new FilterCommand(
+                Optional.empty(), Collections.singletonList("supplier"));
+        expectedModel.updateFilteredCompanyList(
+                new FilterPredicate(Optional.empty(), Collections.singletonList("supplier")));
+        String expectedMessage = "2 companies listed!\nFiltered by tags containing: [supplier]";
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(ALPHA, DELTA), model.getFilteredCompanyList());
+    }
+
+    // Tests filtering by tag substring matching
+    @Test
+    public void execute_tagSubstringMatching_companiesFound() {
+        // Filter by "cli" - should match "client" tag in BETA
+        FilterCommand command = new FilterCommand(
+                Optional.empty(), Collections.singletonList("cli"));
+        expectedModel.updateFilteredCompanyList(
+                new FilterPredicate(Optional.empty(), Collections.singletonList("cli")));
+        String expectedMessage = "1 companies listed!\nFiltered by tags containing: [cli]";
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(BETA), model.getFilteredCompanyList());
+    }
+
+    // Tests filtering by multiple tags (AND logic)
+    @Test
+    public void execute_multipleTags_companiesWithAllTagsFound() {
+        // Filter by "client" AND "partner" - should find BETA only
+        FilterCommand command = new FilterCommand(
+                Optional.empty(), Arrays.asList("client", "partner"));
+        expectedModel.updateFilteredCompanyList(
+                new FilterPredicate(Optional.empty(), Arrays.asList("client", "partner")));
+        String expectedMessage = "1 companies listed!\nFiltered by tags containing: [client, partner]";
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(BETA), model.getFilteredCompanyList());
+    }
+
+    // Tests filtering by tag that doesn't match any company
+    @Test
+    public void execute_noMatchingTag_zeroFound() {
+        FilterCommand command = new FilterCommand(
+                Optional.empty(), Collections.singletonList("python"));
+        expectedModel.updateFilteredCompanyList(
+                new FilterPredicate(Optional.empty(), Collections.singletonList("python")));
+        String expectedMessage = "0 companies listed!\nFiltered by tags containing: [python]";
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Collections.emptyList(), model.getFilteredCompanyList());
+    }
+
+    // Tests combined status and tag filtering
+    @Test
+    public void execute_statusAndTag_companiesFound() {
+        // Filter by status "tech-interview" AND tag "client" - should find BETA
+        FilterCommand command = new FilterCommand(
+                Optional.of(new Status("tech-interview")), Collections.singletonList("client"));
+        expectedModel.updateFilteredCompanyList(
+                new FilterPredicate(Optional.of(new Status("tech-interview")),
+                        Collections.singletonList("client")));
+        String expectedMessage = "1 companies listed!\n"
+                + "Filtered by status: tech-interview and tags containing: [client]";
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(BETA), model.getFilteredCompanyList());
+    }
+
+    // Tests combined filtering with no matches
+    @Test
+    public void execute_statusAndTagNoMatch_zeroFound() {
+        // Filter by status "applied" AND tag "supplier" - CONS has applied but no supplier tag
+        FilterCommand command = new FilterCommand(
+                Optional.of(new Status("applied")), Collections.singletonList("supplier"));
+        expectedModel.updateFilteredCompanyList(
+                new FilterPredicate(Optional.of(new Status("applied")),
+                        Collections.singletonList("supplier")));
+        String expectedMessage = "0 companies listed!\nFiltered by status: applied and tags containing: [supplier]";
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Collections.emptyList(), model.getFilteredCompanyList());
+    }
+
+    // Tests case-insensitive tag matching
+    @Test
+    public void execute_caseInsensitiveTagMatch_success() {
+        // Filter by "SUPPLIER" (uppercase) - should match "supplier" tag
+        FilterCommand command = new FilterCommand(
+                Optional.empty(), Collections.singletonList("SUPPLIER"));
+        expectedModel.updateFilteredCompanyList(
+                new FilterPredicate(Optional.empty(), Collections.singletonList("SUPPLIER")));
+        String expectedMessage = "2 companies listed!\nFiltered by tags containing: [SUPPLIER]";
+        assertCommandSuccess(command, model, expectedMessage, expectedModel);
+        assertEquals(Arrays.asList(ALPHA, DELTA), model.getFilteredCompanyList());
     }
 }
