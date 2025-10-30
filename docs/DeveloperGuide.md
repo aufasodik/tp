@@ -183,6 +183,60 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Filter feature
+
+The filter feature allows users to filter companies by their application status. This is implemented through the `FilterCommand` class.
+
+#### Implementation
+
+The `FilterCommand` works as follows:
+
+1. The user executes `filter s/STATUS` (e.g., `filter s/in-process`)
+2. The `FilterCommandParser` parses the status parameter and creates a `FilterCommand` object
+3. The `FilterCommand` updates the filtered company list in the model using a predicate that matches companies with the specified status
+4. The UI automatically updates to display only companies matching the filter
+
+The supported status values are:
+* `to-apply` - Companies the user plans to apply to
+* `applied` - Applications that have been submitted
+* `oa` - Online assessment stage
+* `tech-interview` - Technical interview stage
+* `hr-interview` - HR interview stage
+* `in-process` - Applications currently in process
+* `offered` - Received an offer
+* `accepted` - Accepted an offer
+* `rejected` - Application rejected
+
+#### Design considerations
+
+**Aspect: How to implement filtering:**
+
+* **Alternative 1 (current choice):** Use a predicate to filter the ObservableList
+  * Pros: Simple to implement, leverages existing filtered list functionality
+  * Cons: Limited to single status filtering at a time
+
+* **Alternative 2:** Allow multiple status filters
+  * Pros: More flexible for users who want to see multiple statuses
+  * Cons: More complex parsing and predicate logic required
+
+### Metrics feature
+
+The metrics feature provides users with statistics about their internship applications. This is implemented through the `MetricsCommand` and `MetricsWindow` classes.
+
+#### Implementation
+
+The `MetricsCommand` works as follows:
+
+1. The user executes the `metrics` command
+2. The `MetricsCommand` returns a `CommandResult` with `showMetrics` flag set to true
+3. The `MainWindow` detects this flag and opens/focuses the `MetricsWindow`
+4. The `MetricsWindow` retrieves data from the address book and displays statistics about application statuses
+
+The metrics window shows:
+* Distribution of applications across different status categories
+* Total number of applications
+* Visual representation of application progress
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
