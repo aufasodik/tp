@@ -18,10 +18,14 @@ import javafx.scene.input.KeyEvent;
  * Captures Y/y and N/n as shortcuts. Returns true for Yes, false for No/close.
  */
 public final class ConfirmWindow {
-    private ConfirmWindow() {}
-
     private static final String THEME_CSS = "/view/DarkTheme.css";
 
+    private ConfirmWindow() {}
+
+    /**
+     * Shows a themed, modal confirmation dialog with actions
+     * “Continue (Y/y)” and “Cancel (N/n)”.
+     */
     public static boolean confirm(String title, String header, String content) {
         if (Platform.isFxApplicationThread()) {
             return showNow(title, header, content);
@@ -43,9 +47,10 @@ public final class ConfirmWindow {
         return answer.get();
     }
 
+    /** Internal helper that constructs and shows the confirmation on the JavaFX Application Thread. **/
     private static boolean showNow(String title, String header, String content) {
         ButtonType yes = new ButtonType("Continue (Y/y)", ButtonBar.ButtonData.OK_DONE);
-        ButtonType no  = new ButtonType("Cancel (N/n)",  ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType no = new ButtonType("Cancel (N/n)", ButtonBar.ButtonData.CANCEL_CLOSE);
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, content, yes, no);
         alert.setTitle(title);
@@ -53,8 +58,10 @@ public final class ConfirmWindow {
 
         // --- NEW: attach your app stylesheet + tag this dialog for scoped rules
         DialogPane pane = alert.getDialogPane();
-        String css = seedu.address.MainApp.class    // or MainWindow.class / any class in same classloader
-                .getResource("/view/DarkTheme.css") // adjust if your css file name differs
+        // or MainWindow.class / any class in same classloader
+        String css = seedu.address.MainApp.class
+                // adjust if your css file name differs
+                .getResource(THEME_CSS)
                 .toExternalForm();
         if (!pane.getStylesheets().contains(css)) {
             pane.getStylesheets().add(css);
@@ -63,7 +70,7 @@ public final class ConfirmWindow {
 
         // Style the real buttons
         Button yesBtn = (Button) pane.lookupButton(yes);
-        Button noBtn  = (Button) pane.lookupButton(no);
+        Button noBtn = (Button) pane.lookupButton(no);
         yesBtn.getStyleClass().addAll("pill-button", "pill-button-primary");
         noBtn.getStyleClass().addAll("pill-button", "pill-button-secondary");
         ButtonBar.setButtonUniformSize(yesBtn, false);
@@ -73,8 +80,15 @@ public final class ConfirmWindow {
 
         // Y/N shortcuts (kept)
         pane.getScene().addEventFilter(KeyEvent.KEY_PRESSED, e -> {
-            if (e.getCode() == KeyCode.Y) { alert.setResult(yes); alert.hide(); e.consume(); }
-            else if (e.getCode() == KeyCode.N) { alert.setResult(no); alert.hide(); e.consume(); }
+            if (e.getCode() == KeyCode.Y) {
+                alert.setResult(yes);
+                alert.hide();
+                e.consume();
+            } else if (e.getCode() == KeyCode.N) {
+                alert.setResult(no);
+                alert.hide();
+                e.consume();
+            }
         });
 
         Optional<ButtonType> result = alert.showAndWait();
