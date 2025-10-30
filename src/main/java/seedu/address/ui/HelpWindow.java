@@ -45,6 +45,13 @@ public class HelpWindow extends ClosableWindow {
                                     Examples:
                                     find Google
 
+                                filter [s/STATUS] [t/TAG]...
+                                    Filter companies by application status or tag.
+                                    Examples:
+                                    filter s/in-process
+                                    filter t/remote-friendly t/good-pay
+                                    filter s/applied t/tech
+
                                 delete INDEX [,INDEX]...
                                 delete START-END
                                     Delete one or more companies.
@@ -52,21 +59,6 @@ public class HelpWindow extends ClosableWindow {
                                     delete 2
                                     delete 1,3,5
                                     delete 2-4
-
-                                status INDEX s/STATUS
-                                    Update the application status for a company.
-                                    valid statuses: to-apply, applied, oa, tech-interview, hr-interview,
-                                                    in-process, offered, accepted, rejected
-                                    Examples:
-                                    status 1 s/tech-interview
-                                    status 3 s/rejected
-                                    status 5 s/offered
-
-                                remark
-                                    Add, edit, or delete remarks for a company.
-                                    Usage: remark INDEX r/[REMARK]
-                                    Examples:
-                                    remark 1 r/Great company culture
 
                                 clear
                                     Clear all companies from Cerebro (irreversible!).
