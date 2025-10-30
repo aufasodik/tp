@@ -39,10 +39,6 @@ public class HelpWindow extends ClosableWindow {
 
                                 * %s
 
-                                * metrics
-                                ---------
-                                View application status metrics.
-
                                 * %s
 
                                 * %s
@@ -56,6 +52,10 @@ public class HelpWindow extends ClosableWindow {
                                 * help
                                 ---------
                                 Display this help message.
+
+                                * metrics
+                                ---------
+                                View application status metrics.
 
                                 * exit
                                 ---------
