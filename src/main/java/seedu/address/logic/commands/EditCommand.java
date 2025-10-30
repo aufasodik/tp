@@ -41,26 +41,28 @@ public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the company identified "
-            + "by the index number used in the displayed company list. "
-            + "Existing values will be overwritten by the input values.\n"
-            + "Format: edit INDEX (must be a positive integer) "
-            + "[" + PREFIX_NAME + "NAME] "
-            + "[" + PREFIX_PHONE + "PHONE] "
-            + "[" + PREFIX_EMAIL + "EMAIL] "
-            + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_STATUS + "STATUS] "
-            + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example (single edit): " + COMMAND_WORD + " 1 "
-            + PREFIX_PHONE + "91234567 "
-            + PREFIX_EMAIL + "googlehr@gmail.com "
-            + PREFIX_STATUS + "applied\n"
-            + "Example (batch edit - allowed for all fields except Name): " + COMMAND_WORD + " 1,2,4-8 "
-            + PREFIX_PHONE + "91234567 "
-            + PREFIX_EMAIL + "googlehr@gmail.com "
-            + PREFIX_ADDRESS + "70 Pasir Panjang Rd, #03-71 Mapletree Business City II, Singapore 117371 "
-            + PREFIX_STATUS + "applied "
-            + PREFIX_TAG + "FAANG";
+    public static final String MESSAGE_USAGE = String.format("""
+            %1$s <INDEX|START-END> [,INDEX]... [,START-END]... [%2$sNAME] \
+            [%3$sPHONE] [%4$sEMAIL] [%5$sADDRESS] [%6$sSTATUS] \
+            [%7$sTAG]...
+            ---------
+            Edits the details of the company identified by the \
+            index number used in the currently displayed company list.
+            Existing values will be overwritten by the input values.
+            ---------
+            Examples:
+            %1$s 1 %3$s91234567 %4$sgooglehr@gmail.com %6$sapplied
+            %1$s 1,2,4-8 %3$s91234567 %4$sgooglehr@gmail.com
+            %5$s70 Pasir Panjang Rd, #03-71 Mapletree Business \
+            City II, Singapore 117371 %6$sapplied %7$sFAANG
+            """,
+            COMMAND_WORD,
+            PREFIX_NAME,
+            PREFIX_PHONE,
+            PREFIX_EMAIL,
+            PREFIX_ADDRESS,
+            PREFIX_STATUS,
+            PREFIX_TAG);
 
     public static final String MESSAGE_EDIT_SUCCESS_SINGLE = "Edited 1 company successfully";
     public static final String MESSAGE_EDIT_SUCCESS_MULTIPLE = "Edited %1$d companies successfully";
