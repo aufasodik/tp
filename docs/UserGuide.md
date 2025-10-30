@@ -122,8 +122,11 @@ All operations are permanent! No undo available.
     * `accepted` - Offer accepted
     * `rejected` - Application rejected
 * **Tag:** distinguishing information.
-  * Must be hyphenated and within 30 characters.
+  * Quick, categorical descriptors of a company or role
+  * Separate words with hyphens instead of spaces, e.g. `remote-work` instead of `remote work`
+  * Must be within 30 characters
 * **Remark:** additional information
+  * Open-ended detailed, detailed notes like "Met the recruiter at a career fair"
 
 ## Commands
 
@@ -171,8 +174,8 @@ Finds companies by name keywords. Case-insensitive, lists all companies that **c
 
 **Examples:**
 
-* `find go` → `Google Inc`, `Google Singapore`, `Golden Logistics`
-* `find digital pacific` → `Digital Innovations Hub`, `Pacific Trading Co`
+* `find Google TikTok` → `Google Inc`, `Google Singapore`, `TikTok`
+* `find goOgl iktO` → `Google Inc`, `Google Singapore`, `TikTok`
 
 **Result for `find digital pacific`:**
 
@@ -180,7 +183,7 @@ Finds companies by name keywords. Case-insensitive, lists all companies that **c
 
 ### Viewing companies metrics: `metrics`
 
-Displays metrics for the distribution of internship application status for companies on record.
+Displays a summary of how your internship applications are distributed across different statuses (e.g., Applied, Offered, Rejected) for all companies you’ve added.
 
 **Result for `metrics`:**
 
@@ -199,7 +202,7 @@ Adds a company to Cerebro.
 <div markdown="block" class="alert alert-success">
 **Usage:**
 * **Required:** Company name only
-* **Optional:** All other fields (auto-filled with placeholders if empty)
+* **Optional:** All other fields
 * **Default status:** `to-apply`
 * **Tags:** Multiple allowed
 </div>
@@ -239,7 +242,11 @@ Edited 3 companies (indices 2, 3, 4) - Status updated to applied
 
 * Edits multiple companies at once with the same changes
 * **Comma-Separated:** `edit INDEX,INDEX,INDEX` - Separate specific indices with commas (no spaces)
-* **Range:** `edit START-END` - Edits all companies from START to END index (inclusive)
+* **Range:** `edit START-END` - Edits all companies from `START` to `END` index (inclusive)
+  * the `START` index must be <= the `END` index:
+  * 3-6: edits companies 3,4,5,6
+  * 3-3: edits company 3
+  * 6-3: NOT ALLOWED
 * Must have at least 1 field to edit
 * Can only edit tags, status, or remarks for batch editing
 * Useful for updating status or tags for multiple companies simultaneously
@@ -248,8 +255,10 @@ Edited 3 companies (indices 2, 3, 4) - Status updated to applied
 ```
 Edited Company 3 - All tags cleared
 ```
+<div markdown="span" class="alert alert-danger">:exclamation: **Caution:** edits will replace existing fields, including replacing all existing tags.
+</div>
 
-**Batch edit in action:** `edit 1,3,5 s/rejected`
+**Batch edit in action:** `edit 1,3 s/accepted`
 
 <img src="images/BatchEditResult.png" alt="Batch edit" width="400"/>
 
@@ -288,6 +297,7 @@ Examples:
 * `delete 2-4` - Deletes companies at indices 2, 3, and 4
 * `list` followed by `delete 2` - Deletes the 2nd company in the full list
 * `find Google` followed by `delete 1` - Deletes the 1st company in the filtered results
+* `filter applied` followed by `delete 1` - Deletes the 1st company in the filtered results of companies with status `applied`
 
 ### Clearing all entries : `clear`
 
@@ -314,8 +324,8 @@ Cerebro data is saved in the hard disk automatically after any command that chan
 Cerebro data is saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file make its format invalid, Cerebro will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause Cerebro to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file make its format invalid, **Cerebro will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.**
+<br>Furthermore, certain edits can cause Cerebro to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
 ### Upcoming Features
@@ -327,22 +337,22 @@ Furthermore, certain edits can cause Cerebro to behave in unexpected ways (e.g.,
 
 ## FAQ
 
-**Q**: What happens if I add a company with the same name?<br>
+**Q: What happens if I add a company with the same name?**  
 **A**: Company names must be unique (case-insensitive). Cerebro rejects duplicates and shows an error message.
 
-**Q**: How do I track multiple roles at the same company?<br>
+**Q: How do I track multiple roles at the same company?**  
 **A**: Use tags to differentiate positions (`add n/Google SWE` vs `add n/Google PM`) or add role details in remarks.
 
-**Q**: Can I undo a delete or clear operation?<br>
+**Q: Can I undo a delete or clear operation?** 
 **A**: No, deletions are permanent. Restore from backup by copying your `addressbook.json` file back to the data folder before restarting.
 
-**Q**: How do I transfer my data to another computer?<br>
+**Q: How do I transfer my data to another computer?**  
 **A**: Install Cerebro on the new computer, then overwrite the empty data file with your existing `[JAR location]/data/addressbook.json`.
 
-**Q**: Can I edit the JSON file directly?<br>
+**Q: Can I edit the JSON file directly?**  
 **A**: Yes, advanced users can edit `addressbook.json` directly. **Always backup first** - invalid format will cause Cerebro to discard all data.
 
-**Q**: How do I regenerate the dummy data?<br>
+**Q: How do I regenerate the dummy data?**  
 **A**: Delete the `/data` folder, then run the app again. **Make sure to backup any important information first!**
 
 --------------------------------------------------------------------------------------------------------------------
