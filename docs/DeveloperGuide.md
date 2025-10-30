@@ -121,6 +121,18 @@ How the parsing works:
 * When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
+The following commands are currently supported:
+* `AddCommand` - Adds a company to the address book
+* `EditCommand` - Edits an existing company's details
+* `DeleteCommand` - Deletes a company from the address book
+* `FindCommand` - Finds companies by name keywords
+* `FilterCommand` - Filters companies by status
+* `ListCommand` - Lists all companies
+* `ClearCommand` - Clears all companies from the address book
+* `MetricsCommand` - Displays statistics about the companies
+* `HelpCommand` - Shows help information
+* `ExitCommand` - Exits the application
+
 ### Model component
 **API** : [`Model.java`](https://github.com/AY2526S1-CS2103T-F08a-1/tp/tree/master/src/main/java/seedu/address/model/Model.java)
 
