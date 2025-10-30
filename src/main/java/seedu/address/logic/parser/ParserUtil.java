@@ -121,6 +121,10 @@ public class ParserUtil {
         if (!Tag.isValidTagName(trimmedTag)) {
             throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
         }
+        if (!Tag.isValidTagLength(trimmedTag)) {
+            throw new ParseException(String.format(Tag.MESSAGE_LENGTH_EXCEEDED_FORMAT,
+                    Tag.MAX_TAG_LENGTH, trimmedTag, Tag.MAX_TAG_LENGTH, trimmedTag.length()));
+        }
         return new Tag(trimmedTag);
     }
 
@@ -145,6 +149,9 @@ public class ParserUtil {
     public static Remark parseRemark(String remark) throws ParseException {
         requireNonNull(remark);
         String trimmedRemark = remark.trim();
+        if (!Remark.isValidRemark(trimmedRemark)) {
+            throw new ParseException(Remark.MESSAGE_CONSTRAINTS);
+        }
         return new Remark(trimmedRemark);
     }
 

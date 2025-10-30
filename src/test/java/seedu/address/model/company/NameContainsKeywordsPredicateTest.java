@@ -41,7 +41,7 @@ public class NameContainsKeywordsPredicateTest {
 
     @Test
     public void test_nameContainsKeywords_returnsTrue() {
-        // One keyword
+        // One keyword - exact word match
         NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Collections.singletonList("Alice"));
         assertTrue(predicate.test(new CompanyBuilder().withName("Alice Bob").build()));
 
@@ -56,6 +56,27 @@ public class NameContainsKeywordsPredicateTest {
         // Mixed-case keywords
         predicate = new NameContainsKeywordsPredicate(Arrays.asList("aLIce", "bOB"));
         assertTrue(predicate.test(new CompanyBuilder().withName("Alice Bob").build()));
+
+        // Substring matching - partial word
+        predicate = new NameContainsKeywordsPredicate(Collections.singletonList("lic"));
+        assertTrue(predicate.test(new CompanyBuilder().withName("Alice").build()));
+
+        // Substring matching - beginning of word
+        predicate = new NameContainsKeywordsPredicate(Collections.singletonList("Ali"));
+        assertTrue(predicate.test(new CompanyBuilder().withName("Alice").build()));
+
+        // Substring matching - end of word
+        predicate = new NameContainsKeywordsPredicate(Collections.singletonList("ice"));
+        assertTrue(predicate.test(new CompanyBuilder().withName("Alice").build()));
+
+        // Substring matching with multiple keywords (OR logic)
+        predicate = new NameContainsKeywordsPredicate(Arrays.asList("oog", "eta"));
+        assertTrue(predicate.test(new CompanyBuilder().withName("Google").build())); // matches "oog"
+        assertTrue(predicate.test(new CompanyBuilder().withName("Meta").build())); // matches "eta"
+
+        // Case insensitive substring matching
+        predicate = new NameContainsKeywordsPredicate(Collections.singletonList("OOG"));
+        assertTrue(predicate.test(new CompanyBuilder().withName("Google").build()));
     }
 
     @Test
@@ -72,6 +93,14 @@ public class NameContainsKeywordsPredicateTest {
         predicate = new NameContainsKeywordsPredicate(Arrays.asList("12345", "alice@email.com", "Main", "Street"));
         assertFalse(predicate.test(new CompanyBuilder().withName("Alice").withPhone("12345")
                 .withEmail("alice@email.com").withAddress("Main Street").build()));
+
+        // Substring not found
+        predicate = new NameContainsKeywordsPredicate(Collections.singletonList("xyz"));
+        assertFalse(predicate.test(new CompanyBuilder().withName("Alice Bob").build()));
+
+        // Multiple non-matching substrings
+        predicate = new NameContainsKeywordsPredicate(Arrays.asList("xyz", "qwe"));
+        assertFalse(predicate.test(new CompanyBuilder().withName("Google").build()));
     }
 
     @Test

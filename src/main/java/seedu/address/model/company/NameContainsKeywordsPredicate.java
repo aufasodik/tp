@@ -3,11 +3,11 @@ package seedu.address.model.company;
 import java.util.List;
 import java.util.function.Predicate;
 
-import seedu.address.commons.util.StringUtil;
 import seedu.address.commons.util.ToStringBuilder;
 
 /**
- * Tests that a {@code Company}'s {@code Name} matches any of the keywords given.
+ * Tests that a {@code Company}'s {@code Name} contains any of the keywords given as substrings.
+ * Keyword matching is case insensitive.
  */
 public class NameContainsKeywordsPredicate implements Predicate<Company> {
     private final List<String> keywords;
@@ -19,7 +19,8 @@ public class NameContainsKeywordsPredicate implements Predicate<Company> {
     @Override
     public boolean test(Company company) {
         return keywords.stream()
-                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(company.getName().fullName, keyword));
+                .anyMatch(keyword -> company.getName().fullName.toLowerCase()
+                        .contains(keyword.toLowerCase()));
     }
 
     @Override

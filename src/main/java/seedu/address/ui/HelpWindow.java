@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import java.util.logging.Logger;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,7 +15,7 @@ import seedu.address.commons.core.LogsCenter;
 /**
  * Controller for a help page
  */
-public class HelpWindow extends UiPart<Stage> {
+public class HelpWindow extends ClosableWindow {
 
     public static final String USERGUIDE_URL = "https://nus-cs2103-ay2526s1.github.io/tp/UserGuide.html";
     public static final String HELP_MESSAGE = "Refer to the full user guide at: " + USERGUIDE_URL;
@@ -69,6 +70,9 @@ public class HelpWindow extends UiPart<Stage> {
 
                                 clear
                                     Clear all companies from Cerebro (irreversible!).
+
+                                metrics
+                                    View application status metrics.
 
                                 help
                                     Display this help message.
@@ -130,6 +134,12 @@ public class HelpWindow extends UiPart<Stage> {
         logger.fine("Showing help page about the application.");
         getRoot().show();
         getRoot().centerOnScreen();
+
+        Platform.runLater(() -> {
+            if (getRoot().getScene() != null && getRoot().getScene().getRoot() != null) {
+                getRoot().getScene().getRoot().requestFocus();
+            }
+        });
     }
 
     /**

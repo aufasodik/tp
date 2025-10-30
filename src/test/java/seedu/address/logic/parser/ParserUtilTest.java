@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.IndexParser.MESSAGE_DUPLICATE_INDICES;
 import static seedu.address.logic.parser.IndexParser.MESSAGE_INVALID_INDEX;
 import static seedu.address.logic.parser.IndexParser.MESSAGE_INVALID_INDICES;
+import static seedu.address.model.tag.Tag.MAX_TAG_LENGTH;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_COMPANY;
 
@@ -31,6 +32,8 @@ public class ParserUtilTest {
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
+    private static final String INVALID_TAG_EMPTY = "";
+    private static final String INVALID_TAG_TOO_LONG = "a".repeat(MAX_TAG_LENGTH + 1); // exceeds the character limit
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
@@ -261,8 +264,18 @@ public class ParserUtilTest {
     }
 
     @Test
+    public void parseTag_whitespaceOnly_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseTag(INVALID_TAG_EMPTY));
+    }
+
+    @Test
     public void parseTag_invalidValue_throwsParseException() {
         assertThrows(ParseException.class, () -> ParserUtil.parseTag(INVALID_TAG));
+    }
+
+    @Test
+    public void parseTag_tagTooLong_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseTag(INVALID_TAG_TOO_LONG));
     }
 
     @Test
@@ -299,5 +312,14 @@ public class ParserUtilTest {
         Set<Tag> expectedTagSet = new HashSet<Tag>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
 
         assertEquals(expectedTagSet, actualTagSet);
+    }
+
+    @Test
+    public void parseRemark_invalidRemark_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseRemark(" ")); // white space
+        assertThrows(ParseException.class, () -> ParserUtil.parseRemark("")); // empty
+        // Edit can still clear remarks by using white space or empty, as it bypasses isValidRemark check as a special
+        // case by creating a Remark(null) object. However, "add n/co r/ " and "add n/co r/" will not be allowed
+        // as it makes no sense to specify remark upon creation, but not add any remark.
     }
 }
