@@ -3,7 +3,6 @@ package seedu.address.logic.parser;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -123,9 +122,9 @@ public class ArgumentTokenizer {
         String value = argsString.substring(valueStartPos, nextPrefixPosition.getStartPosition());
 
         // Remove backslashes escaping valid prefixes throughout the argsString
-        value = value.replaceAll("\\\\(?=\\w+/)", "");
-
-        Logger.getGlobal().info("Arguments string after removing escape characters: " + value);
+        //TODO: Probably should refactor this to avoid hardcoding the valid prefixes in multiple places
+        String validPrefixesPattern = "n/|p/|e/|a/|t/|r/|s/";
+        value = value.replaceAll("\\\\(?=" + validPrefixesPattern + ")", "");
 
         return value.trim();
     }
