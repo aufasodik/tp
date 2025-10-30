@@ -351,20 +351,16 @@ If your changes to the data file make its format invalid, **Cerebro will discard
 Action | Format | Examples
 --------|--------|----------
 **[List](#listing-all-companies--list)** | `list` | `list`
-**[Filter](#filtering-companies-by-status-filter)** | `filter s/STATUS` | `filter s/accepted`
-**[Find](#locating-companies-by-name-find)** | `find KEYWORD [MORE_KEYWORDS]` | `find Google Meta`
+**[Filter](#filtering-companies-by-status-filter)** | `filter <s/STATUS|t/TAG> [t/TAG]...` | `filter s/accepted`
+**[Find](#locating-companies-by-name-find)** | `find SUBSTRING [SUBSTRING]...` | `find Google Meta`
 
 ### Action Commands
 
 Action | Format | Examples
 --------|--------|----------
-**[Add](#adding-a-company-add)** | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `add n/Google Inc`<br>`add n/Meta p/65432100 e/careers@meta.com`<br>`add n/Apple r/Great benefits s/applied`
-**[Edit (Single)](#editing-a-company--edit)** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `edit 2 n/Meta Platforms s/offered`
-**[Edit (Comma-Separated)](#editing-a-company--edit)** | `edit INDEX,INDEX,INDEX [fields]` | `edit 1,3,5 s/rejected`
-**[Edit (Range)](#editing-a-company--edit)** | `edit START-END [fields]` | `edit 2-4 s/applied t/tech`
-**[Delete (Single)](#deleting-a-company--delete)** | `delete INDEX` | `delete 3`
-**[Delete (Comma-Separated)](#deleting-a-company--delete)** | `delete INDEX [MORE_INDICES]` | `delete 1 3 5`
-**[Delete (Range)](#deleting-a-company--delete)** | `delete START-END` | `delete 2-4`
+**[Add](#adding-a-company-add)** | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `add n/Google Inc`,<br>`add n/Meta p/65432100 e/careers@meta.com`,<br>`add n/Apple r/Great benefits s/applied`
+**[Edit](#editing-a-company--edit)** | `edit <INDEX|START-END> [INDEX]... [START-END]... [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]…​` | `edit 1 p/91234567 e/googlehr@gmail.com s/applied`, `edit 1,2,4-8 p/91234567 e/googlehr@gmail.com a/70 Pasir Panjang Rd, #03-71 Mapletree Business City II, Singapore 117371 s/applied t/FAANG`
+**[Delete (Single)](#deleting-a-company--delete)** | `delete  <INDEX|START-END> [INDEX]... [START-END]...` | `delete 3`, `delete 1,3,5-8`
 **[Clear](#clearing-all-entries--clear)** | `clear` | `clear`
 
 ### Other Commands
