@@ -17,11 +17,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.company.Address;
@@ -52,39 +53,29 @@ public class EditCommand extends Command {
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example (single edit): " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
-            + PREFIX_EMAIL + "johndoe@example.com\n"
-            + "Example (batch edit - for tags, status, remarks only): " + COMMAND_WORD + " 1,2,3 OR "
-            + COMMAND_WORD + " 1-3 OR " + COMMAND_WORD + " 1,3-6\n";
+            + PREFIX_EMAIL + "googlehr@gmail.com "
+            + PREFIX_STATUS + "applied\n"
+            + "Example (batch edit - allowed for all fields except Name): " + COMMAND_WORD + " 1,2,4-8 "
+            + PREFIX_PHONE + "91234567 "
+            + PREFIX_EMAIL + "googlehr@gmail.com "
+            + PREFIX_ADDRESS + "70 Pasir Panjang Rd, #03-71 Mapletree Business City II, Singapore 117371 "
+            + PREFIX_STATUS + "applied "
+            + PREFIX_TAG + "FAANG";
 
-    public static final String MESSAGE_EDIT_COMPANY_SUCCESS = "Edited Company: %1$s";
-    public static final String MESSAGE_BATCH_EDIT_SUCCESS = "Edited %1$d companies successfully";
+    public static final String MESSAGE_EDIT_SUCCESS = "Edited %1$d companies successfully";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_COMPANY = "This company already exists in the address book.";
-    public static final String MESSAGE_BATCH_EDIT_FOR_TAGS_REMARK_ONLY =
-            "Batch editing is only allowed for tags, remarks and status.";
+    public static final String MESSAGE_MISSING_INDEX = "Invalid format: missing index.\n" + MESSAGE_USAGE;
+    public static final String MESSAGE_INVALID_BATCH_EDIT_FIELD =
+            "Batch editing is not allowed for Name as duplicate company entries are not allowed.";
 
-    private final Index index;
+    private static final Logger logger = LogsCenter.getLogger(EditCommand.class);
+
     private final List<Index> indices;
     private final EditCompanyDescriptor editCompanyDescriptor;
 
     /**
-     * Creates an EditCommand to edit a single company.
-     *
-     * @param index of the company in the filtered company list to edit
-     * @param editCompanyDescriptor details to edit the company with
-     */
-    public EditCommand(Index index, EditCompanyDescriptor editCompanyDescriptor) {
-        requireNonNull(index);
-        requireNonNull(editCompanyDescriptor);
-
-        this.index = index;
-        this.indices = null;
-        this.editCompanyDescriptor = new EditCompanyDescriptor(editCompanyDescriptor);
-    }
-
-    /**
-     * Creates an EditCommand to edit multiple companies in batch.
-     * All indices must be valid and within range before calling this constructor.
+     * Creates an EditCommand to edit companies (single or batch).
      *
      * @param indices list of indices of companies in the filtered company list to edit
      * @param editCompanyDescriptor details to edit the companies with
@@ -94,7 +85,6 @@ public class EditCommand extends Command {
         requireNonNull(editCompanyDescriptor);
         assert !indices.isEmpty() : "Indices list cannot be empty";
 
-        this.index = null;
         this.indices = new ArrayList<>(indices);
         this.editCompanyDescriptor = new EditCompanyDescriptor(editCompanyDescriptor);
     }
@@ -102,11 +92,14 @@ public class EditCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        assert editCompanyDescriptor.isAnyFieldEdited() : "Command should not execute with no fields to edit";
 
-        if (indices != null) {
-            return executeBatchEdit(model);
-        } else {
+        if (indices.size() == 1) {
+            logger.info("Executing single company edit for index: " + indices.get(0).getOneBased());
             return executeSingleEdit(model);
+        } else {
+            logger.info(String.format("Executing batch edit for %d companies", indices.size()));
+            return executeBatchEdit(model);
         }
     }
 
@@ -119,22 +112,15 @@ public class EditCommand extends Command {
      */
     private CommandResult executeSingleEdit(Model model) throws CommandException {
         List<Company> lastShownList = model.getFilteredCompanyList();
-
-        if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(String.format(MESSAGE_INDEX_OUT_OF_RANGE,
-                    index.getOneBased(), lastShownList.size()));
-        }
-
-        Company companyToEdit = lastShownList.get(index.getZeroBased());
+        validateIndicesRange(lastShownList.size());
+        validateNoDuplicateCompanies(model, lastShownList);
+        Index singleIndex = indices.get(0);
+        Company companyToEdit = lastShownList.get(singleIndex.getZeroBased());
         Company editedCompany = createEditedCompany(companyToEdit, editCompanyDescriptor);
-
-        if (!companyToEdit.isSameCompany(editedCompany) && model.hasCompany(editedCompany)) {
-            throw new CommandException(MESSAGE_DUPLICATE_COMPANY);
-        }
 
         model.setCompany(companyToEdit, editedCompany);
         model.updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
-        return new CommandResult(String.format(MESSAGE_EDIT_COMPANY_SUCCESS, Messages.format(editedCompany)));
+        return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, indices.size()));
     }
 
     /**
@@ -151,11 +137,11 @@ public class EditCommand extends Command {
         // Validate all indices are within range with informative error
         validateIndicesRange(lastShownList.size());
 
+        // Validate that editing in batch is allowed for all fields except name
+        validateBatchEditFieldsAllowed();
+
         // Validate that editing won't create duplicate companies
         validateNoDuplicateCompanies(model, lastShownList);
-
-        // Validate that editing in batch is only allowed for tags and remarks
-        validateIsTagsAndRemarksOnly();
 
         // All validations passed - perform batch edit
         for (Index index : indices) {
@@ -165,7 +151,7 @@ public class EditCommand extends Command {
         }
 
         model.updateFilteredCompanyList(PREDICATE_SHOW_ALL_COMPANIES);
-        return new CommandResult(String.format(MESSAGE_BATCH_EDIT_SUCCESS, indices.size()));
+        return new CommandResult(String.format(MESSAGE_EDIT_SUCCESS, indices.size()));
     }
 
     /**
@@ -206,9 +192,9 @@ public class EditCommand extends Command {
      *
      * @throws CommandException if a batch edit edits name, phone, email, address
      */
-    private void validateIsTagsAndRemarksOnly() throws CommandException {
-        if (!editCompanyDescriptor.isTagsAndRemarksOnly()) {
-            throw new CommandException(MESSAGE_BATCH_EDIT_FOR_TAGS_REMARK_ONLY);
+    private void validateBatchEditFieldsAllowed() throws CommandException {
+        if (!editCompanyDescriptor.isNotName()) {
+            throw new CommandException(MESSAGE_INVALID_BATCH_EDIT_FIELD);
         }
     }
 
@@ -217,7 +203,8 @@ public class EditCommand extends Command {
      * edited with {@code editCompanyDescriptor}.
      */
     private static Company createEditedCompany(Company companyToEdit, EditCompanyDescriptor editCompanyDescriptor) {
-        assert companyToEdit != null;
+        assert companyToEdit != null : "Company to edit cannot be null";
+        assert editCompanyDescriptor != null : "Edit descriptor cannot be null";
 
         Name updatedName = editCompanyDescriptor.getName().orElse(companyToEdit.getName());
         Phone updatedPhone = editCompanyDescriptor.getPhone().orElse(companyToEdit.getPhone());
@@ -243,15 +230,13 @@ public class EditCommand extends Command {
         }
 
         EditCommand otherEditCommand = (EditCommand) other;
-        return Objects.equals(index, otherEditCommand.index)
-                && Objects.equals(indices, otherEditCommand.indices)
+        return Objects.equals(indices, otherEditCommand.indices)
                 && editCompanyDescriptor.equals(otherEditCommand.editCompanyDescriptor);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("index", index)
                 .add("indices", indices)
                 .add("editCompanyDescriptor", editCompanyDescriptor)
                 .toString();
@@ -296,8 +281,8 @@ public class EditCommand extends Command {
         /**
          * Returns true if name, phone, email and address are not edited.
          */
-        public boolean isTagsAndRemarksOnly() {
-            return !CollectionUtil.isAnyNonNull(name, phone, email, address);
+        public boolean isNotName() {
+            return !CollectionUtil.isAnyNonNull(name);
         }
 
         public void setName(Name name) {

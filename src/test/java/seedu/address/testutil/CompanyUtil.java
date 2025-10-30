@@ -46,7 +46,7 @@ public class CompanyUtil {
             s -> sb.append(PREFIX_TAG + s.tagName + " ")
         );
         if (company.getRemark().value != null) {
-            sb.append(PREFIX_REMARK + company.getAddress().value + " ");
+            sb.append(PREFIX_REMARK + company.getRemark().value + " ");
         }
         sb.append(PREFIX_STATUS + company.getStatus().toUserInputString() + " ");
         return sb.toString();
