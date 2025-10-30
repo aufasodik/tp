@@ -12,7 +12,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Window;
 
 /**
  * Small helper to synchronously show a Yes/No confirmation dialog from any thread.
