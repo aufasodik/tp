@@ -19,6 +19,8 @@ title: User Guide
 
 * **[Table of Contents](#table-of-contents)** - Full table of contents
 * **[Quick Start](#quick-start)** - Installation and first commands
+* **[CLI Tutorial](#cli-tutorial)** - Command format and important information
+* **[Company Fields](#company-fields)** - Summary of fields available a Company and their valid values
 * **[Commands](#Commands)** - Complete command reference
 * **[FAQ](#faq)** - Common questions and troubleshooting
 * **[Command Summary](#command-summary)** - Quick reference table
@@ -98,37 +100,22 @@ All operations are permanent! No undo available.
 ---
 
 ## Company Fields
-* **Name:** name of the company
-  * Names should only contain alphanumeric characters and spaces, and it should not be blank.
-* **Phone:** contact number of company contact
-  * Phone numbers must have at least 3 digits, may start with `+`, and may contain single spaces between digits (e.g., '98765432', '+65 9123 4567').
-* **Email:** email address of company contact
-  * Emails should be of the format local-part@domain and adhere to the following constraints:
-    1. The local-part should only contain alphanumeric characters and these special characters: `+_.-`. The local-part may not start or end with any special characters.
-    2. This is followed by a `@` and then a domain name. The domain name is made up of domain labels separated by periods. The domain name must:
-        - end with a domain label at least 2 characters long
-        - have each domain label start and end with alphanumeric characters
-        - have each domain label consist of alphanumeric characters, separated only by hyphens, if any.
-* **Address:** address of company office
-* **Status:** status of interview
-  * Valid **Status** values:
-    * `to-apply` - Not yet applied (default for new entries)
-    * `applied` - Application submitted
-    * `oa` - Online Assessment stage
-    * `tech-interview` - Technical interview scheduled/in progress
-    * `hr-interview` - HR/behavioral interview
-    * `in-process` - General process stage
-    * `offered` - Internship offer received
-    * `accepted` - Offer accepted
-    * `rejected` - Application rejected
-* **Tag:** distinguishing information.
-  * Quick, categorical descriptors of a company or role
-  * Separate words with hyphens instead of spaces, e.g. `remote-work` instead of `remote work`
-  * Must be within 30 characters
-* **Remark:** additional information
-  * Open-ended detailed, detailed notes like "Met the recruiter at a career fair"
+
+| Field      | Requirements                                                                                                     | Valid Examples                     | Invalid Examples                  |
+|------------|-----------------------------------------------------------------------------------------------------------------|-------------------------------------|------------------------------------|
+| **Name**   | Only alphanumeric characters and spaces, cannot be blank                                                        | `Google`, `Meta Inc`               | `@Google`, `Meta!`, `""` (blank)          |
+| **Phone**  | At least 3 digits, may start with `+`, may contain single spaces between digits                                  | `98765432`, <br>`+65 9123 4567`        | `12`, `+65 9123  4567`,<br>`91+234567`            |
+| **Email**  | Format: local-part@domain. Local-part: alphanumeric + `+_.-`, no special chars at start/end. Domain: valid labels | `john.doe@example.com`             | `john..doe@example.com`, `@test`  |
+| **Address**| Free text                                                                                                       | `123 Main St, #01-01`              | -                                  |
+| **Status** | One of: `to-apply`, `applied`, `oa`, `tech-interview`, `hr-interview`, `in-process`, `offered`, `accepted`, `rejected` | `applied`, `offered`               | `pending`, `done`                 |
+| **Tag**    | Max 30 characters, hyphen-separated words. Case-insensitive.                                                            | `remote-work`, `tech-role`, `GreAT-loCaTion`         | `remote work`, `this-is-way-too-long-for-a-tag` |
+| **Remark** | Free text                                                                                                       | `Met at career fair`               | -                                  |
 
 ## Commands
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+Make sure you familiarise yourself with the [command format](#cli-tutorial) used in this User Guide first!
+</div>
 
 ### Viewing help : `help`
 
