@@ -137,11 +137,23 @@ Shows a list of all companies in Cerebro.
 
 ### Filtering companies by status and/or tag: `filter`
 
-Finds companies by status and/or tag values. Case-insensitive, lists all companies that **matches** the status.
+Finds companies by status and/or tag values. Case-insensitive, lists all companies that **matches** the status AND **matches** **any** of the tags as substrings.
 
-**Format:** `filter s/STATUS`
+**Format:** `filter <s/STATUS|t/TAG> [t/TAG]…`
 
-**Result for `filter`:**
+<div markdown="block" class="alert alert-success">
+**Usage:**
+* **Required:** At least one criteria
+* **Optional:** status criteria and additional tag critera
+* **Statuses:** matched by exact match
+* **Tags:** Multiple allowed, matched by substring
+</div>
+
+**Examples:**
+
+`filter s/in-process`,<br>`filter t/remote-friendly t/good-pay`,<br>`filter s/applied t/tech`
+
+**Result for `filter s/applied t/cl t/og`:**
 
 <img src="images/FilterAcceptedResult.png" alt="result for 'filter accepted" width="450"/>
 
@@ -194,7 +206,7 @@ Adds a company to Cerebro.
 * **Tags:** Multiple allowed
 </div>
 
-Examples:
+**Examples:**
 
 * `add n/Google Inc` - Creates entry with just the name and placeholder values for other fields
 * `add n/Meta e/careers@meta.com s/applied` - Adds name, email, and status only
@@ -217,7 +229,11 @@ Edits an existing company in Cerebro. Supports single edit and batch edit.
 Edited Company 1: Phone: 91234567; Email: careers@google.com; …
 ```
 
-**Comma:** `edit 1, 3, 5 s/rejected` (status/remarks/tags only, spaces OK but no trailing comma)
+**Comma:** `edit 1, 3, 5 s/rejected`
+<div markdown="block" class="alert alert-success">
+ * **batch edit fields:** status/remarks/tags only
+ * **batch edit indices:** spaces OK but no trailing comma
+</div>
 ```
 Edited 3 companies (indices 1, 3, 5) - Status updated to rejected
 ```
@@ -226,7 +242,7 @@ Edited 3 companies (indices 1, 3, 5) - Status updated to rejected
 ```
 Edited 3 companies (indices 2, 3, 4) - Status updated to applied
 ```
-
+<div markdown="block" class="alert alert-success">
 * Edits multiple companies at once with the same changes
 * **Comma-Separated:** `edit INDEX,INDEX,INDEX` - Separate specific indices with commas (no spaces)
 * **Range:** `edit START-END` - Edits all companies from `START` to `END` index (inclusive)
@@ -237,8 +253,9 @@ Edited 3 companies (indices 2, 3, 4) - Status updated to applied
 * Must have at least 1 field to edit
 * Can only edit tags, status, or remarks for batch editing
 * Useful for updating status or tags for multiple companies simultaneously
+</div>
 
-**Clear tags:** `edit 3 t/` (tags replaced, not cumulative)
+**Clear tags:** `edit 3 t/`
 ```
 Edited Company 3 - All tags cleared
 ```
@@ -264,6 +281,7 @@ Deletes one or more companies from Cerebro. Supports single deletion, batch dele
 
 **Format:** `delete <INDEX|START-END> [INDEX]… [START-END]…`
 
+<div markdown="block" class="alert alert-success">
 * Deletes the company(ies) at the specified index/indices
 * The index refers to the index number shown in the displayed company list
 * The index **must be a positive integer** 1, 2, 3, …​
@@ -272,6 +290,7 @@ Deletes one or more companies from Cerebro. Supports single deletion, batch dele
 * **Range deletion:** `delete START-END` - Deletes all companies from START to END index (inclusive)
 * Duplicate indices are ignored (first occurrence kept)
 * All specified companies are deleted in a single operation
+</div>
 
 <div markdown="span" class="alert alert-danger">:exclamation: **Caution:**
 This action cannot be undone! Company data will be permanently deleted.
@@ -351,7 +370,7 @@ If your changes to the data file make its format invalid, **Cerebro will discard
 Action | Format | Examples
 --------|--------|----------
 **[List](#listing-all-companies--list)** | `list` | `list`
-**[Filter](#filtering-companies-by-status-filter)** | `filter <s/STATUS|t/TAG> [t/TAG]…` | `filter s/accepted`
+**[Filter](#filtering-companies-by-status-andor-tag-filter)** | `filter <s/STATUS|t/TAG> [t/TAG]…` | `filter s/in-process`,<br>`filter t/remote-friendly t/good-pay`,<br>`filter s/applied t/tech`
 **[Find](#locating-companies-by-name-find)** | `find SUBSTRING [SUBSTRING]…` | `find Google Meta`
 
 ### Action Commands
