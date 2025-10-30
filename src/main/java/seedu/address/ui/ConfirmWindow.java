@@ -90,8 +90,7 @@ public final class ConfirmWindow {
         Platform.runLater(() -> {
             try {
                 answer.set(showNow(title, header, content));
-            }
-            finally {
+            } finally {
                 latch.countDown();
             }
         });
