@@ -15,11 +15,17 @@ public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all companies whose names contain any of "
-            + "the specified keywords as substrings (case-insensitive) and displays them as a list with "
-            + "index numbers.\n"
-            + "Format: find KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " goog tra";
+    public static final String MESSAGE_USAGE = String.format("""
+        %1$s SUBSTRING [SUBSTRING]...
+        ---------
+        Search for companies by substring match in the name. Case insensitive.
+        ---------
+        Examples:
+        %1$s Google → Google Inc, Google Singapore
+        %1$s Google TikTok → Google Inc, Google Singapore, TikTok
+        %1$s goOgl iktO → Google Inc, Google Singapore, TikTok
+        """,
+            COMMAND_WORD);
 
     private final NameContainsKeywordsPredicate predicate;
 
