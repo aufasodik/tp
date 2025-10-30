@@ -25,59 +25,14 @@ public final class ConfirmWindow {
 
     private ConfirmWindow() {}
 
-    /** Try to ensure JavaFX is initialized. */
-    private static boolean ensureJavaFx() {
-        if (Platform.isFxApplicationThread()) {
-            return true;
-        }
-
-        try {
-            Platform.runLater(() -> {});
-            return true;
-        } catch (IllegalStateException notStarted) {
-            if (fxInitTried.compareAndSet(false, true)) {
-                try {
-                    Platform.startup(() -> {});
-                } catch (IllegalStateException ignore) {
-                    // nothing
-                }
-            }
-            try {
-                Platform.runLater(() -> {});
-                return true;
-            } catch (IllegalStateException stillNoToolkit) {
-                return false;
-            }
-        }
-    }
-
-    /** Return true if we must bypass dialogs (tests/headless/no windows). */
-    private static boolean shouldBypassDialogs() {
-        // Allow explicit bypass via JVM prop (handy for CI): -Dseedu.skipPrompts=true
-        if (Boolean.getBoolean(SKIP_PROMPTS_PROP)) {
-            return true;
-        }
-
-        // If toolkit can't be used, we must bypass
-        if (!ensureJavaFx()) {
-            return true;
-        }
-
-        // No JavaFX windows => likely unit tests; bypass
-        try {
-            return Window.getWindows().isEmpty();
-        } catch (Throwable t) {
-            return true;
-        }
-    }
-
     /**
      * Shows a themed, modal confirmation dialog with actions
      * “Continue (Y/y)” and “Cancel (N/n)”.
      */
     public static boolean confirm(String title, String header, String content) {
-        if (shouldBypassDialogs()) {
-            // do not create any JavaFX UI in tests/CI
+        // Hard, zero-FX bypasses first: CI flag or headless AWT
+        if (Boolean.getBoolean("seedu.skipPrompts") || java.awt.GraphicsEnvironment.isHeadless()) {
+            // pretend user clicked “Continue”
             return true;
         }
 
