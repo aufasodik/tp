@@ -46,12 +46,6 @@ public class MetricsWindow extends ClosableWindow {
      */
     private void configureWindow() {
         Stage stage = getRoot();
-        stage.setMinWidth(400);
-        stage.setMinHeight(300);
-        stage.setMaxWidth(600);
-        stage.setMaxHeight(500);
-        stage.setWidth(500);
-        stage.setHeight(400);
 
         // Add event handlers to refresh data when window is restored or focused
         stage.iconifiedProperty().addListener((observable, wasIconified, isIconified) -> {
