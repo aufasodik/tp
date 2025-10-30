@@ -67,7 +67,7 @@ public class EditCommandParserTest {
         assertParseFailure(parser, "1", EditCommand.MESSAGE_NOT_EDITED);
 
         // no index and no field specified
-        assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "", EditCommand.MESSAGE_MISSING_INDEX);
     }
 
     @Test
@@ -128,7 +128,7 @@ public class EditCommandParserTest {
                 .withPhone(VALID_PHONE_BOEING).withEmail(VALID_EMAIL_AIRBUS).withAddress(VALID_ADDRESS_AIRBUS)
                 .withTags(VALID_TAG_GOOD_PAY, VALID_TAG_DECENT_LOCATION).withRemark(VALID_REMARK_AIRBUS)
                 .build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        EditCommand expectedCommand = new EditCommand(List.of(targetIndex), descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -140,7 +140,7 @@ public class EditCommandParserTest {
 
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withPhone(VALID_PHONE_BOEING)
                 .withEmail(VALID_EMAIL_AIRBUS).build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        EditCommand expectedCommand = new EditCommand(List.of(targetIndex), descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -151,37 +151,37 @@ public class EditCommandParserTest {
         Index targetIndex = INDEX_THIRD_COMPANY;
         String userInput = targetIndex.getOneBased() + NAME_DESC_AIRBUS;
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withName(VALID_NAME_AIRBUS).build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        EditCommand expectedCommand = new EditCommand(List.of(targetIndex), descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // phone
         userInput = targetIndex.getOneBased() + PHONE_DESC_AIRBUS;
         descriptor = new EditCompanyDescriptorBuilder().withPhone(VALID_PHONE_AIRBUS).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
+        expectedCommand = new EditCommand(List.of(targetIndex), descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // email
         userInput = targetIndex.getOneBased() + EMAIL_DESC_AIRBUS;
         descriptor = new EditCompanyDescriptorBuilder().withEmail(VALID_EMAIL_AIRBUS).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
+        expectedCommand = new EditCommand(List.of(targetIndex), descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // address
         userInput = targetIndex.getOneBased() + ADDRESS_DESC_AIRBUS;
         descriptor = new EditCompanyDescriptorBuilder().withAddress(VALID_ADDRESS_AIRBUS).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
+        expectedCommand = new EditCommand(List.of(targetIndex), descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // tags
         userInput = targetIndex.getOneBased() + TAG_DESC_DECENT_LOCATION;
         descriptor = new EditCompanyDescriptorBuilder().withTags(VALID_TAG_DECENT_LOCATION).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
+        expectedCommand = new EditCommand(List.of(targetIndex), descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         //remark
         userInput = targetIndex.getOneBased() + REMARK_DESC_AIRBUS;
         descriptor = new EditCompanyDescriptorBuilder().withRemark(VALID_REMARK_AIRBUS).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
+        expectedCommand = new EditCommand(List.of(targetIndex), descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 
@@ -224,7 +224,7 @@ public class EditCommandParserTest {
         String userInput = targetIndex.getOneBased() + TAG_EMPTY;
 
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags().build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        EditCommand expectedCommand = new EditCommand(List.of(targetIndex), descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -271,7 +271,7 @@ public class EditCommandParserTest {
         String userInput = "2" + TAG_DESC_DECENT_LOCATION;
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withTags(VALID_TAG_DECENT_LOCATION)
                 .build();
-        EditCommand expectedCommand = new EditCommand(INDEX_SECOND_COMPANY, descriptor);
+        EditCommand expectedCommand = new EditCommand(List.of(INDEX_SECOND_COMPANY), descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -353,7 +353,7 @@ public class EditCommandParserTest {
         Index targetIndex = INDEX_FIRST_COMPANY;
         String userInput = targetIndex.getOneBased() + " " + PREFIX_PHONE;
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withPhone(null).build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        EditCommand expectedCommand = new EditCommand(List.of(targetIndex), descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -364,7 +364,7 @@ public class EditCommandParserTest {
         Index targetIndex = INDEX_FIRST_COMPANY;
         String userInput = targetIndex.getOneBased() + " " + PREFIX_EMAIL;
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withEmail(null).build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        EditCommand expectedCommand = new EditCommand(List.of(targetIndex), descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -375,7 +375,7 @@ public class EditCommandParserTest {
         Index targetIndex = INDEX_FIRST_COMPANY;
         String userInput = targetIndex.getOneBased() + " " + PREFIX_ADDRESS;
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder().withAddress(null).build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        EditCommand expectedCommand = new EditCommand(List.of(targetIndex), descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }

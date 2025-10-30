@@ -43,7 +43,7 @@ public class CompanyTest {
 
         // name differs in case, all other attributes same -> returns false
         Company editedBoeing = new CompanyBuilder(BOEING).withName(VALID_NAME_BOEING.toLowerCase()).build();
-        assertFalse(BOEING.isSameCompany(editedBoeing));
+        assertTrue(BOEING.isSameCompany(editedBoeing));
 
         // name has trailing spaces, all other attributes same -> returns false
         String nameWithTrailingSpaces = VALID_NAME_BOEING + " ";

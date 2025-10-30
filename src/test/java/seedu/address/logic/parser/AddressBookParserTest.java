@@ -60,7 +60,7 @@ public class AddressBookParserTest {
         EditCompanyDescriptor descriptor = new EditCompanyDescriptorBuilder(company).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
                 + INDEX_FIRST_COMPANY.getOneBased() + " " + CompanyUtil.getEditCompanyDescriptorDetails(descriptor));
-        assertEquals(new EditCommand(INDEX_FIRST_COMPANY, descriptor), command);
+        assertEquals(new EditCommand(List.of(INDEX_FIRST_COMPANY), descriptor), command);
     }
 
     @Test

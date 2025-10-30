@@ -239,22 +239,21 @@ public class AddCommandTest {
     }
 
     /**
-     * Tests that companies with the same name but different casing are not
+     * Tests that companies with the same name but different casing are
      * considered duplicates. The system treats "google" and "GOOGLE" as
-     * distinct companies since name comparison is case-sensitive.
+     * the same company since name comparison is case-insensitive.
      */
     @Test
-    public void execute_companyWithDifferentNameCasing_notConsideredDuplicate() throws Exception {
+    public void execute_companyWithDifferentNameCasing_consideredDuplicate() throws Exception {
         ModelStubAcceptingCompanyAdded modelStub = new ModelStubAcceptingCompanyAdded();
         Company lowerCaseCompany = new CompanyBuilder().withName("google").build();
         Company upperCaseCompany = new CompanyBuilder().withName("GOOGLE").build();
 
         new AddCommand(lowerCaseCompany).execute(modelStub);
-        CommandResult commandResult = new AddCommand(upperCaseCompany).execute(modelStub);
+        AddCommand addUpperCaseCommand = new AddCommand(upperCaseCompany);
 
-        assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(upperCaseCompany)),
-                commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(lowerCaseCompany, upperCaseCompany), modelStub.companiesAdded);
+        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_COMPANY, () ->
+                addUpperCaseCommand.execute(modelStub));
     }
 
     /**
