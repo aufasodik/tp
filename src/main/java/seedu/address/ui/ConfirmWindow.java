@@ -1,0 +1,83 @@
+package seedu.address.ui;
+
+import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+
+/**
+ * Small helper to synchronously show a Yes/No confirmation dialog from any thread.
+ * Captures Y/y and N/n as shortcuts. Returns true for Yes, false for No/close.
+ */
+public final class ConfirmWindow {
+    private ConfirmWindow() {}
+
+    private static final String THEME_CSS = "/view/DarkTheme.css";
+
+    public static boolean confirm(String title, String header, String content) {
+        if (Platform.isFxApplicationThread()) {
+            return showNow(title, header, content);
+        }
+        AtomicBoolean answer = new AtomicBoolean(false);
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            try {
+                answer.set(showNow(title, header, content));
+            } finally {
+                latch.countDown();
+            }
+        });
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        return answer.get();
+    }
+
+    private static boolean showNow(String title, String header, String content) {
+        ButtonType yes = new ButtonType("Continue (Y/y)", ButtonBar.ButtonData.OK_DONE);
+        ButtonType no  = new ButtonType("Cancel (N/n)",  ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, content, yes, no);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+
+        // --- NEW: attach your app stylesheet + tag this dialog for scoped rules
+        DialogPane pane = alert.getDialogPane();
+        String css = seedu.address.MainApp.class    // or MainWindow.class / any class in same classloader
+                .getResource("/view/DarkTheme.css") // adjust if your css file name differs
+                .toExternalForm();
+        if (!pane.getStylesheets().contains(css)) {
+            pane.getStylesheets().add(css);
+        }
+        pane.getStyleClass().add("confirm-dialog");
+
+        // Style the real buttons
+        Button yesBtn = (Button) pane.lookupButton(yes);
+        Button noBtn  = (Button) pane.lookupButton(no);
+        yesBtn.getStyleClass().addAll("pill-button", "pill-button-primary");
+        noBtn.getStyleClass().addAll("pill-button", "pill-button-secondary");
+        ButtonBar.setButtonUniformSize(yesBtn, false);
+        ButtonBar.setButtonUniformSize(noBtn, false);
+        yesBtn.setDefaultButton(true);
+        noBtn.setCancelButton(true);
+
+        // Y/N shortcuts (kept)
+        pane.getScene().addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.Y) { alert.setResult(yes); alert.hide(); e.consume(); }
+            else if (e.getCode() == KeyCode.N) { alert.setResult(no); alert.hide(); e.consume(); }
+        });
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.orElse(no) == yes;
+    }
+}
