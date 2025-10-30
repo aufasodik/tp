@@ -30,6 +30,9 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 ### Architecture
 
+<div markdown="span" class="alert alert-warning">:exclamation: **Note:** The architecture diagrams in this section may need to be updated to reflect the current implementation. Specifically, ensure all diagrams show `Company` objects instead of `Person` objects, and include the new UI components (`MetricsWindow`, `HelpWindow`, `ClosableWindow`) and commands (`MetricsCommand`, `FilterCommand`).
+</div>
+
 <img src="images/ArchitectureDiagram.png" width="280" />
 
 The ***Architecture Diagram*** given above explains the high-level design of the App.

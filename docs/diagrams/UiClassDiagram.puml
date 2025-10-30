@@ -7,6 +7,7 @@ skinparam classBackgroundColor UI_COLOR
 package UI <<Rectangle>>{
 Class "<<interface>>\nUi" as Ui
 Class "{abstract}\nUiPart" as UiPart
+Class "{abstract}\nClosableWindow" as ClosableWindow
 Class UiManager
 Class MainWindow
 Class HelpWindow
@@ -46,8 +47,10 @@ CommandBox --|> UiPart
 CompanyListPanel --|> UiPart
 CompanyCard --|> UiPart
 StatusBarFooter --|> UiPart
-HelpWindow --|> UiPart
-MetricsWindow --|> UiPart
+MainWindow --|> ClosableWindow
+HelpWindow --|> ClosableWindow
+MetricsWindow --|> ClosableWindow
+ClosableWindow --|> UiPart
 
 CompanyCard ..> Model
 UiManager -right-> Logic
