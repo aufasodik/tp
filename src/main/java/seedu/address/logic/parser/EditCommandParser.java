@@ -15,7 +15,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.logging.Logger;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditCompanyDescriptor;
@@ -32,6 +35,8 @@ import seedu.address.model.tag.Tag;
  */
 public class EditCommandParser implements Parser<EditCommand> {
 
+    private static final Logger logger = LogsCenter.getLogger(EditCommandParser.class);
+
     /**
      * Parses the given {@code String} of arguments in the context of the EditCommand
      * and returns an EditCommand object for execution.
@@ -43,13 +48,39 @@ public class EditCommandParser implements Parser<EditCommand> {
      */
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
+        logger.fine("Parsing edit command with args: " + args);
+        
+    if (args.trim().isEmpty()) {
+            logger.warning("Empty arguments provided to edit command");
+            throw new ParseException(String.format(EditCommand.MESSAGE_MISSING_INDEX));
+        }
+        
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE,
                 PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG, PREFIX_REMARK, PREFIX_STATUS);
 
-        List<Index> indices;
+        List<Index> indices = validatePreamble(argMultimap);
 
-        if (args.isEmpty() || argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
+        EditCompanyDescriptor editCompanyDescriptor = new EditCompanyDescriptor();
+        parseEditFields(argMultimap, editCompanyDescriptor);
+
+        logger.fine(String.format("Successfully parsed edit command for %d indices", indices.size()));
+        
+        if (indices.size() == 1) {
+            return new EditCommand(indices.get(0), editCompanyDescriptor);
+        } else {
+            return new EditCommand(indices, editCompanyDescriptor);
+        }
+    }
+
+    /**
+     * Validates the preamble and parses the indices.
+     * @param argMultimap the parsed argument multimap
+     * @return list of parsed indices
+     * @throws ParseException if validation fails or indices cannot be parsed
+     */
+    private List<Index> validatePreamble(ArgumentMultimap argMultimap) throws ParseException {
+        if (argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(EditCommand.MESSAGE_MISSING_INDEX);
         }
 
         if (argMultimap.getPreamble().contains("/")) {
@@ -57,55 +88,78 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
 
         try {
-            // Parse indices - supports both single and comma-separated multiple indices
-            indices = ParserUtil.parseIndices(argMultimap.getPreamble());
+            return ParserUtil.parseIndices(argMultimap.getPreamble());
         } catch (ParseIndicesException pie) {
-            // Always preserve specific indices parsing errors
             throw pie;
         }
+    }
 
+    /**
+     * Parses edit fields from the argument multimap into the edit descriptor.
+     * @param argMultimap the parsed argument multimap
+     * @param editCompanyDescriptor the descriptor to populate
+     * @throws ParseException if parsing fails
+     */
+    private void parseEditFields(ArgumentMultimap argMultimap, EditCompanyDescriptor editCompanyDescriptor)
+            throws ParseException {
+        assert argMultimap != null && editCompanyDescriptor != null
+                : "Arguments to parseEditFields should not be null";
+        
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
                 PREFIX_REMARK, PREFIX_STATUS);
 
-        EditCompanyDescriptor editCompanyDescriptor = new EditCompanyDescriptor();
-
-        if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-            editCompanyDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
-        }
-        if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
-            String val = argMultimap.getValue(PREFIX_PHONE).get();
-            Phone newVal = val.isBlank() ? new Phone(null) : ParserUtil.parsePhone(val);
-            editCompanyDescriptor.setPhone(newVal);
-        }
-        if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            String val = argMultimap.getValue(PREFIX_EMAIL).get();
-            Email newVal = val.isBlank() ? new Email(null) : ParserUtil.parseEmail(val);
-            editCompanyDescriptor.setEmail(newVal);
-        }
-        if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
-            String val = argMultimap.getValue(PREFIX_ADDRESS).get();
-            Address newVal = val.isBlank() ? new Address(null) : ParserUtil.parseAddress(val);
-            editCompanyDescriptor.setAddress(newVal);
-        }
-        if (argMultimap.getValue(PREFIX_REMARK).isPresent()) {
-            String val = argMultimap.getValue(PREFIX_REMARK).get();
-            Remark newVal = val.isBlank() ? new Remark(null) : ParserUtil.parseRemark(val);
-            editCompanyDescriptor.setRemark(newVal);
-        }
-        if (argMultimap.getValue(PREFIX_STATUS).isPresent()) {
-            editCompanyDescriptor.setStatus(ParserUtil.parseStatus(argMultimap.getValue(PREFIX_STATUS).get()));
-        }
+        parseFieldIfPresent(argMultimap, PREFIX_NAME, ParserUtil::parseName, editCompanyDescriptor::setName);
+        parseNullableFieldIfPresent(argMultimap, PREFIX_PHONE, ParserUtil::parsePhone, Phone::new, editCompanyDescriptor::setPhone);
+        parseNullableFieldIfPresent(argMultimap, PREFIX_EMAIL, ParserUtil::parseEmail, Email::new, editCompanyDescriptor::setEmail);
+        parseNullableFieldIfPresent(argMultimap, PREFIX_ADDRESS, ParserUtil::parseAddress, Address::new, editCompanyDescriptor::setAddress);
+        parseNullableFieldIfPresent(argMultimap, PREFIX_REMARK, ParserUtil::parseRemark, Remark::new, editCompanyDescriptor::setRemark);
+        parseFieldIfPresent(argMultimap, PREFIX_STATUS, ParserUtil::parseStatus, editCompanyDescriptor::setStatus);
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editCompanyDescriptor::setTags);
 
         if (!editCompanyDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
+    }
 
-        // Use method overloading: single index or multiple indices
-        if (indices.size() == 1) {
-            return new EditCommand(indices.get(0), editCompanyDescriptor);
-        } else {
-            return new EditCommand(indices, editCompanyDescriptor);
+    /**
+     * Functional interface for parsing operations that may throw ParseException.
+     */
+    @FunctionalInterface
+    private interface ParserFunction<T> {
+        T parse(String input) throws ParseException;
+    }
+
+    /**
+     * Functional interface for creating objects with null input.
+     */
+    @FunctionalInterface
+    private interface NullConstructor<T> {
+        T create(String input);
+    }
+
+    /**
+     * Parses a field if present and applies the setter.
+     */
+    private <T> void parseFieldIfPresent(ArgumentMultimap argMultimap, Prefix prefix, 
+            ParserFunction<T> parser, Consumer<T> setter) throws ParseException {
+        Optional<String> value = argMultimap.getValue(prefix);
+        if (value.isPresent()) {
+            T parsed = parser.parse(value.get());
+            setter.accept(parsed);
+        }
+    }
+
+    /**
+     * Parses a nullable field if present, handling blank values by creating null objects.
+     * Preserves exact behavior: val.isBlank() ? new Type(null) : ParserUtil.parseType(val)
+     */
+    private <T> void parseNullableFieldIfPresent(ArgumentMultimap argMultimap, Prefix prefix,
+            ParserFunction<T> parser, NullConstructor<T> nullConstructor, Consumer<T> setter) throws ParseException {
+        Optional<String> value = argMultimap.getValue(prefix);
+        if (value.isPresent()) {
+            String val = value.get();
+            T parsed = val.isBlank() ? nullConstructor.create(null) : parser.parse(val);
+            setter.accept(parsed);
         }
     }
 
