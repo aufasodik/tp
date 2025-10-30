@@ -63,6 +63,13 @@ public class DeleteCommand extends Command {
         final List<Company> lastShownList = model.getFilteredCompanyList();
         final int listSize = lastShownList.size();
 
+        // Validate first
+        for (Index idx : targetIndices) {
+            if (idx.getZeroBased() >= listSize) {
+                throw new CommandException(Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
+            }
+        }
+
         // Ask user before destructive action
         boolean ok = ConfirmWindow.confirm(
                 "✅ Confirm Deletion",
@@ -74,13 +81,6 @@ public class DeleteCommand extends Command {
         );
         if (!ok) {
             return new CommandResult("Deletion cancelled.");
-        }
-
-        // Validate all indices first (fail-fast if any is out of bounds)
-        for (Index idx : targetIndices) {
-            if (idx.getZeroBased() >= listSize) {
-                throw new CommandException(Messages.MESSAGE_INVALID_COMPANY_DISPLAYED_INDEX);
-            }
         }
 
         // Snapshot the companies to be deleted (before mutation), in ascending order for message.

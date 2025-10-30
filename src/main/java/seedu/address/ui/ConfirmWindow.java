@@ -12,6 +12,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Window;
 
 /**
  * Small helper to synchronously show a Yes/No confirmation dialog from any thread.
@@ -19,25 +20,76 @@ import javafx.scene.input.KeyEvent;
  */
 public final class ConfirmWindow {
     private static final String THEME_CSS = "/view/DarkTheme.css";
+    private static final AtomicBoolean fxInitTried = new AtomicBoolean(false);
+    private static final String SKIP_PROMPTS_PROP = "seedu.skipPrompts";
 
     private ConfirmWindow() {}
+
+    /** Try to ensure JavaFX is initialized. */
+    private static boolean ensureJavaFx() {
+        if (Platform.isFxApplicationThread()) {
+            return true;
+        }
+
+        try {
+            Platform.runLater(() -> {});
+            return true;
+        } catch (IllegalStateException notStarted) {
+            if (fxInitTried.compareAndSet(false, true)) {
+                try {
+                    Platform.startup(() -> {});
+                } catch (IllegalStateException ignore) {
+                    // nothing
+                }
+            }
+            try {
+                Platform.runLater(() -> {});
+                return true;
+            } catch (IllegalStateException stillNoToolkit) {
+                return false;
+            }
+        }
+    }
+
+    /** Return true if we must bypass dialogs (tests/headless/no windows). */
+    private static boolean shouldBypassDialogs() {
+        // Allow explicit bypass via JVM prop (handy for CI): -Dseedu.skipPrompts=true
+        if (Boolean.getBoolean(SKIP_PROMPTS_PROP)) {
+            return true;
+        }
+
+        // If toolkit can't be used, we must bypass
+        if (!ensureJavaFx()) {
+            return true;
+        }
+
+        // No JavaFX windows => likely unit tests; bypass
+        try {
+            return Window.getWindows().isEmpty();
+        } catch (Throwable t) {
+            return true;
+        }
+    }
 
     /**
      * Shows a themed, modal confirmation dialog with actions
      * “Continue (Y/y)” and “Cancel (N/n)”.
      */
     public static boolean confirm(String title, String header, String content) {
+        if (shouldBypassDialogs()) {
+            // do not create any JavaFX UI in tests/CI
+            return true;
+        }
+
         if (Platform.isFxApplicationThread()) {
             return showNow(title, header, content);
         }
+
         AtomicBoolean answer = new AtomicBoolean(false);
         CountDownLatch latch = new CountDownLatch(1);
         Platform.runLater(() -> {
-            try {
-                answer.set(showNow(title, header, content));
-            } finally {
-                latch.countDown();
-            }
+            try { answer.set(showNow(title, header, content)); }
+            finally { latch.countDown(); }
         });
         try {
             latch.await();
