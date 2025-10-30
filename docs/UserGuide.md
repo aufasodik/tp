@@ -50,7 +50,7 @@ Installation and first commands to get you started with Cerebro.
 
 After running `java -jar cerebro.jar`, you should see a window similar to below, preloaded with sample companies.
 
-<img src="images/UI.png" alt="Ui" width="450"/>
+<img src="images/Ui.png" alt="Ui" width="450"/>
 
 ### CLI Tutorial
 
