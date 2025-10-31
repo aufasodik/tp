@@ -1,5 +1,7 @@
 package seedu.address.ui;
 
+import static seedu.address.model.company.Status.VALID_STATUSES;
+
 import java.util.logging.Logger;
 
 import javafx.application.Platform;
@@ -11,6 +13,11 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.FilterCommand;
+import seedu.address.logic.commands.FindCommand;
 
 /**
  * Controller for a help page
@@ -19,67 +26,42 @@ public class HelpWindow extends ClosableWindow {
 
     public static final String USERGUIDE_URL = "https://nus-cs2103-ay2526s1.github.io/tp/UserGuide.html";
     public static final String HELP_MESSAGE = "Refer to the full user guide at: " + USERGUIDE_URL;
-    public static final String COMMAND_OVERVIEW = """
+    public static final String COMMAND_OVERVIEW = String.format("""
                                 Commands Overview:
 
-                                add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/REMARK] [s/STATUS] [t/TAG]...
-                                    Add a company to Cerebro.
-                                    Examples:
-                                    add n/Google Inc
-                                    add n/Meta p/65432100 e/careers@meta.com s/applied
-                                    add n/ByteDance r/Fast-growing s/tech-interview t/tech t/remote-friendly
+                                Status values: %s
 
-                                list
-                                    Display all companies in Cerebro.
+                                * list
+                                ---------
+                                Display all companies in Cerebro.
 
-                                edit INDEX [,INDEX]... [fields]
-                                edit START-END [fields]
-                                    Edit one or more companies.
-                                    Examples:
-                                    edit 2 n/Meta Platforms s/offered
-                                    edit 1,3,5 s/rejected
-                                    edit 2-4 s/applied t/tech
+                                * %s
 
-                                find KEYWORD [MORE_KEYWORDS]
-                                    Search for companies by name.
-                                    Examples:
-                                    find Google
+                                * %s
 
-                                delete INDEX [,INDEX]...
-                                delete START-END
-                                    Delete one or more companies.
-                                    Examples:
-                                    delete 2
-                                    delete 1,3,5
-                                    delete 2-4
+                                * %s
 
-                                status INDEX s/STATUS
-                                    Update the application status for a company.
-                                    valid statuses: to-apply, applied, oa, tech-interview, hr-interview,
-                                                    in-process, offered, accepted, rejected
-                                    Examples:
-                                    status 1 s/tech-interview
-                                    status 3 s/rejected
-                                    status 5 s/offered
+                                * %s
 
-                                remark
-                                    Add, edit, or delete remarks for a company.
-                                    Usage: remark INDEX r/[REMARK]
-                                    Examples:
-                                    remark 1 r/Great company culture
+                                * %s
 
-                                clear
-                                    Clear all companies from Cerebro (irreversible!).
+                                * clear
+                                ---------
+                                Clear all companies from Cerebro (irreversible!).
 
-                                metrics
-                                    View application status metrics.
+                                * help
+                                ---------
+                                Display this help message.
 
-                                help
-                                    Display this help message.
+                                * metrics
+                                ---------
+                                View application status metrics.
 
-                                exit
-                                    Exit Cerebro.
-                                """;
+                                * exit
+                                ---------
+                                Exit Cerebro.
+                                """, VALID_STATUSES, FilterCommand.MESSAGE_USAGE, FindCommand.MESSAGE_USAGE,
+                                AddCommand.MESSAGE_USAGE, EditCommand.MESSAGE_USAGE, DeleteCommand.MESSAGE_USAGE);
 
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);

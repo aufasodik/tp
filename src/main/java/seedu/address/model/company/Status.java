@@ -26,9 +26,11 @@ public class Status {
         REJECTED
     }
 
+    public static final String VALID_STATUSES = "to-apply, applied, oa, tech-interview, hr-interview, "
+            + "in-process, offered, accepted, rejected";
+
     public static final String MESSAGE_CONSTRAINTS =
-            "Status must be one of: TO-APPLY, APPLIED, OA, TECH-INTERVIEW, HR-INTERVIEW, IN-PROCESS, "
-                    + "OFFERED, ACCEPTED, REJECTED";
+            "Status must be one of: " + VALID_STATUSES;
 
     public final Stage value;
 
