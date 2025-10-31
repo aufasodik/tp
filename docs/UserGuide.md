@@ -406,7 +406,7 @@ Cerebro data is saved in the hard disk automatically after any command that chan
 
 ### Editing the data file
 
-Cerebro data is saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+Cerebro data is saved automatically as a JSON file `[JAR file location]/data/Cerebro.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">⚠️ **Caution:**
 If your changes to the data file make its format invalid, **Cerebro will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.**
@@ -425,7 +425,6 @@ If your changes to the data file make its format invalid, **Cerebro will discard
 Common questions and troubleshooting for using Cerebro.
 
 **Q: What happens if I add a company with the same name?**
-**Q: What happens if I add a company with the same name?**
 **A**: Company names must be unique (case-insensitive). Cerebro rejects duplicates and shows an error message.
 
 **Q: How do I track multiple roles at the same company?**
@@ -435,16 +434,16 @@ Common questions and troubleshooting for using Cerebro.
 **A**: No, deletions are permanent and cannot be undone within the app. To recover deleted data:
 1. Close Cerebro
 2. Navigate to `[JAR location]/data/` folder
-3. Replace `addressbook.json` with your backup file
+3. Replace `Cerebro.json` with your backup file
 4. Restart Cerebro
 
-**Prevention tip:** Regularly backup your `addressbook.json` file before making major changes.
+**Prevention tip:** Regularly backup your `Cerebro.json` file before making major changes.
 
-**Q: How do I transfer my data to another computer?**
-**A**: Install Cerebro on the new computer, then overwrite the empty data file with your existing `[JAR location]/data/addressbook.json`.
+**Q: How do I transfer my data to another computer?**  
+**A**: Install Cerebro on the new computer, then overwrite the empty data file with your existing `[JAR location]/data/Cerebro.json`.
 
-**Q: Can I edit the JSON file directly?**
-**A**: Yes, advanced users can edit `addressbook.json` directly. **Always backup first** - invalid format will cause Cerebro to discard all data.
+**Q: Can I edit the JSON file directly?**  
+**A**: Yes, advanced users can edit `Cerebro.json` directly. **Always backup first** - invalid format will cause Cerebro to discard all data.
 
 **Q: How do I regenerate the dummy data?**
 **A**: Delete the `/data` folder, then run the app again. **Make sure to backup any important information first!**
