@@ -33,8 +33,8 @@ Installation and first commands to get you started with Cerebro.
 
 1. **Check Java Version**
 
-    - Ensure you have Java `17` or above installed.
-        - If not, [follow these guides](https://se-education.org/guides/tutorials/javaInstallation.html) to install Java 17 on your system.
+    - Ensure you have Java `17` or above installed
+        - If not, [follow these guides](https://se-education.org/guides/tutorials/javaInstallation.html) to install Java 17 on your system
         - **Mac users:** Use the specific JDK version from [here](https://se-education.org/guides/tutorials/javaInstallationMac.html)
     - Verify installation: `java --version` in terminal
 2. **Download Cerebro**
@@ -141,7 +141,7 @@ You can close the help window with the `ESC` key, `Ctrl/Cmd` + `W` or `alt` + `f
 
 Shows a list of all companies in Cerebro.
 
-* Shows all your tracked companies along with their saved details.
+* Shows all your tracked companies along with their saved details
 * Resets any active filters from previous `find` commands
 * Shows companies with their current index numbers
 
